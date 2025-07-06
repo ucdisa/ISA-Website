@@ -76,20 +76,30 @@ export default function Home() {
           UC Davis's Indian Student Association
         </motion.h4>
       </div>
-      <div className="w-[85%] mt-[40px] bg-blue-100 rounded-md">
+      <div className="w-[90%] mt-[40px] rounded-md">
         <Swiper
           pagination={{
             clickable: true,
             dynamicBullets: true,
           }}
           modules={[Pagination]}
-          className="mySwiper h-[700px]"
+          className="mySwiper h-[700px] rounded-md"
         >
-          <SwiperSlide className="h-full">Slide 1</SwiperSlide>
-          <SwiperSlide className="h-full">Slide 2</SwiperSlide>
-          <SwiperSlide className="h-full">Slide 3</SwiperSlide>
-          <SwiperSlide className="h-full">Slide 4</SwiperSlide>
-          <SwiperSlide className="h-full">Slide 5</SwiperSlide>
+          <SwiperSlide className="h-full">
+            <Image src="/assets/swiper-images/img1.jpg" alt="img1" fill style={{ objectFit: 'cover' }}/>
+          </SwiperSlide>
+          <SwiperSlide className="h-full">
+            <Image src="/assets/swiper-images/img2.png" alt="img2" fill style={{ objectFit: 'cover' }}/>
+          </SwiperSlide>
+          <SwiperSlide className="h-full">
+            <Image src="/assets/swiper-images/img3.png" alt="img3" fill style={{ objectFit: 'cover' }}/>
+          </SwiperSlide>
+          <SwiperSlide className="h-full">
+            <Image src="/assets/swiper-images/img4.jpg" alt="img4" fill style={{ objectFit: 'cover' }}/>
+          </SwiperSlide>
+          <SwiperSlide className="h-full">
+            <Image src="/assets/swiper-images/img5.jpg" alt="img5" fill style={{ objectFit: 'cover' }}/>
+          </SwiperSlide>
           <SwiperSlide className="h-full">Slide 6</SwiperSlide>
           <SwiperSlide className="h-full">Slide 7</SwiperSlide>
           <SwiperSlide className="h-full">Slide 8</SwiperSlide>
@@ -97,13 +107,13 @@ export default function Home() {
         </Swiper>
       </div>
       <motion.div
-        className="w-[85%] mt-[60px] flex items-center justify-between gap-[20px] h-[30vh]"
+        className="w-[90%] mt-[60px] flex items-center justify-between gap-[20px] h-[30vh]"
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.8, ease: 'easeOut' }}
       >
-        <div className="w-[85%] flex flex-col justify-center gap-[10px]">
+        <div className="w-[90%] flex flex-col justify-center gap-[10px]">
           <motion.h1
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -133,7 +143,7 @@ export default function Home() {
       </motion.div>
       
       <motion.div
-        className="w-[85%] mt-[40px] flex flex-col justify-center gap-[20px]"
+        className="w-[90%] mt-[40px] flex flex-col justify-center gap-[20px]"
         initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -148,7 +158,7 @@ export default function Home() {
         >
           Upcoming Events
         </motion.p>
-        <div className="flex items-center justify-start gap-[25px] overflow-x-auto w-[100%] flex-nowrap pb-[10px]">
+        <div className="flex items-center justify-start gap-[30px] overflow-x-auto w-[100%] flex-nowrap pb-[10px]">
           {
             events.map((event, index) => {
               return (
