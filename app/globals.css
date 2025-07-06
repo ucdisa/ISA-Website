@@ -3,6 +3,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Custom cursor utilities for Tailwind v4 */
+.cursor-pointer {
+  cursor: pointer;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
