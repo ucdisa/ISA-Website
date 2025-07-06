@@ -9,6 +9,17 @@ import { Footer } from "@/components/general/Footer";
 import { useState } from "react";
 import EventCard from "@/components/homepage/EventCard";
 
+import { motion } from 'framer-motion';
+
+const container = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.05 } }
+};
+const letter = {
+  hidden: { opacity: 0, y: 20 },
+  show:  { opacity: 1, y: 0 }
+};
+
 export default function Home() {
 
   const [events, setEvents] = useState([
@@ -44,8 +55,26 @@ export default function Home() {
   return (
     <div className="h-full w-full mt-[50px] flex flex-col items-center justify-center">
       <div className="flex flex-col items-center justify-center h-full w-full gap-[5px]">
-        <h1 className="text-8xl font-bold">Welcome to the ISA</h1>
-        <h4 className="text-3xl">UC Davis's Indian Student Association</h4>
+        <motion.h1
+          variants={container}
+          initial="hidden"
+          animate="show"
+          className="text-8xl font-bold"
+        >
+          {Array.from("Welcome to the ISA").map((char, index) => (
+            <motion.span key={index} variants={letter}>
+              {char}
+            </motion.span>
+          ))}
+        </motion.h1>
+        <motion.h4
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          className="text-3xl"
+        >
+          UC Davis's Indian Student Association
+        </motion.h4>
       </div>
       <div className="w-[85%] mt-[40px] bg-blue-100 rounded-md">
         <Swiper
@@ -67,12 +96,32 @@ export default function Home() {
           <SwiperSlide className="h-full">Slide 9</SwiperSlide>
         </Swiper>
       </div>
-      <div className="w-[85%] mt-[60px] flex items-center justify-between gap-[20px] h-[30vh]">
+      <motion.div
+        className="w-[85%] mt-[60px] flex items-center justify-between gap-[20px] h-[30vh]"
+        initial={{ opacity: 0, y: 50 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.8, ease: 'easeOut' }}
+      >
         <div className="w-[85%] flex flex-col justify-center gap-[10px]">
-          <h1 className="text-7xl font-bold">Our Mission</h1>
-          <p className="text-xl">
+          <motion.h1
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="text-7xl font-bold"
+          >
+            Our Mission
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="text-xl"
+          >
           The Indian Student Association at UC Davis is an undergraduate student run organization at UCD that allows for Indian as well as other students interested in Indian cultures and traditions to unite under one common organization. Our main goals are to bring the UC Davis community closer through holding social events for cultural awareness, fundraising for the underprivileged community, and working in conjunction with other South Asian organizations.
-          </p>
+          </motion.p>
         </div>
 
         <div className="w-[1px] h-[60%] bg-[#acacac]" />
@@ -81,20 +130,34 @@ export default function Home() {
           <p className="text-3xl font-semibold">35+</p>
           <p className="text-lg">Members</p>
         </div>
-      </div>
+      </motion.div>
       
-      <div className="w-[85%] mt-[40px] flex flex-col justify-center gap-[20px]">
-          <p className="text-7xl font-bold">Upcoming Events</p>
-          <div className="flex items-center justify-start gap-[20px] overflow-x-auto w-[100%] flex-nowrap pb-[10px]">
-            {
-              events.map((event, index) => {
-                return (
-                  <EventCard key={index} event={event}/>
-                )
-              })
-            }
-          </div>
-      </div>
+      <motion.div
+        className="w-[85%] mt-[40px] flex flex-col justify-center gap-[20px]"
+        initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+      >
+        <motion.p
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="text-7xl font-bold"
+        >
+          Upcoming Events
+        </motion.p>
+        <div className="flex items-center justify-start gap-[25px] overflow-x-auto w-[100%] flex-nowrap pb-[10px]">
+          {
+            events.map((event, index) => {
+              return (
+                <EventCard key={index} event={event}/>
+              )
+            })
+          }
+        </div>
+      </motion.div>
     </div>
   );
 }
