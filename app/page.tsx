@@ -22,32 +22,23 @@ export default function Home() {
       link: '/events/dhwani'
     },
     {
-      name: 'Dhwani',
+      name: 'Holi',
       date: new Date().toLocaleDateString(),
-      time: '10:00 AM',
-      location: 'Davis',
+      time: '8:00 PM',
+      location: 'Sacramento',
       description: 'Dhwani is a cultural festival organized by the Indian Student Association at UC Davis. It is a platform for students to showcase their talents and cultures.',
-      image: '/assets/dhwani.jpg',
+      image: '/assets/summer.png',
       link: '/events/dhwani'
     },
     {
-      name: 'Dhwani',
+      name: 'Garba',
       date: new Date().toLocaleDateString(),
-      time: '10:00 AM',
-      location: 'Davis',
+      time: '9:00 PM',
+      location: 'Arc Ballroom A',
       description: 'Dhwani is a cultural festival organized by the Indian Student Association at UC Davis. It is a platform for students to showcase their talents and cultures.',
-      image: '/assets/dhwani.jpg',
+      image: '/assets/party.jpg',
       link: '/events/dhwani'
     },
-    {
-      name: 'Dhwani',
-      date: new Date().toLocaleDateString(),
-      time: '10:00 AM',
-      location: 'Davis',
-      description: 'Dhwani is a cultural festival organized by the Indian Student Association at UC Davis. It is a platform for students to showcase their talents and cultures.',
-      image: '/assets/dhwani.jpg',
-      link: '/events/dhwani'
-    }
   ])
 
   return (

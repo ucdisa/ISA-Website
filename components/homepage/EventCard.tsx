@@ -1,7 +1,6 @@
-import Image from 'next/image';
-import React, { useState } from 'react'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import React from 'react'
+import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 
 interface EventCardProps {
     event: {
@@ -16,46 +15,27 @@ interface EventCardProps {
 }
 
 const EventCard = ({ event }: EventCardProps) => {
-
-    const [cardExpanded, setCardExpanded] = useState(false);
-    const expandCard = () => {
-        setCardExpanded(!cardExpanded);
-    }
-
   return (
-    <div className='p-[12px] bg-[#fbfbfb] w-[400px] rounded-sm shadow-sm flex-none'>
-        <div className='flex items-center justify-between mb-[10px] '>
-            <p className='font-medium text-[20px]'>{event.name}</p>
-            <p className='font-medium text-lg'>{event.date.toLocaleString()}</p>
+    <div
+      className="relative w-[400px] h-[400px] rounded-sm shadow-sm flex-none bg-cover bg-center overflow-hidden"
+      style={{ backgroundImage: `url(${event.image})` }}
+    >
+      {/* Gradient overlay on bottom half */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+      {/* Text content */}
+      <div className="absolute bottom-4 left-4 right-4 text-white">
+        <p className="font-semibold text-[22px]">{event.name}</p>
+        <div className='flex items-center justify-start gap-[5px]'>
+            <PlaceOutlinedIcon sx={{ fontSize: "20px" }} />
+            <p className="text-[15px]">{event.location}</p>
         </div>
-        <div className="w-[100%] h-[400px] relative">
-          <Image
-            src={event.image}
-            alt={event.name}
-            fill
-            style={{ objectFit: 'cover', borderRadius: 5 }}
-          />
+        <div className="mt-2 text-xs flex justify-start items-center gap-[5px]">
+            <CalendarMonthOutlinedIcon sx={{ fontSize: "20px" }}/>
+            <p className='text-[15px]'>{event.date}</p>
+            <p className='text-[15px]'>@</p>
+            <p className='text-[15px]'>{event.time}</p>
         </div>
-
-        <div className='flex justify-between items-start text-[16px] font-medium mt-[10px]'>
-            <p>{event.location}</p>
-            <p>{event.time}</p>
-        </div>
-
-        {
-            cardExpanded && (
-                <div>
-                    <p>{event.description}</p>
-                </div>
-            )
-        }
-
-        <div className='flex justify-between items-center'>
-            <div />
-            <button className='' onClick={expandCard}>
-                <ExpandMoreIcon className='text-[#848484]' sx={{ fontSize: "30px" }} />
-            </button>
-        </div>
+      </div>
     </div>
   )
 }
