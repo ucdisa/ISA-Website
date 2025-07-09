@@ -61,7 +61,7 @@ export default function Home() {
           animate="show"
           className="text-8xl font-bold"
         >
-          {Array.from("Welcome to the ISA").map((char, index) => (
+          {Array.from("Namaste and welcome to ISA").map((char, index) => (
             <motion.span key={index} variants={letter}>
               {char}
             </motion.span>
@@ -70,7 +70,7 @@ export default function Home() {
         <motion.h4
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
+          transition={{ duration: 1, delay: 0.9 }}
           className="text-3xl"
         >
           UC Davis's Indian Student Association
@@ -108,30 +108,22 @@ export default function Home() {
       </div>
       <motion.div
         className="w-[90%] mt-[60px] flex items-center justify-between gap-[20px] h-[30vh]"
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, x: -30 }}
+        whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
       >
         <div className="w-[90%] flex flex-col justify-center gap-[10px]">
-          <motion.h1
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.5 }}
+          <h1
             className="text-7xl font-bold"
           >
             Our Mission
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.5 }}
+          </h1>
+          <p
             className="text-xl"
           >
           The Indian Student Association at UC Davis is an undergraduate student run organization at UCD that allows for Indian as well as other students interested in Indian cultures and traditions to unite under one common organization. Our main goals are to bring the UC Davis community closer through holding social events for cultural awareness, fundraising for the underprivileged community, and working in conjunction with other South Asian organizations.
-          </motion.p>
+          </p>
         </div>
 
         <div className="w-[1px] h-[60%] bg-[#acacac]" />
@@ -147,17 +139,13 @@ export default function Home() {
         initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.4, duration: 0.5 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
       >
-        <motion.p
-          initial={{ opacity: 0, x: -30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4, duration: 0.5 }}
+        <p
           className="text-7xl font-bold"
         >
           Upcoming Events
-        </motion.p>
+        </p>
         <div className="flex items-center justify-start gap-[30px] overflow-x-auto w-[100%] flex-nowrap pb-[10px]">
           {
             events.map((event, index) => {
