@@ -1,3 +1,4 @@
+"use client";
 import Link from 'next/link'
 import React from 'react'
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -13,7 +14,7 @@ export const Footer = () => {
             </Link>
             <Link href="/events" className="hover:opacity-60 transition-all duration-200 underline text-[16px]">Join our email list</Link>
         </div>
-        <p className='text-[16px] text-[#a0a0a0] font-medium'>UCD ISA 2025 ©</p>
+        <p className='text-[16px] text-[#a0a0a0] font-medium'>ISA Board 2025 - 2026 ©</p>
         <div className='flex items-center gap-[10px] justify-end w-[30%]'>
             <a href="https://www.instagram.com/ucdisa?igsh=NTc4MTIwNjQ2YQ==" target='_blank' className='cursor-pointer opacity-60 hover:opacity-40 transition-all duration-200'>
                 <InstagramIcon className='text-black drop-shadow-sm' sx={{ fontSize: "30px" }} />

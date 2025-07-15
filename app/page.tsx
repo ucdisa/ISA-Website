@@ -108,8 +108,8 @@ export default function Home() {
       </div>
       <motion.div
         className="w-[90%] mt-[60px] flex items-center justify-between gap-[20px] h-[30vh]"
-        initial={{ opacity: 0, x: -30 }}
-        whileInView={{ opacity: 1, x: 0 }}
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
       >
@@ -136,8 +136,8 @@ export default function Home() {
       
       <motion.div
         className="w-[90%] mt-[40px] flex flex-col justify-center gap-[20px]"
-        initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+        initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.4, duration: 0.6 }}
       >

@@ -76,8 +76,8 @@ const page = () => {
         <div className='h-full w-full mt-[50px] flex flex-col items-center justify-center'>
             <motion.div
                 className='w-[90%]'
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.6, ease: 'easeOut' }}
             >
@@ -89,8 +89,8 @@ const page = () => {
             </motion.div>
             <motion.div 
                 className='w-[90%]'
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ delay: 0.3, duration: 0.6, ease: 'easeOut' }}
             >
