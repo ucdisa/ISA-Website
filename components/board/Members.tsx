@@ -6,13 +6,13 @@ import Image from 'next/image';
 
 interface MembersProps {
     type: string;
-    members: any;
+    members: any[];
 }
 
 const Members = (props: MembersProps) => {
 
     const [modalOpen, setModalOpen] = useState(false);
-    const [modalInfo, setModalInfo] = useState<any>()
+    const [modalInfo, setModalInfo] = useState<any>();
 
   return (
     <div className='w-full mt-[20px]'>
@@ -20,7 +20,7 @@ const Members = (props: MembersProps) => {
             <p className='w-full text-2xl text-[#787878] border-b-[1px] border-b-[#cbcbcb]'>{props.type}</p>
             <div className={`flex justify-start gap-[50px] items-center flex-wrap`}>
                 {
-                    props.members.map((member: any, index: number) => {
+                    props.members.map((member, index: number) => {
                         return (
                             <MemberCard key={index} openModal={() => setModalOpen(true)} setModalInfo={setModalInfo} member={member} />
                         )

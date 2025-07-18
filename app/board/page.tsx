@@ -1,12 +1,12 @@
 "use client"
 
-import React, { useState } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion';
 import Members from '@/components/board/Members';
 
 const page = () => {
 
-    const [exec, setExec] = useState([
+    const exec = [
         {
             name: 'Ani Lastname',
             position: 'Vice President',
@@ -22,9 +22,9 @@ const page = () => {
             position: 'Dhwani Director',
             photo: 'temp'
         },
-    ])
+    ]
 
-    const [board, setBoard] = useState([
+    const board = [
         {
             name: 'Ani Lastname',
             position: 'Vice President',
@@ -70,7 +70,7 @@ const page = () => {
             position: 'Dhwani Director',
             photo: 'temp'
         },
-    ])
+    ]
 
     return (
         <div className='h-full w-full flex flex-col items-center justify-center'>

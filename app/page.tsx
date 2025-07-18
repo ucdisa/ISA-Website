@@ -1,11 +1,9 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
-import { Footer } from "@/components/general/Footer";
 import { useState } from "react";
 import EventCard from "@/components/homepage/EventCard";
 
@@ -22,7 +20,7 @@ const letter = {
 
 export default function Home() {
 
-  const [events, setEvents] = useState([
+  const [events, _] = useState([
     {
       name: 'Dhwani After Party',
       date: new Date().toLocaleDateString(),
@@ -73,7 +71,7 @@ export default function Home() {
           transition={{ duration: 1, delay: 0.9 }}
           className="text-3xl"
         >
-          UC Davis's Indian Student Association
+          {'UC Davis\'s Indian Student Association'}
         </motion.h4>
       </div>
       <div className="w-[90%] mt-[40px] rounded-md">

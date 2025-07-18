@@ -3,7 +3,13 @@ import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 
-const InfoCard = ({ link, title, description }: any) => (
+interface InfoCardProps {
+    link: string;
+    title: string;
+    description: string;
+}
+
+const InfoCard = ({ link, title, description }: InfoCardProps) => (
     <div className='flex flex-col items-start max-w-[48%]'>
         <div>
             <Link href={link} className='cursor-pointer' target='_blank'><p className='text-3xl font-semibold underline text-blue-900'>{title}</p></Link>
@@ -12,7 +18,7 @@ const InfoCard = ({ link, title, description }: any) => (
     </div>
 )
 
-const LifeCard = ({ link, title, description }: any) => (
+const LifeCard = ({ link, title, description }: InfoCardProps) => (
     <Link target='_blank' href={link} className='flex max-w-[49%] flex-col items-start cursor-pointer shadow-sm rounded-sm h-[220px] px-[20px] justify-start pt-[20px] hover:scale-[1.02] transition-all ease-in-out duration-200'>
         <div className=''>
             <p className='text-3xl font-semibold'>{title}</p>
@@ -86,7 +92,7 @@ const page = () => {
                                             <p className='text-3xl font-semibold'>UC Davis Housing</p>
                                             <Link className='py-[7px] px-[10px] bg-[#000] shadow-sm text-sm hover:opacity-60 text-white rounded-sm font-medium flex justify-center items-center' href='https://www.ucdavis.edu/campus-life/housing' target='_blank'>More Info</Link>
                                         </div>
-                                        <p className='mt-[10px] w-[50%]'>The UC Davis Housing website provides info on on-campus and university-managed apartments, residence halls, move-in details, and housing applications. Whether you're a freshman or a transfer student, it's the best place to start your housing search.</p>
+                                        <p className='mt-[10px] w-[50%]'>{'The UC Davis Housing website provides info on on-campus and university-managed apartments, residence halls, move-in details, and housing applications. Whether you\'re a freshman or a transfer student, it\'s the best place to start your housing search.'}</p>
                                     </div>
                                 )
                             case "Student Life":

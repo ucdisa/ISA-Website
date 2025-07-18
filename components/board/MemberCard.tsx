@@ -1,7 +1,6 @@
 "use client"
 import React from 'react'
 import Image from 'next/image';
-import OpenInFullOutlinedIcon from '@mui/icons-material/OpenInFullOutlined';
 
 interface MemberCardProps {
     member: {
@@ -9,7 +8,7 @@ interface MemberCardProps {
         position: string;
         photo: string;
     };
-    openModal: any;
+    openModal: () => void;
     setModalInfo: any;
 }
 
