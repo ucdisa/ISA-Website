@@ -73,7 +73,7 @@ const page = () => {
     ])
 
     return (
-        <div className='h-full w-full mt-[50px] flex flex-col items-center justify-center'>
+        <div className='h-full w-full flex flex-col items-center justify-center'>
             <motion.div
                 className='w-[90%]'
                 initial={{ opacity: 0, y: 30 }}

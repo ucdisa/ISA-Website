@@ -53,7 +53,7 @@ export default function Home() {
   ])
 
   return (
-    <div className="h-full w-full mt-[50px] flex flex-col items-center justify-center">
+    <div className="h-full w-full flex flex-col items-center justify-center">
       <div className="flex flex-col items-center justify-center h-full w-full gap-[5px]">
         <motion.h1
           variants={container}

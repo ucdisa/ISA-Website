@@ -5,10 +5,10 @@ import Link from 'next/link'
 
 const InfoCard = ({ link, title, description }: any) => (
     <div className='flex flex-col items-start max-w-[48%]'>
-        <Link href={link} className='cursor-pointer' target='_blank'>
-            <p className='text-3xl font-semibold underline text-blue-900'>{title}</p>
+        <div>
+            <Link href={link} className='cursor-pointer' target='_blank'><p className='text-3xl font-semibold underline text-blue-900'>{title}</p></Link>
             <p className='mt-[5px] text-lg'>{description}</p>
-        </Link>
+        </div>
     </div>
 )
 
@@ -26,7 +26,7 @@ const page = () => {
     const [tab, setTab] = useState<string>("Academics")
 
   return (
-    <div className='h-full w-full mt-[50px] flex flex-col items-center justify-center gap-[5px]'>
+    <div className='h-full w-full flex flex-col items-center justify-center gap-[5px]'>
             <motion.div
                 className='w-[90%]'
                 initial={{ opacity: 0, y: 30 }}

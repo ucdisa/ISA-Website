@@ -4,7 +4,7 @@ import Link from 'next/link'
 
 const Navbar = () => {
   return (
-    <div className='flex justify-between items-center px-[20px] py-[5px] mb-[20px]'>
+    <div className='flex justify-between items-center px-[20px] py-[5px] mb-[50px]'>
             <Link href="/">
                 <Image src="/assets/isa_logo.png" alt="ISA Logo" width={60} height={60} />
             </Link>
