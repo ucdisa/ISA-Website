@@ -92,7 +92,7 @@ const page = () => {
                                             <p className='text-3xl font-semibold'>UC Davis Housing</p>
                                             <Link className='py-[7px] px-[10px] bg-[#000] shadow-sm text-sm hover:opacity-60 text-white rounded-sm font-medium flex justify-center items-center' href='https://www.ucdavis.edu/campus-life/housing' target='_blank'>More Info</Link>
                                         </div>
-                                        <p className='mt-[10px] w-[50%]'>{'The UC Davis Housing website provides info on on-campus and university-managed apartments, residence halls, move-in details, and housing applications. Whether you\'re a freshman or a transfer student, it\'s the best place to start your housing search.'}</p>
+                                        <p className='mt-[10px] w-[50%] text-lg'>{'The UC Davis Housing website provides info on on-campus and university-managed apartments, residence halls, move-in details, and housing applications. Whether you\'re a freshman or a transfer student, it\'s the best place to start your housing search.'}</p>
                                     </div>
                                 )
                             case "Student Life":
