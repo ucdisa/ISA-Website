@@ -1,7 +1,5 @@
 @import "tailwindcss";
-@import "tw-animate-css";
-
-@custom-variant dark (&:is(.dark *));
+@config "../tailwind.config.js";
 
 /* Custom cursor utilities for Tailwind v4 */
 .cursor-pointer {
