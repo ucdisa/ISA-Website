@@ -6,20 +6,12 @@ import { supabase } from "@/lib/supabaseClient";
 import React, { useEffect, useState } from "react";
 import { Session } from "@supabase/supabase-js";
 import Avatar from '@mui/material/Avatar';
-import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import axios from 'axios'
+import { MantineProvider, Menu } from '@mantine/core';
+
 
 const Navbar = () => {
-
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
 
     const [tab, setTab] = useState("Home");
     const Tab = ({ title, link }: any) => (
@@ -76,6 +68,7 @@ const Navbar = () => {
     };
 
   return (
+    <MantineProvider>
     <div className='flex justify-between items-center px-[20px] py-[5px] mb-[50px]'>
             <Link href="/">
                 <Image src="/assets/isa_logo.png" alt="ISA Logo" width={60} height={60} />
@@ -106,29 +99,32 @@ const Navbar = () => {
                             >
                                 Tickets
                             </Link>
-                            <button onClick={handleClick}>
-                                <Avatar className='hover:opacity-60 transition-all duration-200 ease-in-out' sx={{ border: 'solid black 2px' }} src={session.user.user_metadata.avatar_url}/>
-                            </button>
-                            <Menu
-                                id="basic-menu"
-                                anchorEl={anchorEl}
-                                open={open}
-                                onClose={handleClose}
-                                slotProps={{
-                                list: {
-                                    'aria-labelledby': 'basic-button',
-                                },
-                                }}
-                            >
-                                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                <MenuItem onClick={signOut}>Logout</MenuItem>
-                                <MenuItem onClick={deleteAccount}>Delete Account</MenuItem>
+                            
+                            <Menu shadow="md" width={200}>
+                            <Menu.Target>
+                                <button>
+                                    <Avatar className='hover:opacity-60 transition-all duration-200 ease-in-out' sx={{ border: 'solid black 2px' }} src={session.user.user_metadata.avatar_url}/>
+                                </button>
+                            </Menu.Target>
+
+                            <Menu.Dropdown>
+                                <Menu.Item>
+                                    Profile
+                                </Menu.Item>
+                                <Menu.Item onClick={signOut}>
+                                    Logout
+                                </Menu.Item>
+                                <Menu.Item onClick={deleteAccount}>
+                                    Delete Account
+                                </Menu.Item>
+                            </Menu.Dropdown>
                             </Menu>
                         </>
                     )
                 }
             </div>
     </div>
+    </MantineProvider>
   )
 }
 
