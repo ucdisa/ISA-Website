@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/general/Navbar";
 import { Footer } from "@/components/general/Footer";
 import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
 
 import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
 

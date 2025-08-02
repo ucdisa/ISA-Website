@@ -23,7 +23,7 @@ export default function Home() {
   const [events, _] = useState([
     {
       name: 'Dhwani After Party',
-      date: new Date().toLocaleDateString(),
+      date: new Date(),
       time: '10:00 AM',
       location: '2916 Moore Ave, Davis, CA',
       description: 'Dhwani is a cultural festival organized by the Indian Student Association at UC Davis. It is a platform for students to showcase their talents and cultures.',
@@ -32,7 +32,7 @@ export default function Home() {
     },
     {
       name: 'Holi',
-      date: new Date().toLocaleDateString(),
+      date: new Date(),
       time: '8:00 PM',
       location: 'Sacramento',
       description: 'Dhwani is a cultural festival organized by the Indian Student Association at UC Davis. It is a platform for students to showcase their talents and cultures.',
@@ -41,7 +41,7 @@ export default function Home() {
     },
     {
       name: 'Garba',
-      date: new Date().toLocaleDateString(),
+      date: new Date(),
       time: '9:00 PM',
       location: 'Arc Ballroom A',
       description: 'Dhwani is a cultural festival organized by the Indian Student Association at UC Davis. It is a platform for students to showcase their talents and cultures.',
