@@ -145,13 +145,13 @@ export default function Home() {
           Upcoming Events
         </p>
         <div className="flex items-center justify-start gap-[30px] overflow-x-auto w-[100%] flex-nowrap pb-[10px]">
-          {
+          {/* {
             events.map((event, index) => {
               return (
                 <EventCard key={index} event={event}/>
               )
             })
-          }
+          } */}
         </div>
       </motion.div>
     </div>

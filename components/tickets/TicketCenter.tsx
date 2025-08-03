@@ -60,6 +60,7 @@ const TicketCenter = ({ admin, user }: TicketCenterProps) => {
             </div>
 
             <div className='mt-[10px]'/>
+            <div className='flex flex-col items-start justify-center'>
             {
                 (() => {
                     switch(tab) {
@@ -68,7 +69,7 @@ const TicketCenter = ({ admin, user }: TicketCenterProps) => {
                                 myTickets ?
                                     null
                                 :
-                                    <Loading />
+                                    <Loading color="black" size={20}/>
                             )
                         case "Events":
                             return (
@@ -77,11 +78,12 @@ const TicketCenter = ({ admin, user }: TicketCenterProps) => {
 
                                     </div>
                                 :
-                                    <Loading />
+                                    <Loading color="black" size={20}/>
                             )
                     }
                 })()
             }
+            </div>
         </div>
     )
 }

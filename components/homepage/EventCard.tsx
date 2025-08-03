@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 
@@ -9,21 +9,30 @@ interface EventCardProps {
         time: string;
         location: string;
         description: string;
-        image: string | null;
+        image: File | null;
         link?: string;
     };
 }
 
 const EventCard = ({ event }: EventCardProps) => {
-  const getImageUrl = () => {
-    if (!event.image) return 'https://marketplace.canva.com/EAGqA67zGKE/1/0/1131w/canva-teal-and-white-playful-summer-party-flyer-s5KPUv2jKmI.jpg';
-    return event.image;
-  };
+  const [imageUrl, setImageUrl] = useState<string>('https://marketplace.canva.com/EAGqA67zGKE/1/0/1131w/canva-teal-and-white-playful-summer-party-flyer-s5KPUv2jKmI.jpg');
+
+  useEffect(() => {
+    if (event.image instanceof File) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImageUrl(e.target?.result as string);
+      };
+      reader.readAsDataURL(event.image);
+    } else if (!event.image) {
+      setImageUrl('https://marketplace.canva.com/EAGqA67zGKE/1/0/1131w/canva-teal-and-white-playful-summer-party-flyer-s5KPUv2jKmI.jpg');
+    }
+  }, [event.image]);
 
   return (
     <div
       className="relative w-[400px] h-[400px] rounded-sm shadow-sm flex-none bg-cover bg-center overflow-hidden"
-      style={{ backgroundImage: `url(${getImageUrl()})` }}
+      style={{ backgroundImage: `url(${imageUrl})` }}
     >
       {/* Gradient overlay on bottom half */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />

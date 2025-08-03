@@ -12,17 +12,47 @@ import { Textarea } from '@mantine/core';
 import { NumberInput } from '@mantine/core';
 import { FileInput } from '@mantine/core';
 import EventCard from '@/components/homepage/EventCard';
+import { useRouter } from 'next/navigation';
+import axios from 'axios';
+import Loading from '@/components/general/Loading';
 
 const page = () => {
 
+    const router = useRouter();
     const searchParams = useSearchParams();
     const userParam = searchParams.get('user');
     const sessionUser = userParam ? JSON.parse(decodeURIComponent(userParam)) : null;
     const [action, setAction] = useState<any>(null);
+    const [loading, setLoading] = useState(false);
 
     const handleSubmit = async(values: any) => {
+        setLoading(true);
         console.log(values);
+        const formData = new FormData();
+        formData.append("name", values.name);
+        formData.append("time", values.time);
+        formData.append("location", values.location);
+        formData.append("date", values.date);
+        formData.append("description", values.description);
+        formData.append("spots", values.spots);
+        formData.append("buyLimit", values.buyLimit);
+        formData.append("image", values.image);
+        // const res = await fetch("/api/events/post", {
+        //     method: "POST",
+        //     body: formData
+        // });
 
+        setTimeout(() => {
+          setLoading(false);
+          router.push(
+            `/tickets?user=${encodeURIComponent(
+              JSON.stringify({
+                user_metadata: sessionUser,
+                admin: sessionUser.admin
+              })
+            )}`
+          );
+        }, 2000);
     }
 
     const formatTime = (time: string) => {
@@ -41,19 +71,19 @@ const page = () => {
             time: '',
             location: '',
             description: '',
-            image: null as string | null,
+            image: null as File | null,
             spots: 0,
             buyLimit: 0,
         },
     
         validate: {
-            name: (value) => value != "" ? null : 'Event name is required',
-            time: (value) => value.trim() ? null : 'Time is required',
-            location: (value) => value.trim() ? null : 'Location is required',
-            date: (value) => value != null ? null : 'Date is required',
-            image: (value) => value != null ? null : 'Image is required',
-            spots: (value) => value > 0 ? null : 'Available Tickets cannot be 0',
-            buyLimit: (value) => value > 0 ? null : 'Ticket Limit cannot be 0',
+            // name: (value) => value != "" ? null : 'Event name is required',
+            // time: (value) => value.trim() ? null : 'Time is required',
+            // location: (value) => value.trim() ? null : 'Location is required',
+            // date: (value) => value != null ? null : 'Date is required',
+            // image: (value) => value != null ? null : 'Image is required',
+            // spots: (value) => value > 0 ? null : 'Available Tickets cannot be 0',
+            // buyLimit: (value) => value > 0 ? null : 'Ticket Limit cannot be 0',
         },
     });
 
@@ -66,8 +96,8 @@ const page = () => {
                         <Back link={{
                                 pathname: '/tickets',
                                 query: { user: encodeURIComponent(JSON.stringify({
-                                user_metadata: sessionUser,
-                                admin: sessionUser.admin
+                                    user_metadata: sessionUser,
+                                    admin: sessionUser.admin
                                 }))}
                             }}
                         />
@@ -145,20 +175,19 @@ const page = () => {
                         />
                     </div>
 
-                    <Textarea className='mt-[20px]' resize="vertical" label="Disabled" placeholder="Enter description..." />
+                    <Textarea 
+                        value={form.values.description} 
+                        onChange={(event) => form.setFieldValue('description', event.target.value)} 
+                        className='mt-[20px]' 
+                        resize="vertical" 
+                        label="Description" 
+                        placeholder="Enter description..." 
+                    />
 
                     <div className='mt-[20px] flex justify-between items-end'>
                         <FileInput 
                             onChange={(value) => {
-                                if (value instanceof File) {
-                                    const reader = new FileReader();
-                                    reader.onload = (e) => {
-                                        form.setFieldValue('image', e.target?.result as string);
-                                    };
-                                    reader.readAsDataURL(value);
-                                } else {
-                                    form.setFieldValue('image', value);
-                                }
+                                form.setFieldValue('image', value)
                             }} 
                             className='w-[40%]' 
                             accept="image/png,image/jpeg" 
@@ -168,8 +197,8 @@ const page = () => {
                             placeholder="Upload..." 
                         />
 
-                            <button type="submit" className='bg-black text-black px-4 py-[5px] text-white rounded-xs hover:opacity-80 transition-all duration-200 shadow-sm'>
-                                Create Events
+                            <button type="submit" className='bg-black text-black w-[140px] h-[35px] text-white rounded-xs hover:opacity-80 transition-all duration-200 shadow-sm'>
+                                {loading ? <Loading color="white" size={18}/> : "+ Create Event"}
                             </button>
                     </div>
                     </form>
