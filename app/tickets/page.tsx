@@ -9,7 +9,7 @@ const TicketsPage = () => {
   const searchParams = useSearchParams();
   const userParam = searchParams.get('user');
   const sessionUser = userParam ? JSON.parse(decodeURIComponent(userParam)) : null;
-  const user = sessionUser.user_metadata;
+  const user = sessionUser.user;
   const admin = sessionUser.admin;
 
   console.log(sessionUser)

@@ -92,7 +92,7 @@ const Navbar = () => {
                                 href={{
                                   pathname: '/tickets',
                                   query: { user: encodeURIComponent(JSON.stringify({
-                                    ...session.user,
+                                    user: session.user.user_metadata,
                                     admin: session.user.email == "isa.atucd@gmail.com" ? true : false
                                   })) }
                                 }}

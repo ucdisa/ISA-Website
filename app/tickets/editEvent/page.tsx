@@ -2,7 +2,7 @@
 
 import Back from '@/components/buttons/Back';
 import { useSearchParams } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Checkbox, Group, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { DatePickerInput } from '@mantine/dates';
@@ -24,47 +24,58 @@ const page = () => {
     const sessionUser = userParam ? JSON.parse(decodeURIComponent(userParam)) : null;
     const user = sessionUser.user;
     const admin = sessionUser.admin;
+    const event = sessionUser.event;
     const [loading, setLoading] = useState(false);
 
     const handleSubmit = async(values: any) => {
         setLoading(true);
-        console.log(values);
-        const formData = new FormData();
-        formData.append("name", values.name);
-        formData.append("time", values.time);
-        formData.append("location", values.location);
-        formData.append("date", values.date);
-        formData.append("description", values.description);
-        formData.append("spots", values.spots);
-        formData.append("buyLimit", values.buyLimit);
-        formData.append("image", values.image);
-        const res = await fetch("/api/events/post", {
-            method: "POST",
-            body: formData
-        });
+        try {
+            setLoading(true);
+            console.log(values);
+            const formData = new FormData();
+            formData.append("name", values.name);
+            formData.append("time", values.time);
+            formData.append("location", values.location);
+            formData.append("date", values.date);
+            formData.append("description", values.description);
+            formData.append("spots", values.spots);
+            formData.append("buyLimit", values.buyLimit);
+            formData.append("image", values.image);
+            formData.append("id", event.id)
 
-        router.push(
-        `/tickets?user=${encodeURIComponent(
-                JSON.stringify({
-                    user,
-                    admin
-                })
-            )}`
-        );
+            if (values.image instanceof File) {
+                formData.append("image", values.image);
+            }
 
+            const res = await fetch("/api/events/update", {
+                method: "PATCH",
+                body: formData
+            });
+        } catch (err: any) {
+            console.error('Error updating event:', err);
+        } finally {
+            router.push(
+                `/tickets?user=${encodeURIComponent(
+                        JSON.stringify({
+                            user,
+                            admin
+                        })
+                    )}`
+                );
+        }
     }
 
     const form = useForm({
         mode: 'controlled',
         initialValues: {
-            name: '',
-            date: new Date(),
-            time: '',
-            location: '',
-            description: '',
-            image: null as File | null,
-            spots: 0,
-            buyLimit: 0,
+            name: event.name,
+            date: new Date(event.date),
+            time: event.time,
+            location: event.location,
+            description: event.description,
+            image: event.image,
+            spots: event.spots,
+            buyLimit: event.buyLimit,
         },
     
         validate: {
@@ -72,12 +83,10 @@ const page = () => {
             time: (value) => value.trim() ? null : 'Time is required',
             location: (value) => value.trim() ? null : 'Location is required',
             date: (value) => value != null ? null : 'Date is required',
-            image: (value) => value != null ? null : 'Image is required',
             spots: (value) => value > 0 ? null : 'Available Tickets cannot be 0',
             buyLimit: (value) => value > 0 ? null : 'Ticket Limit cannot be 0',
         },
     });
-
     return (
         <div className='w-[90%] m-auto'>
             
@@ -87,13 +96,13 @@ const page = () => {
                         <Back link={{
                                 pathname: '/tickets',
                                 query: { user: encodeURIComponent(JSON.stringify({
-                                    user: user,
-                                    admin: admin
+                                    user,
+                                    admin
                                 }))}
                             }}
                         />
                         <p className='text-2xl ml-[20px] font-semibold'>
-                            New Event
+                            Edit Event
                         </p>
                     </div>
 
@@ -189,7 +198,7 @@ const page = () => {
                         />
 
                             <button type="submit" className='bg-black text-black w-[140px] h-[35px] text-white rounded-xs hover:opacity-80 transition-all duration-200 shadow-sm'>
-                                {loading ? <Loading color="white" size={18}/> : "+ Create Event"}
+                                {loading ? <Loading color="white" size={18}/> : "Update Event"}
                             </button>
                     </div>
                     </form>
@@ -200,13 +209,13 @@ const page = () => {
                         Preview
                     </p>
                     <div className='w-full flex justify-start items-start mt-[10px]'>
-                        <EventCard event={form.values}/>
+                        <EventCard user={user} event={form.values}/>
                     </div>
                 </div>
             </div>
-            {/* <button onClick={() => console.log(form.values)}>
+            <button onClick={() => console.log(form.values)}>
                 rrgrgr
-            </button> */}
+            </button>
         </div>
     )
 }

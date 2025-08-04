@@ -5,6 +5,8 @@ import Menu from '../general/Menu'
 import Loading from '../general/Loading'
 import Link from 'next/link';
 import {Button, ButtonGroup} from "@heroui/react";
+import axios from 'axios';
+import EventCard from '../homepage/EventCard';
 
 interface TicketCenterProps {
     admin: boolean;
@@ -14,7 +16,8 @@ interface TicketCenterProps {
 const TicketCenter = ({ admin, user }: TicketCenterProps) => {
     const [tab, setTab] = useState("My Tickets");
     const [myTickets, setMyTickets] = useState<any>(null);
-    const [events, setEvents] = useState<any>(null);
+    const [events, setEvents] = useState<any>([]);
+    const [eventsLoading, setEventsLoading] = useState(false);
 
     const getTickets = async() => {
         // Get tickets from supabase route
@@ -22,8 +25,12 @@ const TicketCenter = ({ admin, user }: TicketCenterProps) => {
     }
 
     const getEvents = async() => {
-        // Get events from supabase route
-        setEvents(1)
+        setEventsLoading(true);
+        const payload = await axios.get('/api/events/getAll');
+        const events = payload.data.events;
+        console.log(events);
+        setEvents(events)
+        setEventsLoading(false);
     }
 
     const onLoad = () => {
@@ -40,7 +47,7 @@ const TicketCenter = ({ admin, user }: TicketCenterProps) => {
             href={{
                 pathname: '/tickets/newEvent',
                 query: { user: encodeURIComponent(JSON.stringify({
-                ...user,
+                user,
                 admin
                 }))}
             }}
@@ -73,9 +80,13 @@ const TicketCenter = ({ admin, user }: TicketCenterProps) => {
                             )
                         case "Events":
                             return (
-                                events ?
-                                    <div className='w-full mt-[20px]'>
-
+                                !eventsLoading ?
+                                    <div className='w-full mt-[20px] gap-[40px] flex flex-wrap justify-stat items-center'>
+                                        {
+                                            events.map((event: any) => (
+                                                <EventCard reload={getEvents} user={user} admin key={event.id} event={event} />
+                                            ))
+                                        }
                                     </div>
                                 :
                                     <Loading color="black" size={20}/>
