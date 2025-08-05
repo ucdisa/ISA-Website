@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react'
 import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import Link from 'next/link';
-import { IconEdit, IconTrash } from '@tabler/icons-react';
+import { IconEdit, IconTrash, IconTicket } from '@tabler/icons-react';
 import axios from 'axios';
 import Loading from '../general/Loading';
+import { useRouter } from 'next/navigation';
+import { useDisclosure } from '@mantine/hooks';
+import { Modal } from '@mantine/core';
+import GetTicket from '../tickets/GetTicket';
 
 interface EventCardProps {
     event: {
@@ -25,6 +29,10 @@ interface EventCardProps {
 const EventCard = ({ event, admin, user, reload }: EventCardProps) => {
   const [imageUrl, setImageUrl] = useState<string>('https://marketplace.canva.com/EAGqA67zGKE/1/0/1131w/canva-teal-and-white-playful-summer-party-flyer-s5KPUv2jKmI.jpg');
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const [ticketLoading, setTicketLoading] = useState(false);
+
+  const [opened, { open, close }] = useDisclosure(false);
+  const router = useRouter();
 
   const handleDelete = async () => {
     setDeleteLoading(true);
@@ -38,6 +46,11 @@ const EventCard = ({ event, admin, user, reload }: EventCardProps) => {
       console.error('Delete failed:', err);
     }
     setDeleteLoading(false);
+  }
+
+  const handleTicket = async () => {
+    open();
+    
   }
 
   useEffect(() => {
@@ -82,7 +95,7 @@ const EventCard = ({ event, admin, user, reload }: EventCardProps) => {
             </div>
 
             {
-              admin && admin == true &&
+              admin && admin == true ?
               <div className='flex gap-[10px] justify-center items-center  '>
                 <Link
                   className='hover:opacity-80 transition-all flex items-center justify-center duration-200 cursor-pointer w-[25px] h-[25px]' 
@@ -106,9 +119,24 @@ const EventCard = ({ event, admin, user, reload }: EventCardProps) => {
                   }
                 </button>
               </div>
+              :
+              <button onClick={handleTicket} className='hover:opacity-80 transition-all flex items-center justify-center duration-200 cursor-pointer w-[25px] h-[25px]'>
+                  {
+                    ticketLoading ?
+                    <Loading size={19} color="#FFFFFF"/>
+                    :
+                    <IconTicket stroke={1.5} size={23} color='#FFF'/>
+                  }
+                </button>
             }
         </div>
       </div>
+      <Modal overlayProps={{
+          backgroundOpacity: 0.55,
+          blur: 3,
+        }} opened={opened} onClose={close} title={event.name}>
+        <GetTicket event={event} admin={admin} user={user} />
+      </Modal>
     </div>
   )
 }

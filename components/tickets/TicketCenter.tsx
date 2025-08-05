@@ -27,9 +27,15 @@ const TicketCenter = ({ admin, user }: TicketCenterProps) => {
     const getEvents = async() => {
         setEventsLoading(true);
         const payload = await axios.get('/api/events/getAll');
-        const events = payload.data.events;
-        console.log(events);
-        setEvents(events)
+        const rawEvents = payload.data.events;
+
+        // sort events chronologically by date (earliest first)
+        const sortedEvents = rawEvents.sort(
+            (a: any, b: any) =>
+                new Date(a.date).getTime() - new Date(b.date).getTime()
+        );
+
+        setEvents(sortedEvents);
         setEventsLoading(false);
     }
 
@@ -84,7 +90,7 @@ const TicketCenter = ({ admin, user }: TicketCenterProps) => {
                                     <div className='w-full mt-[20px] gap-[40px] flex flex-wrap justify-stat items-center'>
                                         {
                                             events.map((event: any) => (
-                                                <EventCard reload={getEvents} user={user} admin key={event.id} event={event} />
+                                                <EventCard reload={getEvents} user={user} admin={admin} key={event.id} event={event} />
                                             ))
                                         }
                                     </div>

@@ -9,10 +9,12 @@ import Avatar from '@mui/material/Avatar';
 import MenuItem from '@mui/material/MenuItem';
 import axios from 'axios'
 import { MantineProvider, Menu } from '@mantine/core';
+import { useRouter } from 'next/navigation';
 
 
 const Navbar = () => {
 
+    const router = useRouter();
     const [tab, setTab] = useState("Home");
     const Tab = ({ title, link }: any) => (
         <Link className={`cursor-pointer hover:opacity-60 transition-all duration-200`} href={link}>{title}</Link>
@@ -38,6 +40,8 @@ const Navbar = () => {
         if (error) {
             console.error(error)
         }
+
+        router.push('/')
     }
 
     const signInWithGoogle = async () => {
@@ -65,6 +69,8 @@ const Navbar = () => {
         } catch (err) {
             console.error('Error deleting account:', err);
         }
+        
+        router.push('/')
     };
 
   return (

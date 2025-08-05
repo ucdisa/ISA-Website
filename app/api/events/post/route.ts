@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabase, supabaseAdmin } from "@/lib/supabaseClient";
+import sharp from "sharp";
 
 export const runtime = "nodejs";
 export async function POST(request: Request) {
@@ -12,24 +13,28 @@ export async function POST(request: Request) {
     const spots = form.get("spots")
     const buyLimit = form.get("buyLimit")
 
-    const file = form.get("image") as Blob;
-    const arrayBuffer = await new Response(file).arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
-    const ext = file.type.split("/")[1];
-    const path = `${crypto.randomUUID()}.${ext}`;
+    const file = form.get("image") as File;
+    const buffer = Buffer.from(await file.arrayBuffer());
+
+    const compressed = await sharp(buffer)
+        .resize({ width: 1024, withoutEnlargement: true })
+        .jpeg({ quality: 80 })
+        .toBuffer();
+
+    const path = `${crypto.randomUUID()}.jpg`;
 
     const { data: uploadData, error: uploadError } = await supabaseAdmin
         .storage
         .from("events-images")
-        .upload(path, buffer, { contentType: file.type });
+        .upload(path, compressed, {
+            contentType: "image/jpeg",
+            upsert: false,
+    });
 
     if (uploadError) {
         throw uploadError
     }
 
-    console.log("MADE IT HERE", uploadData.path)
-
-    // Insert new event into the "events" table
     const { data, error } = await supabaseAdmin
       .from("events")
       .insert([{ 
