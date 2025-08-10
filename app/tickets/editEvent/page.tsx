@@ -21,11 +21,48 @@ const page = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const userParam = searchParams.get('user');
-    const sessionUser = userParam ? JSON.parse(decodeURIComponent(userParam)) : null;
-    const user = sessionUser.user;
-    const admin = sessionUser.admin;
-    const event = sessionUser.event;
+    const params = userParam ? JSON.parse(decodeURIComponent(userParam)) : null;
+    const user = params.user;
+    const admin = params.admin;
+    const event_id = params.event_id;
     const [loading, setLoading] = useState(false);
+    const [event, setEvent] = useState({
+        name: '',
+        date: new Date(),
+        time: '',
+        location: '',
+        description: '',
+        image: null as File | null,
+        spots: 0,
+        buyLimit: 0,
+    });
+
+    useEffect(() => {
+        const getEvent = async () => {
+            const res = await axios.post('/api/events/get', {
+                event_id
+            })
+
+            const event = res.data.event;
+
+            form.setValues({
+                name: event.name ?? '',
+                location: event.location ?? '',
+                description: event.description ?? '',
+                spots: Number(event.spots ?? 0),
+                buyLimit: Number(event.buyLimit ?? 0),
+                image: event.image,
+                date: event.date,
+                time: event.time
+                // image: leave as null; you generally can't prefill File inputs
+              });
+
+            console.log(event)
+            setEvent(event);
+        }
+
+        getEvent();
+    }, [])
 
     const handleSubmit = async(values: any) => {
         setLoading(true);
@@ -41,7 +78,7 @@ const page = () => {
             formData.append("spots", values.spots);
             formData.append("buyLimit", values.buyLimit);
             formData.append("image", values.image);
-            formData.append("id", event.id)
+            formData.append("id", event_id)
 
             if (values.image instanceof File) {
                 formData.append("image", values.image);
@@ -213,9 +250,6 @@ const page = () => {
                     </div>
                 </div>
             </div>
-            <button onClick={() => console.log(form.values)}>
-                rrgrgr
-            </button>
         </div>
     )
 }

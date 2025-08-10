@@ -12,8 +12,6 @@ const TicketsPage = () => {
   const user = sessionUser.user;
   const admin = sessionUser.admin;
 
-  console.log(sessionUser)
-
   return (
     <div className='w-[90%] m-auto'>
         <p className='text-5xl mb-[20px]'><b>Welcome,</b>  {user.name}</p>

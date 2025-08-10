@@ -31,7 +31,6 @@ const Navbar = () => {
         } = supabase.auth.onAuthStateChange((_event, session) => {
             setSession(session)
         })
-        console.log(session)
         return () => subscription.unsubscribe()
     }, [])
 
@@ -98,7 +97,10 @@ const Navbar = () => {
                                 href={{
                                   pathname: '/tickets',
                                   query: { user: encodeURIComponent(JSON.stringify({
-                                    user: session.user.user_metadata,
+                                    user: {
+                                        ...session.user.user_metadata,
+                                        user_id: session.user.id
+                                    },
                                     admin: session.user.email == "isa.atucd@gmail.com" ? true : false
                                   })) }
                                 }}

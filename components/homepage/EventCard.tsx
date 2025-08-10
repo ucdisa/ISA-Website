@@ -50,7 +50,6 @@ const EventCard = ({ event, admin, user, reload }: EventCardProps) => {
 
   const handleTicket = async () => {
     open();
-    
   }
 
   useEffect(() => {
@@ -103,7 +102,7 @@ const EventCard = ({ event, admin, user, reload }: EventCardProps) => {
                       pathname: '/tickets/editEvent',
                       query: { user: encodeURIComponent(JSON.stringify({
                       user,
-                      event,
+                      event_id: event.id,
                       admin
                       }))}
                   }}
@@ -134,8 +133,8 @@ const EventCard = ({ event, admin, user, reload }: EventCardProps) => {
       <Modal overlayProps={{
           backgroundOpacity: 0.55,
           blur: 3,
-        }} opened={opened} onClose={close} title={event.name}>
-        <GetTicket event={event} admin={admin} user={user} />
+        }} opened={opened} onClose={close} title={event.name} centered>
+        <GetTicket closeModal={close} event={event} admin={admin} user={user} reload={reload} />
       </Modal>
     </div>
   )

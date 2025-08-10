@@ -7,21 +7,36 @@ import Link from 'next/link';
 import {Button, ButtonGroup} from "@heroui/react";
 import axios from 'axios';
 import EventCard from '../homepage/EventCard';
+import TicketCard from './TicketCard';
 
 interface TicketCenterProps {
     admin: boolean;
-    user: object;
+    user: any;
 }
 
 const TicketCenter = ({ admin, user }: TicketCenterProps) => {
     const [tab, setTab] = useState("My Tickets");
     const [myTickets, setMyTickets] = useState<any>(null);
-    const [events, setEvents] = useState<any>([]);
+    const [events, setEvents] = useState<any>(null);
     const [eventsLoading, setEventsLoading] = useState(false);
+    const [ticketsLoading, setTicketsLoading] = useState(false);
 
     const getTickets = async() => {
-        // Get tickets from supabase route
-        setMyTickets(1)
+        setTicketsLoading(true);
+        const payload = await axios.post('/api/tickets/getAll', {
+            user_id: user.user_id
+        });
+
+        console.log(payload.data)
+
+        // // sort events chronologically by date (earliest first)
+        // const sortedEvents = rawEvents.sort(
+        //     (a: any, b: any) =>
+        //         new Date(a.date).getTime() - new Date(b.date).getTime()
+        // );
+
+        setMyTickets(payload.data.tickets);
+        setTicketsLoading(false);
     }
 
     const getEvents = async() => {
@@ -78,25 +93,39 @@ const TicketCenter = ({ admin, user }: TicketCenterProps) => {
                 (() => {
                     switch(tab) {
                         case "My Tickets":
-                            return (
-                                myTickets ?
-                                    null
-                                :
-                                    <Loading color="black" size={20}/>
-                            )
+                            if (ticketsLoading || !myTickets) {
+                                return <Loading color="black" size={20}/>
+                            } else {
+                                return (
+                                    myTickets.length != 0 ?
+                                        <div className='w-full mt-[20px] gap-[40px] flex flex-wrap justify-stat items-center'>
+                                            {
+                                                myTickets.map((ticket: any, index: number) => (
+                                                    <TicketCard ticket={ticket} key={ticket.id} />
+                                                ))
+                                            }
+                                        </div>
+                                    :
+                                    <p>No Tickets right now check back later...</p>
+                                )
+                            }
                         case "Events":
-                            return (
-                                !eventsLoading ?
-                                    <div className='w-full mt-[20px] gap-[40px] flex flex-wrap justify-stat items-center'>
-                                        {
-                                            events.map((event: any) => (
-                                                <EventCard reload={getEvents} user={user} admin={admin} key={event.id} event={event} />
-                                            ))
-                                        }
-                                    </div>
-                                :
-                                    <Loading color="black" size={20}/>
-                            )
+                            if (eventsLoading || !events) {
+                                return <Loading color="black" size={20}/>
+                            } else {
+                                return (
+                                    events && events.length != 0 ?
+                                        <div className='w-full mt-[20px] gap-[40px] flex flex-wrap justify-stat items-center'>
+                                            {
+                                                events.map((event: any) => (
+                                                    <EventCard reload={onLoad} user={user} admin={admin} key={event.id} event={event} />
+                                                ))
+                                            }
+                                        </div>
+                                    :
+                                        <p>No Events right now check back later...</p>
+                                )
+                            }
                     }
                 })()
             }
