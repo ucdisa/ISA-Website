@@ -1,4 +1,5 @@
 import Loading from '@/components/general/Loading';
+import { formatDate, formatTime } from '@/lib/functions';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import axios from 'axios';
 import React, { useState } from 'react'
@@ -10,8 +11,6 @@ interface PendingProps {
 }
 
 const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
-
-    console.log(tickets);
     const [approveLoading, setApproveLoading] = useState(false);
     const [rejectLoading, setRejectLoading] = useState(false);
     const [ticketLoad, setTicketLoad] = useState(-1);
@@ -24,6 +23,20 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
             event_id: ticket.event_id,
             status: "approved"
         })
+
+        const pl = await axios.post(`/api/events/get`, {
+            event_id: ticket.event_id
+        });
+        const event = pl.data.event;
+        
+        const formattedDate = formatDate(event.date);
+        const formattedTime = formatTime(event.time);
+        
+        await axios.post("/api/sendEmail", {
+            to: ticket.email,
+            subject: `Ticket Approved for ${event.name}`,
+            text: `Your ticket has been approved for ${event.name}.\nDate: ${formattedDate} at ${formattedTime}.\nLocation: ${event.location}.`
+        })
         getApprovedTickets();
         setTickets(tickets.filter((t: any) => t.id !== ticket.id));
         setApproveLoading(false);
@@ -32,11 +45,25 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
     const handleReject = async (ticket: any) => {
         setTicketLoad(ticket.id);
         setRejectLoading(true);
-        await axios.post("/api/tickets/changeStatus", {
-            ticket_id: ticket.id,
-            event_id: ticket.event_id,
-            status: "rejected"
+
+
+        await axios.delete("/api/tickets/delete", {
+            data: {
+                ticket_id: ticket.id,
+            }
         })
+
+        const pl = await axios.post(`/api/events/get`, {
+            event_id: ticket.event_id
+        });
+        const event = pl.data.event;
+
+        await axios.post("/api/sendEmail", {
+            to: ticket.email,
+            subject: `Ticket Rejected for ${event.name}`,
+            text: `Your ticket has been rejected for ${event.name}. Please contact us at isa.atucd@gmail.com for any questions about your ticket.`
+        })
+
         setTickets(tickets.filter((t: any) => t.id !== ticket.id));
         setRejectLoading(false);
     }

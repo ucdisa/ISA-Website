@@ -6,6 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import Approved from './Approved';
 import Pending from './Pending';
+import Cancels from './Cancels';
 
 interface EventAttendeesProps {
     user: any;
@@ -25,6 +26,7 @@ const EventAttendees = ({ user, admin, event_id }: EventAttendeesProps) => {
     const [tab, setTab] = useState<string>("");
     const [pendingTickets, setPendingTickets] = useState([]);
     const [approvedTickets, setApprovedTickets] = useState([]);
+    const [cancelTickets, setCancelTickets] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const handleTabChange = (newTab: string) => {
@@ -50,9 +52,19 @@ const EventAttendees = ({ user, admin, event_id }: EventAttendeesProps) => {
         setApprovedTickets(data.data.tickets);
     }
 
+    const getCancelsTickets = async () => {
+        const data = await axios.post("/api/events/getTickets", {
+            event_id: event_id,
+            status: "cancel"
+        })
+
+        setCancelTickets(data.data.tickets);
+    }
+
     useEffect(() => {
         getPendingTickets();
         getApprovedTickets();
+        getCancelsTickets();
         setTab(getInitialTab());
 
         setLoading(false);
@@ -64,7 +76,7 @@ const EventAttendees = ({ user, admin, event_id }: EventAttendeesProps) => {
     }
 
     return (
-        <div className='w-[90%] m-auto'>
+        <div className='w-[90%] mx-auto'>
             <div className='flex items-center justify-start mb-[15px]'>
                 <Back link={{
                         pathname: '/tickets',
@@ -79,13 +91,15 @@ const EventAttendees = ({ user, admin, event_id }: EventAttendeesProps) => {
                 </h1>
             </div>
             
-            <Menu tab={tab} setTab={handleTabChange} tabs={["Approved", "Pending"]}/>
+            <Menu tab={tab} setTab={handleTabChange} tabs={["Approved", "Pending", "Cancels"]}/>
             <div className='mt-[10px]'>
                 {
                     tab == "Approved" ?
                         <Approved getPendingTickets={getPendingTickets} setTickets={setApprovedTickets} tickets={approvedTickets} />
-                    :
+                    : tab == "Pending" ?
                         <Pending setTickets={setPendingTickets} getApprovedTickets={getApprovedTickets} tickets={pendingTickets} />
+                    :
+                        <Cancels setTickets={setCancelTickets} tickets={cancelTickets} />
                 }
             </div>
         </div>

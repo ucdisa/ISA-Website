@@ -35,14 +35,19 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen`}
       >
-        <Navbar />
         <MantineProvider>
-          <Notifications />
-          {children}
+          <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <Notifications />
+            <main className="flex-1">
+              {children}
+            </main>
+            <Footer />
+          </div>
+        
         </MantineProvider>
-        <Footer />
       </body>
     </html>
   );

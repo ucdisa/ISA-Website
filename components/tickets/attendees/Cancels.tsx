@@ -3,33 +3,32 @@ import { IconCheck, IconX } from '@tabler/icons-react';
 import axios from 'axios';
 import React, { useState } from 'react'
 
-interface ApprovedProps {
+interface CancelsProps {
     tickets: any;
-    getPendingTickets: () => void;
     setTickets: (tickets: any) => void;
 }
 
-const Approved = ({ tickets, setTickets, getPendingTickets }: ApprovedProps) => {
-    const [rejectLoading, setRejectLoading] = useState(false);
+const Cancels = ({ tickets, setTickets }: CancelsProps) => {
+    const [approveLoading, setApproveLoading] = useState(false);
     const [ticketLoad, setTicketLoad] = useState(-1);
 
-    const handleReject = async (ticket: any) => {
+    const handleApprove = async (ticket: any) => {
         setTicketLoad(ticket.id);
-        setRejectLoading(true);
+        setApproveLoading(true);
 
-        // await axios.delete("/api/tickets/delete", {
-        //     data: {
-        //         ticket_id: ticket.id,
-        //     }
-        // })
-        await axios.post("/api/tickets/changeStatus", {
-            ticket_id: ticket.id,
-            event_id: ticket.event_id,
-            status: "pending"
+        await axios.delete("/api/tickets/delete", {
+            data: {
+                ticket_id: ticket.id,
+            }
         })
-        
+        await axios.post("/api/sendEmail", {
+            to: ticket.email,
+            subject: `Ticket Succesfully Cancelled for ${ticket.event_name}`,
+            text: `Your ticket has been succesfully cancelled for ${ticket.event_name}. If this was a mistake, please contact us at isa.atucd@gmail.com. You will be refunded for your ticket within 48 hours.`
+        })
+
         setTickets(tickets.filter((t: any) => t.id !== ticket.id));
-        setRejectLoading(false);
+        setApproveLoading(false);
     }
 
     return (
@@ -41,9 +40,9 @@ const Approved = ({ tickets, setTickets, getPendingTickets }: ApprovedProps) => 
                             <h1>{ticket.name}</h1>
                             <p>{ticket.email}</p>
                             <div className='flex items-center justify-center gap-[10px]'>
-                                <button onClick={() => handleReject(ticket)} className='hover:opacity-60 transition-all duration-200 cursor-pointer flex items-center justify-center bg-[#262626] text-white w-[27px] h-[27px] rounded-sm'>
+                                <button onClick={() => handleApprove(ticket)} className='hover:opacity-60 transition-all duration-200 cursor-pointer flex items-center justify-center bg-[#262626] text-white w-[27px] h-[27px] rounded-sm'>
                                     {
-                                        rejectLoading && ticketLoad == ticket.id ? <Loading color='white' size={15} /> : <IconX size={20} />
+                                        approveLoading && ticketLoad == ticket.id ? <Loading color='white' size={15} /> : <IconCheck size={20} />
                                     }
                                 </button>
                             </div>
@@ -51,11 +50,11 @@ const Approved = ({ tickets, setTickets, getPendingTickets }: ApprovedProps) => 
                     ))
                 :
                     <div className='flex items-center justify-center h-[50vh]'>
-                        <h1 className='text-2xl font-semibold'>No approved attendees</h1>
+                        <h1 className='text-2xl font-semibold'>No cancel requests</h1>
                     </div>
             }
         </div>
     )
 }
 
-export default Approved
+export default Cancels
