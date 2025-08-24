@@ -15,11 +15,23 @@ interface TicketCenterProps {
 }
 
 const TicketCenter = ({ admin, user }: TicketCenterProps) => {
-    const [tab, setTab] = useState("My Tickets");
+    const getInitialTab = () => {
+        if (typeof window !== "undefined") {
+            return sessionStorage.getItem("ticketCenterTab") || "My Tickets";
+        }
+        return "My Tickets";
+    };
+
+    const [tab, setTab] = useState<string>("");
     const [myTickets, setMyTickets] = useState<any>(null);
     const [events, setEvents] = useState<any>(null);
     const [eventsLoading, setEventsLoading] = useState(false);
     const [ticketsLoading, setTicketsLoading] = useState(false);
+
+    const handleTabChange = (newTab: string) => {
+        sessionStorage.setItem("ticketCenterTab", newTab);
+        setTab(newTab);
+    };
 
     const getTickets = async() => {
         setTicketsLoading(true);
@@ -61,6 +73,7 @@ const TicketCenter = ({ admin, user }: TicketCenterProps) => {
 
     useEffect(() => {
         onLoad();
+        setTab(getInitialTab());
     }, [])
 
     const AddEventButton = () => (
@@ -80,7 +93,7 @@ const TicketCenter = ({ admin, user }: TicketCenterProps) => {
     return (
         <div className='w-full'>
             <div className='w-full flex justify-start items-center gap-[10px]'>
-                <Menu tab={tab} setTab={setTab} tabs={["My Tickets", "Events"]}/>
+                <Menu tab={tab} setTab={handleTabChange} tabs={["My Tickets", "Events"]}/>
                 {
                     admin &&
                     <AddEventButton />
@@ -115,7 +128,7 @@ const TicketCenter = ({ admin, user }: TicketCenterProps) => {
                             } else {
                                 return (
                                     events && events.length != 0 ?
-                                        <div className='w-full mt-[20px] gap-[40px] flex flex-wrap justify-stat items-center'>
+                                        <div className='w-full mt-[20px] gap-[40px] flex-wrap justify-stat items-center'>
                                             {
                                                 events.map((event: any) => (
                                                     <EventCard reload={onLoad} user={user} admin={admin} key={event.id} event={event} />

@@ -1,4 +1,5 @@
 import Loading from '@/components/general/Loading';
+import { formatDate, formatTime } from '@/lib/functions';
 import { IconCheck, IconX } from '@tabler/icons-react';
 import axios from 'axios';
 import React, { useState } from 'react'
@@ -17,17 +18,23 @@ const Approved = ({ tickets, setTickets, getPendingTickets }: ApprovedProps) => 
         setTicketLoad(ticket.id);
         setRejectLoading(true);
 
-        // await axios.delete("/api/tickets/delete", {
-        //     data: {
-        //         ticket_id: ticket.id,
-        //     }
-        // })
-        await axios.post("/api/tickets/changeStatus", {
-            ticket_id: ticket.id,
-            event_id: ticket.event_id,
-            status: "pending"
+        await axios.delete("/api/tickets/delete", {
+            data: {
+                ticket_id: ticket.id,
+            }
         })
-        
+
+        const pl = await axios.post(`/api/events/get`, {
+            event_id: ticket.event_id
+        });
+        const event = pl.data.event;
+
+        await axios.post("/api/sendEmail", {
+            to: ticket.email,
+            subject: `Ticket Rejected for ${event.name}`,
+            text: `Your ticket has been rejected for ${event.name}. Please contact us at isa.atucd@gmail.com for any questions about your ticket.`
+        })
+
         setTickets(tickets.filter((t: any) => t.id !== ticket.id));
         setRejectLoading(false);
     }
