@@ -11,7 +11,7 @@ import { IconClock, IconFile } from '@tabler/icons-react';
 import { Textarea } from '@mantine/core';
 import { NumberInput } from '@mantine/core';
 import { FileInput } from '@mantine/core';
-import EventCard from '@/components/homepage/EventCard';
+import EventCard from '@/components/events/EventCard';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Loading from '@/components/general/Loading';
@@ -47,7 +47,7 @@ const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => 
             setLoading(true);
             console.log(values);
 
-            const dta = await axios.post("/api/events/claimSpot", {
+            const dta = await axios.post("/api/tickets/claimSpot", {
                 event_id: event.id
             })
 
@@ -123,8 +123,7 @@ const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => 
                             label="I have paid for my ticket"
                             onChange={(event) => form.setFieldValue("select", event.currentTarget.checked)}
                         />
-
-                            <button type="submit" className='bg-black text-black w-[90px] h-[30px] text-white rounded-xs hover:opacity-80 transition-all duration-200 shadow'>
+                            <button type="submit" className='bg-black w-[90px] h-[30px] text-white rounded-xs hover:opacity-80 transition-all duration-200 shadow'>
                                 {loading ? <Loading color="white" size={18}/> : <p className='text-sm'>Confirm</p>}
                             </button>
                     </form>

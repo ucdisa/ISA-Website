@@ -5,9 +5,10 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { Pagination } from 'swiper/modules';
 import { useState } from "react";
-import EventCard from "@/components/homepage/EventCard";
+import EventCard from "@/components/events/EventCard";
 
 import { motion } from 'framer-motion';
+import EventCardHome from "@/components/homepage/EventCardHome";
 
 const container = {
   hidden: {},
@@ -145,13 +146,13 @@ export default function Home() {
           Upcoming Events
         </p>
         <div className="flex items-center justify-start gap-[30px] overflow-x-auto w-[100%] flex-nowrap pb-[10px]">
-          {/* {
+          {
             events.map((event, index) => {
               return (
-                <EventCard key={index} event={event}/>
+                <EventCardHome key={index} event={event}/>
               )
             })
-          } */}
+          }
         </div>
       </motion.div>
     </div>

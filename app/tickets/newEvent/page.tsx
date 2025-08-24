@@ -11,7 +11,7 @@ import { IconClock, IconFile } from '@tabler/icons-react';
 import { Textarea } from '@mantine/core';
 import { NumberInput } from '@mantine/core';
 import { FileInput } from '@mantine/core';
-import EventCard from '@/components/homepage/EventCard';
+import EventCard from '@/components/events/EventCard';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Loading from '@/components/general/Loading';
@@ -188,7 +188,7 @@ const page = () => {
                             placeholder="Upload..." 
                         />
 
-                            <button type="submit" className='bg-black text-black w-[140px] h-[35px] text-white rounded-xs hover:opacity-80 transition-all duration-200 shadow-sm'>
+                            <button type="submit" className='bg-black w-[140px] h-[35px] text-white rounded-xs hover:opacity-80 transition-all duration-200 shadow-sm'>
                                 {loading ? <Loading color="white" size={18}/> : "+ Create Event"}
                             </button>
                     </div>

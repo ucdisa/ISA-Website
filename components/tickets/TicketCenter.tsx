@@ -6,7 +6,7 @@ import Loading from '../general/Loading'
 import Link from 'next/link';
 import {Button, ButtonGroup} from "@heroui/react";
 import axios from 'axios';
-import EventCard from '../homepage/EventCard';
+import EventCard from '../events/EventCard';
 import TicketCard from './TicketCard';
 
 interface TicketCenterProps {

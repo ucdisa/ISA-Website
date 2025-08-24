@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import Link from 'next/link';
-import { IconEdit, IconTrash, IconTicket } from '@tabler/icons-react';
+import { IconEdit, IconTrash, IconTicket, IconUserCog } from '@tabler/icons-react';
 import axios from 'axios';
 import Loading from '../general/Loading';
 import { useRouter } from 'next/navigation';
@@ -99,11 +99,24 @@ const EventCard = ({ event, admin, user, reload }: EventCardProps) => {
                 <Link
                   className='hover:opacity-80 transition-all flex items-center justify-center duration-200 cursor-pointer w-[25px] h-[25px]' 
                   href={{
+                      pathname: '/tickets/eventAttendees',
+                      query: { user: encodeURIComponent(JSON.stringify({
+                        user,
+                        event_id: event.id,
+                        admin
+                      }))}
+                  }}
+                >
+                  <IconUserCog size={23} color='white' stroke={1.5}/>
+                </Link>
+                <Link
+                  className='hover:opacity-80 transition-all flex items-center justify-center duration-200 cursor-pointer w-[25px] h-[25px]' 
+                  href={{
                       pathname: '/tickets/editEvent',
                       query: { user: encodeURIComponent(JSON.stringify({
-                      user,
-                      event_id: event.id,
-                      admin
+                        user,
+                        event_id: event.id,
+                        admin
                       }))}
                   }}
                 >

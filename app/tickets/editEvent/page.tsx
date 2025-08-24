@@ -3,18 +3,19 @@
 import Back from '@/components/buttons/Back';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-import { Button, Checkbox, Group, TextInput } from '@mantine/core';
+import { Button, Checkbox, Group, Notification, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { DatePickerInput } from '@mantine/dates';
 import { TimePicker } from '@mantine/dates';
-import { IconClock, IconFile } from '@tabler/icons-react';
+import { IconCheck, IconClock, IconFile } from '@tabler/icons-react';
 import { Textarea } from '@mantine/core';
 import { NumberInput } from '@mantine/core';
 import { FileInput } from '@mantine/core';
-import EventCard from '@/components/homepage/EventCard';
+import EventCard from '@/components/events/EventCard';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Loading from '@/components/general/Loading';
+import { notifications } from '@mantine/notifications';
 
 const page = () => {
 
@@ -26,6 +27,7 @@ const page = () => {
     const admin = params.admin;
     const event_id = params.event_id;
     const [loading, setLoading] = useState(false);
+    const [pageLoading, setPageLoading] = useState(true);
     const [event, setEvent] = useState({
         name: '',
         date: new Date(),
@@ -54,11 +56,10 @@ const page = () => {
                 image: event.image,
                 date: event.date,
                 time: event.time
-                // image: leave as null; you generally can't prefill File inputs
               });
 
-            console.log(event)
             setEvent(event);
+            setPageLoading(false);
         }
 
         getEvent();
@@ -91,6 +92,13 @@ const page = () => {
         } catch (err: any) {
             console.error('Error updating event:', err);
         } finally {
+            notifications.show({
+                title: "Success!",
+                message: "Event was updated.",
+                color: "teal",
+                icon: <IconCheck size={16} stroke={1.5} />,
+                autoClose: 2000
+            });
             router.push(
                 `/tickets?user=${encodeURIComponent(
                         JSON.stringify({
@@ -124,9 +132,13 @@ const page = () => {
             buyLimit: (value) => value > 0 ? null : 'Ticket Limit cannot be 0',
         },
     });
+
+    if (pageLoading) {
+        return <Loading color='black' size={20} />
+    }
+    
     return (
         <div className='w-[90%] m-auto'>
-            
             <div className='w-[100%] flex justify-between items-start mt-[10px]'>
                 <div className='w-[47%] flex flex-col justify-center items-start'>
                     <div className='flex items-center justify-start'>
@@ -234,7 +246,7 @@ const page = () => {
                             placeholder="Upload..." 
                         />
 
-                            <button type="submit" className='bg-black text-black w-[140px] h-[35px] text-white rounded-xs hover:opacity-80 transition-all duration-200 shadow-sm'>
+                            <button onClick={() => console.log("HELL")} type="submit" className='bg-black w-[140px] h-[35px] text-white rounded-xs hover:opacity-80 transition-all duration-200 shadow-sm'>
                                 {loading ? <Loading color="white" size={18}/> : "Update Event"}
                             </button>
                     </div>
