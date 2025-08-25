@@ -18,6 +18,7 @@ interface EventCardProps {
         location: string;
         description: string;
         image: File | string | null;
+        buyLimit: number;
         link?: string;
         id?: string;
     };

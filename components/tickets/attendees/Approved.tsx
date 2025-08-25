@@ -31,8 +31,8 @@ const Approved = ({ tickets, setTickets, getPendingTickets }: ApprovedProps) => 
 
         await axios.post("/api/sendEmail", {
             to: ticket.email,
-            subject: `Ticket Rejected for ${event.name}`,
-            text: `Your ticket has been rejected for ${event.name}. Please contact us at isa.atucd@gmail.com for any questions about your ticket.`
+            subject: `Ticket Rejected - ${event.name}`,
+            text: `Hi ${ticket.name},\n\nYour ticket has been rejected for ${event.name}. Please contact us at isa.atucd@gmail.com for any questions about your ticket.\n\nThank you!`
         })
 
         setTickets(tickets.filter((t: any) => t.id !== ticket.id));

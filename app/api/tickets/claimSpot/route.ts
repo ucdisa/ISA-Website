@@ -3,11 +3,28 @@ import { supabaseAdmin } from "@/lib/supabaseClient";
 
 export async function POST(request: Request) {
   try {
-    const { event_id } = await request.json();
+    const { user_id, buyLimit, event_id } = await request.json();
 
-    if (!event_id) {
-      return NextResponse.json({ error: "Missing event_id" }, { status: 400 });
+    if (!event_id || !user_id || !buyLimit) {
+      return NextResponse.json({ error: "Missing params" }, { status: 400 });
     }
+
+    // Check if user has already reached the buy limit for this event
+    const { data: userTickets, error: ticketCheckError } = await supabaseAdmin
+      .from("tickets")
+      .select("id")
+      .eq("event_id", event_id)
+      .eq("user_id", user_id);
+
+    if (ticketCheckError) {
+      return NextResponse.json({ error: ticketCheckError.message }, { status: 500 });
+    }
+
+    console.log(userTickets)
+    if (userTickets && userTickets.length >= buyLimit) {
+      return NextResponse.json({ spots: -1 }, { status: 200 });
+    }
+    
 
     // Optimistic concurrency loop: read current spots, try to set to spots-1
     // If a concurrent update happens, retry a few times

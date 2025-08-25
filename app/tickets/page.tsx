@@ -39,7 +39,6 @@ const TicketsPage = () => {
 
   return (
     <div className='w-[90%] mx-auto'>
-        <p className='text-5xl mb-[20px]'><b>Welcome,</b>  {user.name}</p>
         <TicketCenter admin={admin} user={user}/>
     </div>
   );

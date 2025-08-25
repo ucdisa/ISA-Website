@@ -34,8 +34,8 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
         
         await axios.post("/api/sendEmail", {
             to: ticket.email,
-            subject: `Ticket Approved for ${event.name}`,
-            text: `Your ticket has been approved for ${event.name}.\nDate: ${formattedDate} at ${formattedTime}.\nLocation: ${event.location}.`
+            subject: `Ticket Approved - ${event.name}`,
+            text: `Hi ${ticket.name},\n\nYour ticket has been approved for ${event.name}.\nDate: ${formattedDate} at ${formattedTime}.\nLocation: ${event.location}.\n\nThank you!`
         })
         getApprovedTickets();
         setTickets(tickets.filter((t: any) => t.id !== ticket.id));
@@ -60,8 +60,8 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
 
         await axios.post("/api/sendEmail", {
             to: ticket.email,
-            subject: `Ticket Rejected for ${event.name}`,
-            text: `Your ticket has been rejected for ${event.name}. Please contact us at isa.atucd@gmail.com for any questions about your ticket.`
+            subject: `Ticket Rejected - ${event.name}`,
+            text: `Hi ${ticket.name},\n\nYour ticket has been rejected for ${event.name}. Please contact us at isa.atucd@gmail.com for any questions about your ticket.\n\nThank you!`
         })
 
         setTickets(tickets.filter((t: any) => t.id !== ticket.id));

@@ -27,6 +27,7 @@ interface GetTicketProps {
         description: string;
         image: File | string | null;
         link?: string;
+        buyLimit: number;
         id?: string;
     };
     admin?: boolean;
@@ -38,6 +39,7 @@ interface GetTicketProps {
 const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => {
 
     const [loading, setLoading] = useState(false);
+    const [modalText, setModalText] = useState("");
     const [opened, { open, close }] = useDisclosure(false);
     const router = useRouter();
 
@@ -45,17 +47,29 @@ const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => 
         setLoading(true);
         try {
             setLoading(true);
-            console.log(values);
+            console.log(user.user_id, event.buyLimit, event.id);
 
-            const dta = await axios.post("/api/tickets/claimSpot", {
+            let spots = 0;
+
+            await axios.post("/api/tickets/claimSpot", {
+                user_id: user.user_id,
+                buyLimit: event.buyLimit,
                 event_id: event.id
+            }).then(data => {
+                spots = data.data.spots;
+            }).catch(error => {
+                console.log(error)
+                return;
             })
 
-            console.log(dta)
-            const spots = dta.data.spots;
-
-            if (spots == 0) {
+            if (spots < 0) {
                 open();
+                setModalText("Sorry, you have bought the maximum allowed tickets for this event...")
+                setLoading(false);
+                return;
+            } else if (spots == 0) {
+                open();
+                setModalText("Sorry, no more tickets are being sold at this time...")
                 setLoading(false);
                 return;
             }
@@ -68,6 +82,12 @@ const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => 
                     email: values.email,
                 }
             )
+
+            await axios.post("/api/sendEmail", {
+                to: values.email,
+                subject: `Ticket Succesfully Claimed - ${event.name}`,
+                text: `Hi ${values.name},\n\nYour ticket has been succesfully claimed for ${event.name}. Your ticket status is now pending. It will be valid once it is approved.\n\nThank you!`
+            })
 
             reload();
             closeModal();
@@ -123,7 +143,7 @@ const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => 
                             label="I have paid for my ticket"
                             onChange={(event) => form.setFieldValue("select", event.currentTarget.checked)}
                         />
-                            <button type="submit" className='bg-black w-[90px] h-[30px] text-white rounded-xs hover:opacity-80 transition-all duration-200 shadow'>
+                            <button type="submit" className='bg-black w-[90px] h-[30px] mt-[10px] text-white rounded-xs hover:opacity-80 cursor-pointer transition-all duration-200 shadow'>
                                 {loading ? <Loading color="white" size={18}/> : <p className='text-sm'>Confirm</p>}
                             </button>
                     </form>
@@ -132,9 +152,9 @@ const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => 
                             blur: 3,
                         }} opened={opened} size="auto" onClose={close} centered withCloseButton={false}>
                         <div className='w-[200px] flex flex-col justify-center items-center gap-[5px]'>
-                            <InfoOutlineIcon />
-                            <p className='text-red-500 text-center'>
-                                Sorry, no more tickets are being sold at this time...
+                            <InfoOutlineIcon className='text-red-400'/>
+                            <p className='text-center'>
+                                {modalText}
                             </p>
                         </div>
                     </Modal>

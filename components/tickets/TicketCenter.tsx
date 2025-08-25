@@ -92,17 +92,38 @@ const TicketCenter = ({ admin, user }: TicketCenterProps) => {
   
     return (
         <div className='w-full'>
+            {
+                !admin ?
+                <p className='text-5xl mb-[20px]'><b>Welcome,</b>  {user.name}</p>
+                :
+                <p className='text-5xl mb-[20px]'>Welcome to <b>ISA Admin</b> Ticketing</p>
+            }
             <div className='w-full flex justify-start items-center gap-[10px]'>
-                <Menu tab={tab} setTab={handleTabChange} tabs={["My Tickets", "Events"]}/>
                 {
-                    admin &&
+                    admin ?
                     <AddEventButton />
+                    :
+                    <Menu tab={tab} setTab={handleTabChange} tabs={["My Tickets", "Events"]}/>
                 }
             </div>
 
             <div className='mt-[10px]'/>
             <div className='flex flex-col items-start justify-center'>
             {
+                admin ?
+                eventsLoading || !events ? <Loading color="black" size={20}/>
+                : 
+                events && events.length != 0 ?
+                            <div className='w-full mt-[20px] gap-[40px] flex-wrap justify-stat items-center'>
+                                {
+                                    events.map((event: any) => (
+                                        <EventCard reload={onLoad} user={user} admin={admin} key={event.id} event={event} />
+                                    ))
+                                }
+                            </div>
+                        :
+                            <p>No Events right now check back later...</p>
+                :
                 (() => {
                     switch(tab) {
                         case "My Tickets":
@@ -114,7 +135,7 @@ const TicketCenter = ({ admin, user }: TicketCenterProps) => {
                                         <div className='w-full mt-[20px] gap-[40px] flex flex-wrap justify-stat items-center'>
                                             {
                                                 myTickets.map((ticket: any, index: number) => (
-                                                    <TicketCard ticket={ticket} key={ticket.id} />
+                                                    <TicketCard getTickets={getTickets} ticket={ticket} key={ticket.id} />
                                                 ))
                                             }
                                         </div>
