@@ -8,6 +8,7 @@ import {Button, ButtonGroup} from "@heroui/react";
 import axios from 'axios';
 import EventCard from '../events/EventCard';
 import TicketCard from './TicketCard';
+import { eventType } from '@/lib/types';
 
 interface TicketCenterProps {
     admin: boolean;
@@ -116,7 +117,7 @@ const TicketCenter = ({ admin, user }: TicketCenterProps) => {
                 events && events.length != 0 ?
                             <div className='w-full mt-[20px] gap-[40px] flex-wrap justify-stat items-center'>
                                 {
-                                    events.map((event: any) => (
+                                    events.map((event: eventType) => (
                                         <EventCard reload={onLoad} user={user} admin={admin} key={event.id} event={event} />
                                     ))
                                 }

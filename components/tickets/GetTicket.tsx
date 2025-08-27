@@ -17,19 +17,10 @@ import axios from 'axios';
 import Loading from '@/components/general/Loading';
 import { useDisclosure } from '@mantine/hooks';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
+import { eventType } from '@/lib/types';
 
 interface GetTicketProps {
-    event: {
-        name: string;
-        date: Date;
-        time: string;
-        location: string;
-        description: string;
-        image: File | string | null;
-        link?: string;
-        buyLimit: number;
-        id?: string;
-    };
+    event: eventType;
     admin?: boolean;
     user?: any;
     reload?: any;

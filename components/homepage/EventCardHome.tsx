@@ -9,18 +9,10 @@ import { useRouter } from 'next/navigation';
 import { useDisclosure } from '@mantine/hooks';
 import { Modal } from '@mantine/core';
 import GetTicket from '../tickets/GetTicket';
+import { eventType } from '@/lib/types';
 
 interface EventCardHomeProps {
-    event: {
-        name: string;
-        date: Date;
-        time: string;
-        location: string;
-        description: string;
-        image: File | string | null;
-        link?: string;
-        id?: string;
-    };
+    event: eventType
 }
 
 const EventCardHome = ({ event }: EventCardHomeProps) => {
