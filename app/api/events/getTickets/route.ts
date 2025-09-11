@@ -14,22 +14,56 @@ export async function POST(request: Request) {
       );
     }
 
-    // Fetch all tickets for the given event_id
-    const { data: tickets, error } = await supabaseAdmin
+    // 1) Fetch all tickets for the given event_id
+    const { data: tickets, error: ticketsError } = await supabaseAdmin
       .from("tickets")
       .select("*")
       .eq("event_id", event_id)
       .eq("status", status);
 
-    if (error) {
+    if (ticketsError) {
       return NextResponse.json(
-        { error: error.message },
+        { error: ticketsError.message },
         { status: 500 }
       );
     }
 
+    const safeTickets = tickets ?? [];
+
+    // 2) Collect unique user IDs
+    const userIds = Array.from(new Set(safeTickets.map((t: any) => t.user_id).filter(Boolean)));
+
+    // 3) Fetch auth users in parallel via Admin API
+    const usersArr = await Promise.all(
+      userIds.map(async (uid) => {
+        try {
+          const { data, error } = await supabaseAdmin.auth.admin.getUserById(uid);
+          if (error || !data?.user) return { id: uid, email: null, displayName: null };
+          const u = data.user as any;
+          const meta = u.user_metadata || {};
+          const displayName = meta.full_name ?? meta.name ?? meta["Display Name"] ?? meta.displayName ?? null;
+          return { id: u.id, email: u.email ?? null, displayName };
+        } catch {
+          return { id: uid, email: null, displayName: null };
+        }
+      })
+    );
+
+    // 4) Index users by id for quick lookup
+    const usersById = new Map(usersArr.map(u => [u.id, u]));
+
+    // 5) Merge tickets with user info
+    const ticketsWithUsers = safeTickets.map((t: any) => {
+      const u = usersById.get(t.user_id);
+      return {
+        ...t,
+        user: u ? { email: u.email, displayName: u.displayName } : null,
+      };
+    });
+
+    // 6) Return merged result
     return NextResponse.json(
-      { tickets: tickets ?? [] },
+      { tickets: ticketsWithUsers },
       { status: 200 }
     );
   } catch (err: any) {

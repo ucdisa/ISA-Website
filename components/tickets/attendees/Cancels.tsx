@@ -58,7 +58,7 @@ const Cancels = ({ tickets, setTickets }: CancelsProps) => {
                         </div>
                     ))
                 :
-                    <div className='flex items-center justify-center h-[50vh]'>
+                    <div className='flex justify-start mt-[20px]'>
                         <h1 className='text-2xl font-semibold'>No cancel requests</h1>
                     </div>
             }

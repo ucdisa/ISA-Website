@@ -21,35 +21,7 @@ const letter = {
 
 export default function Home() {
 
-  const [events, _] = useState([
-    {
-      name: 'Dhwani After Party',
-      date: new Date(),
-      time: '10:00 AM',
-      location: '2916 Moore Ave, Davis, CA',
-      description: 'Dhwani is a cultural festival organized by the Indian Student Association at UC Davis. It is a platform for students to showcase their talents and cultures.',
-      image: '/assets/party.png',
-      link: '/events/dhwani'
-    },
-    {
-      name: 'Holi',
-      date: new Date(),
-      time: '8:00 PM',
-      location: 'Sacramento',
-      description: 'Dhwani is a cultural festival organized by the Indian Student Association at UC Davis. It is a platform for students to showcase their talents and cultures.',
-      image: '/assets/summer.png',
-      link: '/events/dhwani'
-    },
-    {
-      name: 'Garba',
-      date: new Date(),
-      time: '9:00 PM',
-      location: 'Arc Ballroom A',
-      description: 'Dhwani is a cultural festival organized by the Indian Student Association at UC Davis. It is a platform for students to showcase their talents and cultures.',
-      image: '/assets/party.jpg',
-      link: '/events/dhwani'
-    },
-  ])
+  const events: any[] = []
 
   return (
     <div className="h-full w-full flex flex-col items-center justify-center">

@@ -39,7 +39,7 @@ const EventAttendees = ({ user, admin, event_id }: EventAttendeesProps) => {
             event_id: event_id,
             status: "pending"
         })
-
+        
         setPendingTickets(data.data.tickets);
     }
 
