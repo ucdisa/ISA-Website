@@ -1,125 +1,342 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Menu from '@/components/general/Menu';
 
-interface InfoCardProps {
-    link: string;
-    title: string;
-    description: string;
-}
-
-const InfoCard = ({ link, title, description }: InfoCardProps) => (
-    <div className='flex flex-col items-start max-w-[48%]'>
-        <div>
-            <Link href={link} className='cursor-pointer' target='_blank'><p className='text-3xl font-semibold underline text-blue-900'>{title}</p></Link>
-            <p className='mt-[5px] text-lg'>{description}</p>
-        </div>
-    </div>
-)
-
-const LifeCard = ({ link, title, description }: InfoCardProps) => (
-    <Link target='_blank' href={link} className='flex max-w-[49%] flex-col items-start cursor-pointer shadow-sm rounded-sm h-[220px] px-[20px] justify-start pt-[20px] hover:scale-[1.02] transition-all ease-in-out duration-200'>
-        <div className=''>
-            <p className='text-3xl font-semibold'>{title}</p>
-            <p className='mt-[5px] text-lg'>{description}</p>
-        </div>
-    </Link>
-)
+const ALL_RESOURCES = [
+    // Members
+    {
+      id: "m-001",
+      title: "Join ISA Membership (Form)",
+      desc: "Become an official member — unlock discounted tickets and exclusive passes.",
+      kind: "form",
+      href: "/membership", // or a Google Form URL
+      tags: ["Members"],
+      badge: "New",
+    },
+    {
+      id: "m-002",
+      title: "Member FAQ",
+      desc: "Common questions about benefits, dues, and how to redeem discounts.",
+      kind: "link",
+      href: "#faq",
+      tags: ["Members"],
+    },
+  
+    // Officers
+    {
+      id: "o-101",
+      title: "Officer Handbook (PDF)",
+      desc: "Expectations, tools, comms norms, and semester rhythms.",
+      kind: "pdf",
+      href: "/resources/officer-handbook.pdf",
+      tags: ["Officers"],
+    },
+    {
+      id: "o-102",
+      title: "Event Budget Template (Sheet)",
+      desc: "Track estimates, quotes, reimbursements, and totals.",
+      kind: "sheet",
+      href: "/resources/event-budget-template.xlsx",
+      tags: ["Officers", "Events"],
+    },
+  
+    // Events
+    {
+      id: "e-201",
+      title: "Holi Ops Checklist",
+      desc: "Permits, safety, supplies, stations, and day-of assignments.",
+      kind: "doc",
+      href: "/resources/holi-ops-checklist.docx",
+      tags: ["Events"],
+    },
+    {
+      id: "e-202",
+      title: "Diwali Night Run of Show",
+      desc: "Stage cues, transitions, mics, and timing for the program.",
+      kind: "doc",
+      href: "/resources/diwali-ros.docx",
+      tags: ["Events"],
+    },
+  
+    // Design
+    {
+      id: "d-301",
+      title: "ISA Brand Kit",
+      desc: "Logos, colors, typography, and usage examples.",
+      kind: "zip",
+      href: "/resources/isa-brand-kit.zip",
+      tags: ["Design", "Officers"],
+      badge: "Updated",
+    },
+    {
+      id: "d-302",
+      title: "Poster Templates (Figma)",
+      desc: "Editable poster and IG sizes for quick turnarounds.",
+      kind: "figma",
+      href: "https://figma.com/file/XXXX/poster-templates", // replace
+      tags: ["Design"],
+      external: true,
+    },
+  
+    // Tech
+    {
+      id: "t-401",
+      title: "Website Contribution Guide",
+      desc: "How to run, branch, commit, and open a PR for isa-website.",
+      kind: "md",
+      href: "/resources/website-contrib-guide.md",
+      tags: ["Tech"],
+    },
+    {
+      id: "t-402",
+      title: "Volunteer Signup Embed Examples",
+      desc: "Forms and embed patterns (Google Forms, Airtable).",
+      kind: "link",
+      href: "/resources/embeds-examples.html",
+      tags: ["Tech", "Events"],
+    },
+  ];
+  
+  const CATEGORIES = ["All", "Members", "Officers", "Events", "Design", "Tech"];
+  
+  const KIND_ICON = {
+    pdf: "📄",
+    doc: "📝",
+    sheet: "📊",
+    figma: "🎨",
+    md: "📘",
+    zip: "🗂️",
+    form: "🖊️",
+    link: "🔗",
+  };
 
 const page = () => {
 
-    const [tab, setTab] = useState<string>("Academics")
+    const [query, setQuery] = useState("");
+  const [cat, setCat] = useState("All");
 
-    return (
-        <div className='h-full w-full flex flex-col items-center justify-center gap-[5px]'>
-                <motion.div
-                    className='w-[90%]'
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{ duration: 0.6, ease: 'easeOut' }}
-                >
-                    <p
-                        className="text-7xl font-bold"
+  const list = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return ALL_RESOURCES.filter((r) => {
+      const matchesCat = cat === "All" || r.tags.includes(cat);
+      const matchesQ =
+        !q ||
+        r.title.toLowerCase().includes(q) ||
+        r.desc.toLowerCase().includes(q) ||
+        r.tags.join(" ").toLowerCase().includes(q);
+      return matchesCat && matchesQ;
+    });
+  }, [query, cat]);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100 text-slate-900">
+      {/* Header */}
+      <header className="bg-gradient-to-r from-slate-800 to-blue-900 text-white">
+        <div className="max-w-6xl mx-auto px-6 py-10">
+          <h1 className="text-3xl sm:text-4xl font-extrabold">Resources</h1>
+          <p className="mt-2 text-blue-100/90 max-w-2xl">
+            Templates, guides, and links for members, officers, and volunteers.
+          </p>
+
+          {/* quick links */}
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link
+              href="/membership"
+              className="px-5 py-2.5 rounded-md bg-orange-400 text-slate-900 font-bold hover:bg-orange-300 shadow-md transition"
+            >
+              Become a Member
+            </Link>
+            <Link
+              href="/membership"
+              className="px-5 py-2.5 rounded-md border border-white/70 hover:bg-white/10 transition"
+            >
+              Join a Committee
+            </Link>
+            <Link
+              href="/interns"
+              className="px-5 py-2.5 rounded-md border border-white/70 hover:bg-white/10 transition"
+            >
+              Apply as an Intern
+            </Link>
+          </div>
+        </div>
+        <div className="h-[3px] bg-orange-400" />
+      </header>
+
+      {/* Filters + Search */}
+      <section className="max-w-6xl mx-auto px-6 py-8">
+        <div className="flex flex-col md:flex-row md:items-center gap-4">
+          <div className="flex flex-wrap gap-2">
+            {CATEGORIES.map((c) => (
+              <button
+                key={c}
+                onClick={() => setCat(c)}
+                className={`px-4 py-2 rounded-full text-sm font-semibold border transition shadow-sm ${
+                  cat === c
+                    ? "bg-orange-400 text-slate-900 border-orange-400"
+                    : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                }`}
+              >
+                {c}
+              </button>
+            ))}
+          </div>
+
+          <div className="grow md:ml-auto">
+            <label className="sr-only" htmlFor="resource-search">
+              Search resources
+            </label>
+            <input
+              id="resource-search"
+              type="text"
+              placeholder="Search by title, tag, or description..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="w-full rounded-md border-slate-300 focus:border-blue-500 focus:ring-blue-500"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Resource grid */}
+      <section className="max-w-6xl mx-auto px-6 pb-16">
+        {list.length === 0 ? (
+          <div className="rounded-xl border border-slate-200 bg-white p-6 text-center text-slate-600">
+            No resources found. Try a different search or category.
+          </div>
+        ) : (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {list.map((r) => (
+              <article
+                key={r.id}
+                className="relative bg-white rounded-2xl p-6 border border-slate-200 shadow-md hover:shadow-lg transition"
+              >
+                {/* accent bar */}
+                <div className="absolute left-0 right-0 -top-[1px] h-[4px] bg-orange-400 rounded-t-2xl" />
+                <div className="flex items-start justify-between gap-3">
+                  <div className="text-3xl" aria-hidden>
+                    {KIND_ICON[r.kind as keyof typeof KIND_ICON] ?? "📁"}
+                  </div>
+                  {r.badge ? (
+                    <span className="text-xs font-semibold px-2 py-1 rounded-full bg-blue-50 text-blue-800 border border-blue-200">
+                      {r.badge}
+                    </span>
+                  ) : null}
+                </div>
+
+                <h3 className="mt-3 text-lg font-semibold">{r.title}</h3>
+                <p className="mt-1 text-sm text-slate-600">{r.desc}</p>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {r.tags.map((t: string) => (
+                    <span
+                      key={t}
+                      className="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-800 border border-slate-200"
                     >
-                    Resources
-                    </p>
-                </motion.div>
-                <motion.div 
-                    className='w-[90%] mt-[10px]'
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{ delay: 0.2, duration: 0.6, ease: 'easeOut' }}
-                >
-                    <Menu tab={tab} setTab={setTab} tabs={["Academics", "Housing", "Student Life"]}/>
-                </motion.div>
-                <motion.div
-                    className='w-[90%] mt-[20px]'
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.3 }}
-                    transition={{ delay: 0.4, duration: 0.6, ease: 'easeOut' }}
-                >
-                    {
-                        (() => {
-                            switch(tab) {
-                                case "Academics":
-                                    return (
-                                        <div className=''>
-                                            <div className='flex w-full justify-between gap-[40px]'>
-                                                <InfoCard link="https://careercenter.ucdavis.edu/" title="Career Center" description="The UC Davis Internship and Career Center (ICC) helps students find internships, jobs, and career paths. From résumé reviews to mock interviews and career fairs, the ICC is your go-to place to prepare for life after college."/>
-                                                
-                                                <InfoCard link="https://registrar.ucdavis.edu/" title="Office of the University Registrar" description="The Office of the University Registrar handles all things academic — class registration, transcripts, important deadlines, degree progress, and enrollment verification. Keep this bookmarked during pass times!"/>
-                                            </div>
+                      {t}
+                    </span>
+                  ))}
+                </div>
 
-                                            <div className='flex w-full justify-between mt-[50px] gap-[40px]'>
-                                                <InfoCard link="https://sdc.ucdavis.edu/" title="Student Disability Center" description="The Student Disability Center (SDC) is the campus unit designated to receive requests for accommodation, approve services, and coordinate support for students with disabilities to create equitable access to the University’s educational programs."/>
-                                                
-                                                <InfoCard link="https://ossja.ucdavis.edu/?utm_source=sja&utm_medium=redirect-hostname" title="Student support and Judicial Affairs" description="The Office of Student Support and Judicial Affairs (OSSJA) supports the university's educational mission by upholding standards of academic honesty and responsible behavior, promoting student development, and assisting students in need. "/>
-                                            </div>
-                                        </div>
-                                    )
-                                case "Housing":
-                                    return (
-                                        <div className=''>
-                                            <div className='flex items-center justify-start gap-[20px]'>
-                                                <p className='text-3xl font-semibold'>UC Davis Housing</p>
-                                                <Link className='py-[7px] px-[10px] bg-[#000] shadow-sm text-sm hover:opacity-60 text-white rounded-sm font-medium flex justify-center items-center' href='https://www.ucdavis.edu/campus-life/housing' target='_blank'>More Info</Link>
-                                            </div>
-                                            <p className='mt-[10px] w-[50%] text-lg'>{'The UC Davis Housing website provides info on on-campus and university-managed apartments, residence halls, move-in details, and housing applications. Whether you\'re a freshman or a transfer student, it\'s the best place to start your housing search.'}</p>
-                                        </div>
-                                    )
-                                case "Student Life":
-                                    return (
-                                        <div className=''>
-                                            <div className='flex w-full justify-between gap-[20px]'>
-                                                <LifeCard link='https://www.ucdavis.edu/campus-life' title='Campus Life' description="Campus life at UC Davis is vibrant and diverse, with over 800 student clubs, cultural orgs, events, and traditions. From Picnic Day to farmers markets on the Quad, there's always something happening!"/>
+                <div className="mt-5 flex items-center gap-3">
+                  <a
+                    href={r.href}
+                    {...(r.external ? { target: "_blank", rel: "noreferrer" } : {})}
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-slate-900 text-white hover:bg-slate-800 transition"
+                  >
+                    Open
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3z"></path>
+                      <path d="M5 5h5V3H3v7h2V5zm0 14h14v-5h2v7H3v-7h2v5z"></path>
+                    </svg>
+                  </a>
 
-                                                <LifeCard link='https://www.ucdavis.edu/campus-life/clubs-and-communities' title='Clubs and Communities' description='You can find your community here, whether you are interested in cultural identity, outdoor exploration, religion, a future profession, artistic expression or community service. Choose from more than 800 student clubs on campus.'/>
-                                            </div>
+                  {/* Secondary: download when local file type */}
+                  {r.href.startsWith("/resources/") && (
+                    <a
+                      href={r.href}
+                      download
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-md border border-slate-300 hover:bg-slate-50 transition"
+                    >
+                      Download
+                    </a>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
 
-                                            <div className='flex w-full justify-between gap-[20px] mt-[20px]'>
-                                                <LifeCard link='https://www.ucdavis.edu/campus-life/dining-food' title='Food' description="Whether you're looking for a refreshing beverage, a quick bite to eat, or a complete meal, there are a number of eateries located at UC Davis to satisfy just about any craving."/>
+      {/* FAQ (compact) */}
+      <section id="faq" className="bg-white border-y border-slate-200/60">
+        <div className="max-w-6xl mx-auto px-6 py-12">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-center">FAQ</h2>
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            {[
+              {
+                q: "Where do I find member perks?",
+                a: (
+                  <>
+                    See <Link href="/membership" className="text-blue-700 hover:underline">Community & Involvement</Link> and the{" "}
+                    <Link href="/membership" className="text-blue-700 hover:underline">Membership page</Link>.
+                  </>
+                ),
+              },
+              {
+                q: "How do I add a new resource?",
+                a: "Officers can PR a new card by editing ALL_RESOURCES in Resources.jsx, or add files under /public/resources/ and link them.",
+              },
+              {
+                q: "Do links have to be public?",
+                a: "Prefer public view links (Google Drive/Docs/Sheets) or static /public files so members don’t hit permissions issues.",
+              },
+            ].map((f) => (
+              <div key={typeof f.q === "string" ? f.q : "faq"} className="rounded-xl p-6 border border-slate-200 bg-white shadow-sm">
+                <h3 className="font-semibold">{f.q}</h3>
+                <p className="text-sm text-slate-600 mt-1">{f.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-                                                <LifeCard link='https://ucdavisstores.com/home' title='Stores' description='The UC Davis Stores offer everything from textbooks and school supplies to Aggie gear and snacks. You can also shop online or rent books to save money. There’s a store location right in the Memorial Union (MU)!'/>
-                                            </div>
-
-                                            <div className='flex w-full justify-between gap-[20px] mt-[20px]'>
-                                                <LifeCard link='https://aggielife.ucdavis.edu/home_login' title='Aggie Life' description="Aggie Life is UC Davis’s student organization hub. It’s where you can browse all campus clubs, RSVP to events, track your involvement, and even start your own org! If you’re looking to get involved or stay updated with club events, this is the place to be. Use your UCDavis email id and password to login!"/>
-
-                                            </div>
-
-                                        </div>
-                                    )
-                            }
-                        })()
-                    }
-                </motion.div>
+      {/* Final CTA */}
+      <section className="bg-gradient-to-r from-slate-800 to-blue-900 text-white">
+        <div className="max-w-6xl mx-auto px-6 py-12">
+          <div className="rounded-2xl p-6 border border-white/20 bg-white/5 backdrop-blur-sm shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div>
+              <h3 className="text-lg font-extrabold">Need something that’s not here?</h3>
+              <p className="text-blue-100/90">Ping your committee lead or submit a request—we’ll add it.</p>
             </div>
-    )
+            <div className="flex gap-3 flex-wrap">
+              <Link
+                href="/membership"
+                className="px-5 py-2.5 rounded-md border border-white/70 hover:bg-white/10 transition"
+              >
+                Explore Committees
+              </Link>
+              <Link
+                href="mailto:isa@ucdavis.edu"
+                className="px-5 py-2.5 rounded-md bg-orange-400 text-slate-900 font-bold hover:bg-orange-300 shadow-md transition"
+              >
+                Request a Resource
+              </Link>
+            </div>
+          </div>
+        </div>
+        <div className="h-[3px] bg-orange-400" />
+      </section>
+    </div>
+  );
 }
 
 export default page

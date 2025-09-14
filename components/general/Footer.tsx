@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 export const Footer = () => {
   return (
-    <div className='w-full pt-[50px]'>
+    <div className='w-full'>
       <div className='w-full flex justify-between items-center h-[75px] px-[20px] border-t-[1px] border-[#ececec] bg-white mt-auto'>
         <div className='flex items-center gap-[30px] w-[30%]'>
             <Link href="/" className='cursor-pointer hover:opacity-60 transition-all duration-200 bg-[#161616] px-[15px] py-[7px] rounded-sm shadow-sm'>
