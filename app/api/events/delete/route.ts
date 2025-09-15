@@ -1,7 +1,7 @@
-const bucketName = 'events-images';
-
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseClient";
+
+const bucketName = 'events-images';
 
 export async function DELETE(request: Request) {
   const { id } = await request.json();
