@@ -50,7 +50,7 @@ const TicketsPage = () => {
   }
 
   return (
-    <div className='w-[90%] mx-auto'>
+    <div className='w-[90%] mx-auto pt-[40px]'>
         <TicketCenter admin={admin} user={user}/>
     </div>
   );
