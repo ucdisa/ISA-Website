@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Menu from '@/components/general/Menu';
 import TicketCenter from '@/components/tickets/TicketCenter';
@@ -14,7 +14,7 @@ interface User {
   [key: string]: any;
 }
 
-const TicketsPage = () => {
+const TicketsPageInner = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [user, setUser] = useState<User | null>(null);
@@ -56,4 +56,10 @@ const TicketsPage = () => {
   );
 };
 
-export default TicketsPage;
+const Page = () => (
+  <Suspense fallback={<Loading color="black" size={20} />}> 
+    <TicketsPageInner />
+  </Suspense>
+);
+
+export default Page;

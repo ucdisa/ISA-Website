@@ -2,7 +2,7 @@
 
 import Back from '@/components/buttons/Back';
 import { useSearchParams } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import { Button, Checkbox, Group, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { DatePickerInput } from '@mantine/dates';
@@ -16,7 +16,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Loading from '@/components/general/Loading';
 
-const page = () => {
+const NewEventPageInner = () => {
 
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -211,4 +211,10 @@ const page = () => {
     )
 }
 
-export default page
+const Page = () => (
+  <Suspense fallback={<Loading color="black" size={20} />}> 
+    <NewEventPageInner />
+  </Suspense>
+);
+
+export default Page;

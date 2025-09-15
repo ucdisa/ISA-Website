@@ -4,9 +4,9 @@ import Loading from '@/components/general/Loading';
 import EventAttendees from '@/components/tickets/attendees/EventAttendees';
 import axios from 'axios';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 
-const page = () => {
+const EventAttendeesPageInner = () => {
 
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -21,4 +21,10 @@ const page = () => {
     )
 }
 
-export default page
+const Page = () => (
+  <Suspense fallback={<Loading color='black' size={20} />}> 
+    <EventAttendeesPageInner />
+  </Suspense>
+);
+
+export default Page;
