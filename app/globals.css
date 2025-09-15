@@ -5,3 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 @import "@mantine/core/styles.css";
 @import "@mantine/notifications/styles.css";
+
+html {
+  scroll-behavior: smooth;
+}
