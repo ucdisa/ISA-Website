@@ -113,7 +113,7 @@ const Navbar = () => {
                 <span className="mx-1 h-6 w-px bg-white/15" aria-hidden="true" />
                 {
                     !session ? (
-                        <div onClick={signInWithGoogle} className='font-bold text-blue-950 bg-yellow-500 px-4 py-[7px] rounded-md cursor-pointer hover:opacity-80 transition-all duration-200 shadow-sm'>
+                        <div onClick={signInWithGoogle} className='font-semibold text-blue-950 bg-yellow-500 px-4 py-[7px] rounded-md cursor-pointer hover:opacity-80 transition-all duration-200 shadow-sm'>
                             Login
                         </div>
                     ) : (
@@ -142,9 +142,6 @@ const Navbar = () => {
                             </Menu.Target>
 
                             <Menu.Dropdown>
-                                <Menu.Item>
-                                    Profile
-                                </Menu.Item>
                                 <Menu.Item onClick={signOut}>
                                     Logout
                                 </Menu.Item>
@@ -193,13 +190,13 @@ const Navbar = () => {
                 }} className={isActive('/resources') ? `${linkBase} text-blue-950 bg-yellow-500` : `${linkBase} text-ivory/90 hover:bg-white/10`}>Resources</Link>
                 {
                     !session ? (
-                        <button onClick={signInWithGoogle} className='bg-green-500 text-black px-4 py-[5px] rounded-xs hover:opacity-80 transition-all duration-200 shadow-sm'>
+                        <div onClick={signInWithGoogle} className='font-semibold text-blue-950 bg-yellow-500 px-4 py-[6px] rounded-md hover:opacity-80 transition-all duration-200 shadow-sm'>
                             Login
-                        </button>
+                        </div>
                     ) : (
-                        <>
+                        <div className='flex items-center justify-between gap-[20px]'>
                             <Link
-                                className="bg-green-500 text-black px-4 py-[5px] rounded-xs hover:opacity-80 transition-all duration-200 shadow-sm"
+                                className={`text-blue-950 bg-yellow-500 w-full ${linkBase}`}
                                 href={{
                                   pathname: '/tickets',
                                   query: { user: encodeURIComponent(JSON.stringify({
@@ -222,9 +219,6 @@ const Navbar = () => {
                             </Menu.Target>
 
                             <Menu.Dropdown>
-                                <Menu.Item>
-                                    Profile
-                                </Menu.Item>
                                 <Menu.Item onClick={signOut}>
                                     Logout
                                 </Menu.Item>
@@ -233,7 +227,7 @@ const Navbar = () => {
                                 </Menu.Item>
                             </Menu.Dropdown>
                             </Menu>
-                        </>
+                        </div>
                     )
                 }
               </nav>
