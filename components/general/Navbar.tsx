@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import { X } from "lucide-react";
 import { Menu as MenuLucide} from 'lucide-react';
+import isaLogo from "../../public/assets/isa-logo.png";
 
 
 const Navbar = () => {
@@ -89,11 +90,11 @@ const Navbar = () => {
             <div className="flex items-center justify-between h-20">
               {/* Logo / Brand */}
               <Link href="/" className="flex items-center gap-3">
-                <div className="h-14 w-14 rounded-full overflow-hidden bg-ivory p-1 border-2 border-accent shadow-md">
-                  <img
-                    src={"/assets/isa_logo.png"}
+                <div className="h-14 w-14 rounded-full overflow-hidden p-1 border-2 border-[#f1b204] shadow-md">
+                  <Image
+                    src={isaLogo}
                     alt="ISA Logo"
-                    className="h-full w-full object-contain rounded-full"
+                    className="h-full w-full object-contain rounded-full bg-white"
                   />
                 </div>
                 <span className="text-lg sm:text-xl md:text-2xl font-extrabold tracking-wide">

@@ -1,15 +1,10 @@
 "use client";
 import Image from "next/image";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import { Pagination } from 'swiper/modules';
-import { useMemo, useState } from "react";
-import EventCard from "@/components/events/EventCard";
-
-import { motion } from 'framer-motion';
-import EventCardHome from "@/components/homepage/EventCardHome";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import boardCover from "../public/assets/board-cover.jpg";
+import axios from "axios";
+import EventCardHome from "@/components/homepage/EventCardHome";
 
 const container = {
   hidden: {},
@@ -25,12 +20,24 @@ export default function Home() {
     { t: "Dhwani 2025 announced", d: "Teams from across the West Coast are coming to UC Davis.", date: "Nov 16, 2025" },
     { t: "Intern applications open", d: "Design, Events, Media, Tech, and more.", date: "Oct 05, 2025" },
   ];
+  
+  const [events, setEvents] = useState<any>([]);
 
-  const events = [
-    { title: "Holi on the Quad", date: "March 8, 2026", iso: "2026-03-08", time: "12:00 PM – 3:00 PM", loc: "UC Davis Quad", blurb: "Color play, music, and food stalls. Wear white!", cta: "#" },
-    { title: "Diwali Night", date: "October 24, 2026", iso: "2026-10-24", time: "6:00 PM – 10:00 PM", loc: "ARC Pavilion", blurb: "Cultural show, lights, and dinner.", cta: "#" },
-    { title: "Garba & Raas", date: "April 18, 2026", iso: "2026-04-18", time: "7:00 PM – 10:30 PM", loc: "Activities & Rec Center", blurb: "Traditional dance night—dandiyas available on-site.", cta: "#" },
-  ];
+  useEffect(() => {
+    const fetchEvents = async () => {
+      const payload = await axios.get('/api/events/getAll');
+        const rawEvents = payload.data.events;
+
+        // sort events chronologically by date (earliest first)
+        const sortedEvents = rawEvents.sort(
+            (a: any, b: any) =>
+                new Date(a.date).getTime() - new Date(b.date).getTime()
+        );
+
+        setEvents(sortedEvents);
+    };
+    fetchEvents();
+  }, [])
 
   const galleryImages = ["/media/past-1.jpg", "/media/past-2.jpg", "/media/past-3.jpg"];
   const galleryVideos = ["/media/clip-1.mp4", "/media/clip-2.mp4"];
@@ -56,10 +63,10 @@ export default function Home() {
         </div>
 
         <div className="w-full bg-slate-800">
-          <img
-            src={"/assets/swiper-images/img1.jpg"}
+          <Image
+            src={boardCover}
             alt="ISA @ UC Davis — Board group photo"
-            className="w-full max-h-[48vh] object-contain mx-auto"
+            className="w-full max-h-[80vh] object-contain mx-auto"
           />
         </div>
 
@@ -118,16 +125,8 @@ export default function Home() {
           <div className="max-w-6xl mx-auto px-6 py-12">
             <h2 className="text-2xl sm:text-3xl font-extrabold">Upcoming Events</h2>
             <div className="mt-6 grid gap-6 md:grid-cols-3">
-              {events.map((e) => (
-                <article key={e.title} className="bg-white rounded-xl p-5 border border-slate-200 shadow-md hover:shadow-lg transition">
-                  <h3 className="text-lg font-semibold">{e.title}</h3>
-                  <p className="text-xs text-slate-500 mt-1">{e.date} • {e.time}</p>
-                  <p className="text-xs text-slate-500">{e.loc}</p>
-                  <p className="text-sm text-slate-700 mt-3">{e.blurb}</p>
-                  <a href={e.cta} className="mt-4 inline-block bg-orange-400 text-slate-900 font-semibold px-4 py-2 rounded-md hover:bg-orange-300 transition">
-                    Details
-                  </a>
-                </article>
+              {events.map((e: any) => (
+                <EventCardHome key={e.id} event={e} />
               ))}
             </div>
           </div>
