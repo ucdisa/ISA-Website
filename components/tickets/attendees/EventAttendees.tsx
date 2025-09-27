@@ -49,7 +49,16 @@ const EventAttendees = ({ user, admin, event_id }: EventAttendeesProps) => {
             status: "approved"
         })
 
-        setApprovedTickets(data.data.tickets);
+        const dataT = await axios.post("/api/events/getTickets", {
+            event_id: event_id,
+            status: "checked in"
+        })
+
+        const combinedTickets = [
+            ...data.data.tickets,
+            ...dataT.data.tickets,
+        ];
+        setApprovedTickets(combinedTickets as never[]);
     }
 
     const getCancelsTickets = async () => {
@@ -76,7 +85,7 @@ const EventAttendees = ({ user, admin, event_id }: EventAttendeesProps) => {
     }
 
     return (
-        <div className='w-[90%] mx-auto'>
+        <div className='w-[90%] mx-auto mt-[40px]'>
             <div className='flex items-center justify-start mb-[15px]'>
                 <Back link={{
                         pathname: '/tickets',

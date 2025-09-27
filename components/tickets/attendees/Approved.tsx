@@ -1,6 +1,6 @@
 import Loading from '@/components/general/Loading';
 import { formatDate, formatTime } from '@/lib/functions';
-import { TextInput } from '@mantine/core';
+import { TextInput, Tooltip } from '@mantine/core';
 import { IconCheck, IconSearch, IconX } from '@tabler/icons-react';
 import axios from 'axios';
 import React, { useMemo, useState } from 'react'
@@ -14,6 +14,7 @@ interface ApprovedProps {
 const Approved = ({ tickets, setTickets, getPendingTickets }: ApprovedProps) => {
     const [rejectLoading, setRejectLoading] = useState(false);
     const [ticketLoad, setTicketLoad] = useState(-1);
+    const [checkLoading, setCheckLoading] = useState(false);
     const [searchInput, setSearchInput] = useState('');
     
     const handleReject = async (ticket: any) => {
@@ -74,11 +75,44 @@ const Approved = ({ tickets, setTickets, getPendingTickets }: ApprovedProps) => 
         );
     };
 
+    const checkIn = async (ticket: any) => {
+        setTicketLoad(ticket.id);
+        setCheckLoading(true);
+        await axios.post("/api/tickets/changeStatus", {
+            ticket_id: ticket.id,
+            event_id: ticket.event_id,
+            status: "checked in"
+        })
+
+        const pl = await axios.post(`/api/events/get`, {
+            event_id: ticket.event_id
+        });
+        const event = pl.data.event;
+        
+        const formattedDate = formatDate(event.date);
+        const formattedTime = formatTime(event.time);
+        
+        await axios.post("/api/sendEmail", {
+            to: ticket.email,
+            subject: `Checked In! - ${event.name}`,
+            text: `Hi ${ticket.name},\n\nYour You're checked in for ${event.name}!\n\nThank you!`
+        })
+
+        setTickets(
+            tickets.map((t: any) =>
+              t.id === ticket.id ? { ...t, status: "checked in" } : t
+            )
+        );
+        setCheckLoading(false);
+    }
+
+    console.log(tickets)
+
     return (
         <div className='flex flex-col gap-[10px] mt-[20px]'>
             <div>
                 <TextInput
-                    className='w-[900px]'
+                    className='w-[1100px]'
                     placeholder="Search by name or email..."
                     value={searchInput}
                     onChange={handleFilter}
@@ -88,12 +122,25 @@ const Approved = ({ tickets, setTickets, getPendingTickets }: ApprovedProps) => 
             {
                 filteredTickets.length > 0 ?
                     filteredTickets.map((ticket: any) => (
-                        <div key={ticket.id} className='flex items-center justify-between p-[10px] rounded-md w-[900px] shadow'>
+                        <div key={ticket.id} className={`flex items-center justify-between p-[10px] rounded-md w-[1100px] shadow ${ticket.status == "checked in" && 'border-[1px] border-green-500'}`}>
                            <h1><b>{highlightText(ticket?.user?.displayName ?? ticket?.name ?? '—', searchInput)}</b></h1>
                             <p><b>{highlightText(ticket?.user?.email ?? ticket?.email ?? '—', searchInput)}</b></p>
                             <h1>{highlightText(ticket.name ?? '—', searchInput)}</h1>
                             <p>{highlightText(ticket.email ?? '—', searchInput)}</p>
-                            <div className='flex items-center justify-center gap-[10px]'>
+                            <div className='flex items-center justify-center gap-[20px]'>
+                                <div className='w-[80px] h-[30px] flex justify-center items-center'>
+                                    {
+                                        ticket?.status == "checked in" ?
+                                        <Tooltip openDelay={500} label="checked in">
+                                            <IconCheck size={22} color='green' />
+                                        </Tooltip>
+                                        :
+                                        <button onClick={() => checkIn(ticket)} className='w-full h-full rounded-md text-white bg-green-600 hover:opacity-80 cursor-pointer transition-all duration-100'>
+                                            {checkLoading && ticketLoad == ticket.id ? <Loading color='white' size={15} /> : <p className='text-sm'>check in</p>}
+                                        </button>
+                                    }
+                                </div>
+
                                 <button onClick={() => handleReject(ticket)} className='hover:opacity-60 transition-all duration-200 cursor-pointer flex items-center justify-center bg-[#262626] text-white w-[27px] h-[27px] rounded-sm'>
                                     {
                                         rejectLoading && ticketLoad == ticket.id ? <Loading color='white' size={15} /> : <IconX size={20} />

@@ -188,7 +188,7 @@ const NewEventPageInner = () => {
                             placeholder="Upload..." 
                         />
 
-                            <button type="submit" className='bg-black w-[140px] h-[35px] text-white rounded-xs hover:opacity-80 transition-all duration-200 shadow-sm'>
+                            <button type="submit" className='bg-black w-[140px] h-[35px] text-white cursor-pointer rounded-xs hover:opacity-80 transition-all duration-200 shadow-sm'>
                                 {loading ? <Loading color="white" size={18}/> : "+ Create Event"}
                             </button>
                     </div>

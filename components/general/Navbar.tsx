@@ -8,7 +8,7 @@ import { Session } from "@supabase/supabase-js";
 import Avatar from '@mui/material/Avatar';
 import MenuItem from '@mui/material/MenuItem';
 import axios from 'axios'
-import { MantineProvider, Menu, NavLink } from '@mantine/core';
+import { MantineProvider, Menu, NavLink, Tooltip } from '@mantine/core';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import { X } from "lucide-react";
@@ -137,9 +137,11 @@ const Navbar = () => {
                             
                             <Menu shadow="md" width={200}>
                             <Menu.Target>
-                                <button>
-                                    <Avatar className='hover:opacity-60 cursor-pointer transition-all duration-200 ease-in-out' sx={{ border: 'solid grey 2px' }} src={session.user.user_metadata.avatar_url}/>
-                                </button>
+                                <Tooltip openDelay={1000} label={session.user.user_metadata.email}>
+                                    <button>
+                                        <Avatar className='hover:opacity-60 cursor-pointer transition-all duration-200 ease-in-out' sx={{ border: 'solid grey 2px' }} src={session.user.user_metadata.avatar_url}/>
+                                    </button>
+                                </Tooltip>
                             </Menu.Target>
 
                             <Menu.Dropdown>
