@@ -18,16 +18,16 @@ export const Footer = () => {
         </div>
         <p className='text-[16px] text-[#a0a0a0] font-medium'>ISA Board 2025 - 2026 ©</p>
         <div className='flex items-center gap-[10px] justify-end w-[30%]'>
-            <a href="https://www.instagram.com/ucdisa?igsh=NTc4MTIwNjQ2YQ==" target='_blank' className='cursor-pointer opacity-60 hover:opacity-40 transition-all duration-200'>
+            <a href="//www.instagram.com/ucdisa?igsh=NTc4MTIwNjQ2YQ==" target='_blank' className='cursor-pointer opacity-60 hover:opacity-40 transition-all duration-200'>
                 <InstagramIcon className='text-black drop-shadow-sm' sx={{ fontSize: "30px" }} />
             </a>
-            <a href="https://www.tiktok.com/@ucdisa?_t=ZP-8xmx6s5wEfu&_r=1" target='_blank'>
+            <a href="//www.tiktok.com/@ucdisa?_t=ZP-8xmx6s5wEfu&_r=1" target='_blank'>
                 <Image src="/assets/tiki.png" alt="TikTok" width={27} height={20} className='opacity-60 hover:opacity-40 transition-all duration-200' />
             </a>
-            <a href="https://www.tiktok.com/@ucdisa?_t=ZP-8xmx6s5wEfu&_r=1" target='_blank'>
+            <a href="//www.tiktok.com/@ucdisa?_t=ZP-8xmx6s5wEfu&_r=1" target='_blank'>
                 <Image src="/assets/disco.png" alt="Discord" width={35} height={20} className='opacity-60 hover:opacity-40 transition-all duration-200' />
             </a>
-            <a href="https://chat.whatsapp.com/J7ocoxHL3CfK505KOTXwdY" target='_blank' className='cursor-pointer opacity-60 hover:opacity-40 transition-all duration-200'>
+            <a href="//chat.whatsapp.com/J7ocoxHL3CfK505KOTXwdY" target='_blank' className='cursor-pointer opacity-60 hover:opacity-40 transition-all duration-200'>
                 <WhatsAppIcon className='text-[#000] drop-shadow-sm' sx={{ fontSize: "30px" }} />
             </a>
         </div>
@@ -43,16 +43,16 @@ export const Footer = () => {
                 <Link href="/events" className="hover:opacity-60 transition-all duration-200 underline text-[16px]">Email List</Link>
             </div>
             <div className='flex items-center gap-[10px] justify-end'>
-                <a href="https://www.instagram.com/ucdisa?igsh=NTc4MTIwNjQ2YQ==" target='_blank' className='cursor-pointer opacity-60 hover:opacity-40 transition-all duration-200'>
+                <a href="//www.instagram.com/ucdisa?igsh=NTc4MTIwNjQ2YQ==" target='_blank' className='cursor-pointer opacity-60 hover:opacity-40 transition-all duration-200'>
                     <InstagramIcon className='text-black drop-shadow-sm' sx={{ fontSize: "30px" }} />
                 </a>
-                <a href="https://www.tiktok.com/@ucdisa?_t=ZP-8xmx6s5wEfu&_r=1" target='_blank'>
+                <a href="//www.tiktok.com/@ucdisa?_t=ZP-8xmx6s5wEfu&_r=1" target='_blank'>
                     <Image src="/assets/tiki.png" alt="TikTok" width={27} height={20}  className='opacity-60 hover:opacity-40 transition-all duration-200' />
                 </a>
-                <a href="https://www.tiktok.com/@ucdisa?_t=ZP-8xmx6s5wEfu&_r=1" target='_blank'>
+                <a href="//www.tiktok.com/@ucdisa?_t=ZP-8xmx6s5wEfu&_r=1" target='_blank'>
                     <Image src="/assets/disco.png" alt="Discord" width={35} height={20} className='opacity-60 hover:opacity-40 transition-all duration-200' />
                 </a>
-                <a href="https://chat.whatsapp.com/J7ocoxHL3CfK505KOTXwdY" target='_blank' className='cursor-pointer opacity-60 hover:opacity-40 transition-all duration-200'>
+                <a href="//chat.whatsapp.com/J7ocoxHL3CfK505KOTXwdY" target='_blank' className='cursor-pointer opacity-60 hover:opacity-40 transition-all duration-200'>
                     <WhatsAppIcon className='text-[#000] drop-shadow-sm' sx={{ fontSize: "30px" }} />
                 </a>
             </div>

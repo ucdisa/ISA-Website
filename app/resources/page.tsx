@@ -75,7 +75,7 @@ const ALL_RESOURCES = [
       title: "Poster Templates (Figma)",
       desc: "Editable poster and IG sizes for quick turnarounds.",
       kind: "figma",
-      href: "https://figma.com/file/XXXX/poster-templates", // replace
+      href: "//figma.com/file/XXXX/poster-templates", // replace
       tags: ["Design"],
       external: true,
     },

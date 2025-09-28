@@ -19,7 +19,7 @@ interface EventCardProps {
 }
 
 const EventCard = ({ event, admin, user, reload }: EventCardProps) => {
-  const [imageUrl, setImageUrl] = useState<string>('https://marketplace.canva.com/EAGqA67zGKE/1/0/1131w/canva-teal-and-white-playful-summer-party-flyer-s5KPUv2jKmI.jpg');
+  const [imageUrl, setImageUrl] = useState<string>('//marketplace.canva.com/EAGqA67zGKE/1/0/1131w/canva-teal-and-white-playful-summer-party-flyer-s5KPUv2jKmI.jpg');
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [ticketLoading, setTicketLoading] = useState(false);
 
