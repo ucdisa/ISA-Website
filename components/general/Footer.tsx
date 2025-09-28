@@ -41,7 +41,6 @@ export const Footer = () => {
                 <Link href="/" className='bg-[#161616] px-[15px] py-[7px] rounded-md shadow'>
                     <p className='text-[15px] font-medium text-white'>Contact Us</p>
                 </Link>
-                <Link href="/events" className="hover:opacity-60 transition-all duration-200 underline text-[16px]">Email List</Link>
             </div>
             <div className='flex items-center gap-[10px] justify-end'>
                 <a href="//www.instagram.com/ucdisa?igsh=NTc4MTIwNjQ2YQ==" target='_blank' className='cursor-pointer opacity-60 hover:opacity-40 transition-all duration-200'>
