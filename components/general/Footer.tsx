@@ -3,6 +3,7 @@ import React from 'react'
 import InstagramIcon from '@mui/icons-material/Instagram';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import Image from 'next/image';
+import { IconBrandDiscord } from '@tabler/icons-react';
 
 export const Footer = () => {
   return (
@@ -24,8 +25,8 @@ export const Footer = () => {
             <a href="//www.tiktok.com/@ucdisa?_t=ZP-8xmx6s5wEfu&_r=1" target='_blank'>
                 <Image src="/assets/tiki.png" alt="TikTok" width={27} height={20} className='opacity-60 hover:opacity-40 transition-all duration-200' />
             </a>
-            <a href="//www.tiktok.com/@ucdisa?_t=ZP-8xmx6s5wEfu&_r=1" target='_blank'>
-                <Image src="/assets/disco.png" alt="Discord" width={35} height={20} className='opacity-60 hover:opacity-40 transition-all duration-200' />
+            <a href="//www.tiktok.com/@ucdisa?_t=ZP-8xmx6s5wEfu&_r=1" className='cursor-pointer opacity-60 hover:opacity-40 transition-all duration-200' target='_blank'>
+                <IconBrandDiscord className='text-black drop-shadow-sm' size={30}/>
             </a>
             <a href="//chat.whatsapp.com/J7ocoxHL3CfK505KOTXwdY" target='_blank' className='cursor-pointer opacity-60 hover:opacity-40 transition-all duration-200'>
                 <WhatsAppIcon className='text-[#000] drop-shadow-sm' sx={{ fontSize: "30px" }} />
@@ -49,8 +50,8 @@ export const Footer = () => {
                 <a href="//www.tiktok.com/@ucdisa?_t=ZP-8xmx6s5wEfu&_r=1" target='_blank'>
                     <Image src="/assets/tiki.png" alt="TikTok" width={27} height={20}  className='opacity-60 hover:opacity-40 transition-all duration-200' />
                 </a>
-                <a href="//www.tiktok.com/@ucdisa?_t=ZP-8xmx6s5wEfu&_r=1" target='_blank'>
-                    <Image src="/assets/disco.png" alt="Discord" width={35} height={20} className='opacity-60 hover:opacity-40 transition-all duration-200' />
+                <a href="//www.tiktok.com/@ucdisa?_t=ZP-8xmx6s5wEfu&_r=1" className='cursor-pointer opacity-60 hover:opacity-40 transition-all duration-200' target='_blank'>
+                    <IconBrandDiscord className='text-black drop-shadow-sm' size={30} />
                 </a>
                 <a href="//chat.whatsapp.com/J7ocoxHL3CfK505KOTXwdY" target='_blank' className='cursor-pointer opacity-60 hover:opacity-40 transition-all duration-200'>
                     <WhatsAppIcon className='text-[#000] drop-shadow-sm' sx={{ fontSize: "30px" }} />
