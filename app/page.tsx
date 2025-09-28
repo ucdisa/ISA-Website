@@ -39,8 +39,8 @@ export default function Home() {
     fetchEvents();
   }, [])
 
-  const galleryImages = ["/media/past-1.jpg", "/media/past-2.jpg", "/media/past-3.jpg"];
-  const galleryVideos = ["/media/clip-1.mp4", "/media/clip-2.mp4"];
+  // const galleryImages = ["/media/past-1.jpg", "/media/past-2.jpg", "/media/past-3.jpg"];
+  // const galleryVideos = ["/media/clip-1.mp4", "/media/clip-2.mp4"];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100 text-slate-900">
@@ -143,7 +143,7 @@ export default function Home() {
         </section>
 
         {/* ===== MEDIA GALLERY ===== */}
-        <section className="bg-white">
+        {/* <section className="bg-white">
           <div className="max-w-6xl mx-auto px-6 py-12">
             <h2 className="text-2xl sm:text-3xl font-extrabold">From Past Events</h2>
             <div className="mt-6 grid gap-8 lg:grid-cols-2">
@@ -169,7 +169,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* ===== CTA FOOTER ===== */}
         <section className="bg-gradient-to-r from-slate-800 to-blue-900 text-white">
