@@ -37,6 +37,8 @@ const EditEventInner = () => {
         image: null as File | null,
         spots: 0,
         buyLimit: 0,
+        memberPrice: 0,
+        regularPrice: 0
     });
 
     useEffect(() => {
@@ -53,6 +55,8 @@ const EditEventInner = () => {
                 description: event.description ?? '',
                 spots: Number(event.spots ?? 0),
                 buyLimit: Number(event.buyLimit ?? 0),
+                memberPrice: Number(event.memberPrice ?? 0),
+                regularPrice: Number(event.regularPrice ?? 0),
                 image: event.image,
                 date: event.date,
                 time: event.time
@@ -78,6 +82,8 @@ const EditEventInner = () => {
             formData.append("description", values.description);
             formData.append("spots", values.spots);
             formData.append("buyLimit", values.buyLimit);
+            formData.append("memberPrice", values.memberPrice);
+            formData.append("regularPrice", values.regularPrice);
             formData.append("image", values.image);
             formData.append("id", event_id)
 
@@ -121,6 +127,8 @@ const EditEventInner = () => {
             image: event.image,
             spots: event.spots,
             buyLimit: event.buyLimit,
+            memberPrice: event.memberPrice,
+            regularPrice: event.regularPrice
         },
     
         validate: {
@@ -130,6 +138,8 @@ const EditEventInner = () => {
             date: (value) => value != null ? null : 'Date is required',
             spots: (value) => value > 0 ? null : 'Available Tickets cannot be 0',
             buyLimit: (value) => value > 0 ? null : 'Ticket Limit cannot be 0',
+            memberPrice: (value) => value > 0 ? null : 'Ticket Price cannot be 0',
+            regularPrice: (value) => value > 0 ? null : 'Ticket Price cannot be 0',
         },
     });
 
@@ -233,7 +243,30 @@ const EditEventInner = () => {
                         placeholder="Enter description..." 
                     />
 
+                    <div className='flex items-center justify-between mt-[20px]'>
+
+                        <NumberInput
+                            label="$ Member Price"
+                            className='w-[48%]'
+                            placeholder="Enter member price..."
+                            value={form.values.memberPrice}
+                            onChange={(value) => form.setFieldValue('memberPrice', Number(value))}
+                            allowNegative={false}
+                            allowDecimal={true}
+                        />
+                        <NumberInput
+                            label="$ Regular Price"
+                            className='w-[48%]'
+                            placeholder="Enter regular price..."
+                            value={form.values.regularPrice}
+                            onChange={(value) => form.setFieldValue('regularPrice', Number(value))}
+                            allowNegative={false}
+                            allowDecimal={true}
+                        />
+                    </div>
+
                     <div className='mt-[20px] flex justify-between items-end'>
+
                         <FileInput 
                             onChange={(value) => {
                                 form.setFieldValue('image', value)
@@ -245,7 +278,6 @@ const EditEventInner = () => {
                             leftSection={<IconFile size={16} stroke={1.5} />} 
                             placeholder="Upload..." 
                         />
-
                             <button onClick={() => console.log("HELL")} type="submit" className='bg-black w-[140px] h-[35px] text-white rounded-xs hover:opacity-80 transition-all duration-200 shadow-sm'>
                                 {loading ? <Loading color="white" size={18}/> : "Update Event"}
                             </button>

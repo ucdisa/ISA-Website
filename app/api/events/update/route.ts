@@ -6,7 +6,7 @@ export async function PATCH(request: Request) {
     const form = await request.formData();
 
     let updates: any = {};
-    for (const key of ["name", "date", "time", "location", "description", "spots", "buyLimit"]) {
+    for (const key of ["name", "date", "time", "location", "description", "spots", "buyLimit", "memberPrice", "regularPrice"]) {
       const value = form.get(key);
       if (value !== null) updates[key] = value;
     }
@@ -20,7 +20,6 @@ export async function PATCH(request: Request) {
     console.log(file)
 
     if (file instanceof File) {
-        console.log("HEHEHEHEH")
         const arrayBuffer = await new Response(file).arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
         const ext = file.type.split("/")[1];

@@ -37,6 +37,8 @@ const NewEventPageInner = () => {
         formData.append("description", values.description);
         formData.append("spots", values.spots);
         formData.append("buyLimit", values.buyLimit);
+        formData.append("memberPrice", values.memberPrice)
+        formData.append("regularPrice", values.regularPrice)
         formData.append("image", values.image);
         const res = await fetch("/api/events/post", {
             method: "POST",
@@ -65,6 +67,8 @@ const NewEventPageInner = () => {
             image: null as File | null,
             spots: 0,
             buyLimit: 0,
+            memberPrice: 0,
+            regularPrice: 0
         },
     
         validate: {
@@ -75,6 +79,8 @@ const NewEventPageInner = () => {
             image: (value) => value != null ? null : 'Image is required',
             spots: (value) => value > 0 ? null : 'Available Tickets cannot be 0',
             buyLimit: (value) => value > 0 ? null : 'Ticket Limit cannot be 0',
+            memberPrice: (value) => value > 0 ? null : 'Ticket Price cannot be 0',
+            regularPrice: (value) => value > 0 ? null : 'Ticket Price cannot be 0',
         },
     });
 
@@ -175,6 +181,27 @@ const NewEventPageInner = () => {
                         placeholder="Enter description..." 
                     />
 
+                    <div className='flex items-center justify-between mt-[20px]'>
+
+                        <NumberInput
+                            label="$ Member Price"
+                            className='w-[48%]'
+                            placeholder="Enter member price..."
+                            value={form.values.memberPrice}
+                            onChange={(value) => form.setFieldValue('memberPrice', Number(value))}
+                            allowNegative={false}
+                            allowDecimal={true}
+                        />
+                        <NumberInput
+                            label="$ Regular Price"
+                            className='w-[48%]'
+                            placeholder="Enter regular price..."
+                            value={form.values.regularPrice}
+                            onChange={(value) => form.setFieldValue('regularPrice', Number(value))}
+                            allowNegative={false}
+                            allowDecimal={true}
+                        />
+                    </div>
                     <div className='mt-[20px] flex justify-between items-end'>
                         <FileInput 
                             onChange={(value) => {

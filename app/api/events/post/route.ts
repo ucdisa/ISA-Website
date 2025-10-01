@@ -12,6 +12,8 @@ export async function POST(request: Request) {
     const description = form.get("description")
     const spots = form.get("spots")
     const buyLimit = form.get("buyLimit")
+    const memberPrice = form.get("memberPrice")
+    const regularPrice = form.get("regularPrice")
 
     const file = form.get("image") as File;
     const buffer = Buffer.from(await file.arrayBuffer());
@@ -45,7 +47,9 @@ export async function POST(request: Request) {
         description,
         image: uploadData.path,
         spots,
-        buyLimit
+        buyLimit,
+        memberPrice,
+        regularPrice
       }])
       .select()
       .single();

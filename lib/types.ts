@@ -8,4 +8,6 @@ export type eventType = {
     link?: string;
     buyLimit: number;
     id?: string;
+    memberPrice: number;
+    regularPrice: number;
 }

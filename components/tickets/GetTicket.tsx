@@ -5,19 +5,14 @@ import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
 import { Button, Checkbox, Group, TextInput, Modal } from '@mantine/core';
 import { useForm } from '@mantine/form';
-import { DatePickerInput } from '@mantine/dates';
-import { TimePicker } from '@mantine/dates';
-import { IconClock, IconFile } from '@tabler/icons-react';
-import { Textarea } from '@mantine/core';
-import { NumberInput } from '@mantine/core';
-import { FileInput } from '@mantine/core';
-import EventCard from '@/components/events/EventCard';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Loading from '@/components/general/Loading';
 import { useDisclosure } from '@mantine/hooks';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import { eventType } from '@/lib/types';
+import zelle from '@/public/assets/zelle.png'
+import Image from 'next/image';
 
 interface GetTicketProps {
     event: eventType;
@@ -128,15 +123,32 @@ const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => 
                             key={form.key('email')}
                             {...form.getInputProps('email')}
                         />
+                        <div className='flex justify-start gap-[20px] items-center'>
+                            
+                        </div>
+
+                        <div className='w-full flex flex-col justify-center items-center py-[20px]'>
+                            <div className='flex justify-center items-center gap-[30px]'>
+                                <p className='text-[14px]'>Members - <b>${event.memberPrice}</b></p>
+                                <p className='text-[14px]'>Regular - <b>${event.regularPrice}</b></p>
+                            </div>
+                            <Image 
+                                src={zelle}
+                                alt='zelle'
+                                className='w-[300px] shadow rounded-md p-[10px]'
+                            />
+                        </div>
+                        
                         <Checkbox
                             className='mt-[10px]'
                             description="No payment? Ticket will be denied*"
                             label="I have paid for my ticket"
                             onChange={(event) => form.setFieldValue("select", event.currentTarget.checked)}
                         />
-                            <button type="submit" className='bg-black w-[90px] h-[30px] mt-[10px] text-white rounded-xs hover:opacity-80 cursor-pointer transition-all duration-200 shadow'>
-                                {loading ? <Loading color="white" size={18}/> : <p className='text-sm'>Confirm</p>}
-                            </button>
+                        
+                        <button type="submit" className='bg-black w-[90px] h-[30px] mt-[10px] mb-[10px] text-white rounded-xs hover:opacity-80 cursor-pointer transition-all duration-200 shadow'>
+                            {loading ? <Loading color="white" size={18}/> : <p className='text-sm'>Confirm</p>}
+                        </button>
                     </form>
                     <Modal overlayProps={{
                             backgroundOpacity: 0.55,

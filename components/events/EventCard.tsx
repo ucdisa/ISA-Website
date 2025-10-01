@@ -85,6 +85,8 @@ const EventCard = ({ event, admin, user, reload }: EventCardProps) => {
               <p className='text-[15px]'>{event.time == "" ? "Event Time" : formatTime(event.time)}</p>
             </div>
 
+            <p className='text-[15px] font-medium'>${event.memberPrice} - ${event.regularPrice}</p>
+
             {
               admin && admin == true ?
               <div className='flex gap-[10px] justify-center items-center  '>
