@@ -7,7 +7,7 @@ import { Button, Checkbox, Group, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { DatePickerInput } from '@mantine/dates';
 import { TimePicker } from '@mantine/dates';
-import { IconClock, IconFile } from '@tabler/icons-react';
+import { IconClock, IconCloud, IconFile } from '@tabler/icons-react';
 import { Textarea } from '@mantine/core';
 import { NumberInput } from '@mantine/core';
 import { FileInput } from '@mantine/core';
@@ -87,7 +87,8 @@ const NewEventPageInner = () => {
     return (
         <div className='w-[90%] m-auto'>
             
-            <div className='w-[100%] flex justify-between items-start mt-[10px]'>
+            {/* desktop nav */}
+            <div className='hidden md:flex w-[100%] justify-between items-start mt-[30px]'>
                 <div className='w-[47%] flex flex-col justify-center items-start'>
                     <div className='flex items-center justify-start'>
                         <Back link={{
@@ -215,7 +216,7 @@ const NewEventPageInner = () => {
                             placeholder="Upload..." 
                         />
 
-                            <button type="submit" className='bg-black w-[140px] h-[35px] text-white cursor-pointer rounded-xs hover:opacity-80 transition-all duration-200 shadow-sm'>
+                            <button type="submit" className='bg-black w-[140px] h-[35px] text-white cursor-pointer rounded-md hover:opacity-80 transition-all duration-200 shadow-sm'>
                                 {loading ? <Loading color="white" size={18}/> : "+ Create Event"}
                             </button>
                     </div>
@@ -231,9 +232,146 @@ const NewEventPageInner = () => {
                     </div>
                 </div>
             </div>
-            {/* <button onClick={() => console.log(form.values)}>
-                rrgrgr
-            </button> */}
+            
+            {/* mobile nav */}
+            <div className='md:hidden w-[100%] justify-between items-start mt-[20px] mb-[40px]'>
+                <div className='w-full flex flex-col justify-center items-start'>
+                        <div className='flex items-center justify-start'>
+                            <Back link={{
+                                    pathname: '/tickets',
+                                    query: { user: encodeURIComponent(JSON.stringify({
+                                        user: user,
+                                        admin: admin
+                                    }))}
+                                }}
+                            />
+                            <p className='text-2xl ml-[20px] font-semibold'>
+                                New Event
+                            </p>
+                        </div>
+
+                        <form className='flex flex-col gap-[20px] justify-center items-center w-[100%] mt-[20px]' onSubmit={form.onSubmit((values) => handleSubmit(values))}>
+
+                            <TextInput
+                                className='w-[80%]'
+                                withAsterisk
+                                label="Name"
+                                placeholder="Enter name..."
+                                key={form.key('name')}
+                                {...form.getInputProps('name')}
+                            />
+                            <TextInput
+                                className='w-[80%]'
+                                withAsterisk
+                                label="Location"
+                                placeholder="Enter location..."
+                                key={form.key('location')}
+                                {...form.getInputProps('location')}
+                            />
+
+                        <div className='flex items-center justify-between w-[80%]'>
+                            <DatePickerInput
+                                label="Date"
+                                className='w-[48%]'
+                                placeholder="Pick date"
+                                value={form.values.date}
+                                onChange={(value) => {
+                                    if (value) {
+                                        // Parse the date string and create a Date object at midnight local time
+                                        const [year, month, day] = value.split('-').map(Number);
+                                        const localDate = new Date(year, month - 1, day);
+                                        form.setFieldValue('date', localDate);
+                                    }
+                                }}
+                                />
+                            <TimePicker 
+                                value={form.values.time} 
+                                onChange={(value) => form.setFieldValue('time', value)} 
+                                className='w-[48%]' 
+                                format="12h" 
+                                minutesStep={5} 
+                                withDropdown 
+                                label="Time" 
+                                leftSection={<IconClock size={16} stroke={1.5} />} 
+                            />
+                        </div>
+                        
+                        <div className='flex items-center justify-between w-[80%]'>
+                            <NumberInput
+                                label="Available Tickets"
+                                className='w-[48%]'
+                                placeholder="Enter number..."
+                                value={form.values.spots}
+                                onChange={(value) => form.setFieldValue('spots', Number(value))}
+                                allowNegative={false}
+                                allowDecimal={false}
+                            />
+
+                            <NumberInput
+                                label="Ticket Limit"
+                                className='w-[48%]'
+                                placeholder="Enter number..."
+                                value={form.values.buyLimit}
+                                onChange={(value) => form.setFieldValue('buyLimit', Number(value))}
+                                allowNegative={false}
+                                allowDecimal={false}
+                            />
+                        </div>
+
+                        <Textarea 
+                            value={form.values.description} 
+                            onChange={(event) => form.setFieldValue('description', event.target.value)}  
+                            resize="vertical" 
+                            label="Description" 
+                            className='w-[80%]'
+                            placeholder="Enter description..." 
+                        />
+
+
+                        <div className='flex items-center justify-between w-[80%]'>
+                            <NumberInput
+                                label="$ Member Price"
+                                className='w-[48%]'
+                                placeholder="Enter member price..."
+                                value={form.values.memberPrice}
+                                onChange={(value) => form.setFieldValue('memberPrice', Number(value))}
+                                allowNegative={false}
+                                allowDecimal={true}
+                            />
+                            <NumberInput
+                                label="$ Regular Price"
+                                className='w-[48%]'
+                                placeholder="Enter regular price..."
+                                value={form.values.regularPrice}
+                                onChange={(value) => form.setFieldValue('regularPrice', Number(value))}
+                                allowNegative={false}
+                                allowDecimal={true}
+                            />
+                        </div>
+
+                        <div className='mt-[10px] flex gap-[20px] justify-between items-end w-[80%]'>
+                            <FileInput 
+                                onChange={(value) => {
+                                    form.setFieldValue('image', value)
+                                }} 
+                                className='w-[48%]' 
+                                accept="image/png,image/jpeg" 
+                                clearable 
+                                leftSection={<IconCloud size={16} stroke={1.5} />}
+                                placeholder='Upload file...'
+                            />
+
+                                <button type="submit" className='bg-black w-[48%] h-[35px] text-white cursor-pointer rounded-md hover:opacity-80 transition-all duration-200 shadow-sm'>
+                                    {loading ? <Loading color="white" size={18}/> : "+ Create Event"}
+                                </button>
+                        </div>
+                        </form>
+                    </div>
+
+                    <div className='flex flex-col justify-center items-center w-full mt-[30px]'>
+                        <EventCard event={form.values}/>
+                    </div>
+                </div>
         </div>
     )
 }

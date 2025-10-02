@@ -30,6 +30,16 @@ const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => 
     const router = useRouter();
 
     const handleSubmit = async(values: any) => {
+        // Validate email format before proceeding
+        const emailVal = (values?.email ?? '').trim();
+        const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRe.test(emailVal)) {
+            if (typeof form?.setFieldError === 'function') {
+                form.setFieldError('email', 'Enter a valid email address');
+            }
+            return;
+        }
+
         setLoading(true);
         try {
             setLoading(true);
@@ -60,35 +70,41 @@ const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => 
                 return;
             }
 
-            await axios.post("/api/tickets/post", 
-                {
-                    user_id: user!!.user_id,
-                    event_id: event.id,
-                    name: values.name,
-                    email: values.email,
-                }
-            )
+            await axios.post("/api/tickets/post", {
+            user_id: user!!.user_id,
+            event_id: event.id,
+            name: values.name,
+            email: values.email,
+            });
 
-            await axios.post("/api/sendEmail", {
-                to: values.email,
-                subject: `Ticket Succesfully Claimed - ${event.name}`,
-                text: `Hi ${values.name},\n\nYour ticket has been succesfully claimed for ${event.name}. Your ticket status is now pending. It will be valid once it is approved.\n\nThank you!`
-            })
+            try {
+                await axios.post("/api/sendEmail", {
+                    to: values.email,
+                    subject: `Ticket Succesfully Claimed - ${event.name}`,
+                    text: `Hi ${values.name},\n\nYour ticket has been succesfully claimed for ${event.name}. Your ticket status is now pending. It will be valid once it is approved.\n\nThank you!`
+                })
+            } catch (err: any) {
+                const msg = "Failed to get ticket. Please try again.";
+                setModalText(msg);
+                open();
+                setLoading(false);
+                return;
+            }
 
             reload();
             closeModal();
         } catch (err: any) {
             console.error('Error buying ticket:', err);
-        } finally {
-            router.push(
-                `/tickets?user=${encodeURIComponent(
-                        JSON.stringify({
-                            user,
-                            admin
-                        })
-                    )}`
-                );
         }
+
+        router.push(
+            `/tickets?user=${encodeURIComponent(
+                JSON.stringify({
+                    user,
+                    admin
+                })
+            )}`
+        );
     }
 
     const form = useForm({

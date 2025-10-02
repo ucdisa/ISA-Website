@@ -36,6 +36,7 @@ const Cancels = ({ tickets, setTickets }: CancelsProps) => {
             text: `Hi ${ticket.name},\n\nYour ticket has been succesfully cancelled for ${event.name}. If this was a mistake, please contact us at isa.atucd@gmail.com. You will be refunded for your ticket within 48 hours.\n\nThank you!`
         })
 
+        alert("er")
         setTickets(tickets.filter((t: any) => t.id !== ticket.id));
         setApproveLoading(false);
     }

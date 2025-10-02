@@ -210,6 +210,7 @@ const Navbar = () => {
                                     admin: session.user.email == "isa.atucd@gmail.com" ? true : false
                                   })) }
                                 }}
+                                onClick={toggleMenu}
                             >
                                 Tickets
                             </Link>

@@ -11,9 +11,10 @@ const ALL_RESOURCES = [
       title: "Join ISA Membership (Form)",
       desc: "Become an official member — unlock discounted tickets and exclusive passes.",
       kind: "form",
-      href: "/membership", // or a Google Form URL
+      href: "https://forms.gle/wx6KpcW6MdeLbKQ6A", // or a Google Form URL
       tags: ["Members"],
       badge: "New",
+      external: true
     },
     {
       id: "m-002",

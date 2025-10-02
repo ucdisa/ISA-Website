@@ -124,7 +124,7 @@ export default function Home() {
         <section className="bg-gradient-to-r from-blue-50 via-white to-slate-100">
           <div className="max-w-6xl mx-auto px-6 py-12">
             <h2 className="text-2xl sm:text-3xl font-extrabold">Upcoming Events</h2>
-            <div className="mt-6 grid gap-6 md:grid-cols-3">
+            <div className="mt-6 flex items-center justify-start gap-[30px] overflow-auto">
               {events.length > 0 ? events.map((e: any) => (
                 <EventCardHome key={e.id} event={e} />
               )) : <p className="text-slate-500 text-lg">More coming soon... Stay tuned!</p>}

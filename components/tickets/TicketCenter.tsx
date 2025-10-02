@@ -92,13 +92,24 @@ const TicketCenter = ({ admin, user }: TicketCenterProps) => {
     )
   
     return (
-        <div className='w-full'>
-            {
-                !admin ?
-                <p className='text-5xl mb-[20px]'><b>Welcome,</b>  {user.name}</p>
-                :
-                <p className='text-5xl mb-[20px]'>Welcome to <b>ISA Admin</b> Ticketing</p>
-            }
+        <div className='w-full pb-[40px]'>
+            <div className='hidden md:flex'>
+                {
+                    !admin ?
+                    <p className='text-5xl mb-[20px]'><b>Welcome,</b>  {user.name}</p>
+                    :
+                    <p className='text-5xl mb-[20px]'>Welcome to <b>ISA Admin</b> Ticketing</p>
+                }
+            </div>
+            <div className='md:hidden'>
+                {
+                    !admin ?
+                    <p className='text-3xl mb-[20px]'><b>Welcome,</b>  {user.name}</p>
+                    :
+                    <p className='text-3xl mb-[20px]'>Welcome to <b>ISA Admin</b> Ticketing</p>
+                }
+            </div>
+
             <div className='w-full flex justify-start items-center gap-[10px]'>
                 {
                     admin ?
@@ -115,7 +126,7 @@ const TicketCenter = ({ admin, user }: TicketCenterProps) => {
                 eventsLoading || !events ? <Loading color="black" size={20}/>
                 : 
                 events && events.length != 0 ?
-                            <div className='w-full mt-[20px] gap-[40px] flex-wrap justify-stat items-center'>
+                            <div className='w-full mt-[20px] gap-[30px] flex flex-wrap justify-start items-center'>
                                 {
                                     events.map((event: eventType) => (
                                         <EventCard reload={onLoad} user={user} admin={admin} key={event.id} event={event} />
@@ -150,7 +161,7 @@ const TicketCenter = ({ admin, user }: TicketCenterProps) => {
                             } else {
                                 return (
                                     events && events.length != 0 ?
-                                        <div className='w-full mt-[20px] gap-[40px] flex-wrap justify-stat items-center'>
+                                        <div className='w-full mt-[20px] gap-[30px] flex flex-wrap justify-start items-center'>
                                             {
                                                 events.map((event: any) => (
                                                     <EventCard reload={onLoad} user={user} admin={admin} key={event.id} event={event} />

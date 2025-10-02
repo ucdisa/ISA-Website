@@ -11,7 +11,7 @@ const Bullet = ({ text }: any) => (
 )
 
 const page = () => {
-    const membershipHref = "/membership"; // or paste a Google Form URL here
+    const membershipHref = "https://forms.gle/wx6KpcW6MdeLbKQ6A"; // or paste a Google Form URL here
 
     const committees = [
       { icon: "🎨", name: "Design", blurb: "Branding, posters, social graphics, and event visuals.", time: "2–4 hrs/week" },
@@ -64,6 +64,7 @@ const page = () => {
             {/* CTA buttons */}
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
+                target='_blank'
                 href={membershipHref}
                 className="px-6 py-3 rounded-md bg-orange-400 text-slate-900 font-bold hover:bg-orange-300 shadow-md transition"
               >

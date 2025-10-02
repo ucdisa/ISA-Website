@@ -87,11 +87,11 @@ const page = () => {
           </header>
     
           {/* MAIN: two-column — left content, right sticky application */}
-          <main className="max-w-6xl mx-auto px-6 py-10 grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+          <main className="max-w-8xl mx-auto px-6 py-10 w-[70%]">
             {/* LEFT: overview + tracks + steps */}
             <div className="space-y-8">
               {/* Why join */}
-              <section className="bg-white rounded-2xl p-6 border border-slate-200 shadow-md">
+              <section className="bg-white rounded-2xl px-6 py-[50px] border border-slate-200 shadow-md">
                 <h2 className="text-2xl font-extrabold">Why become an ISA intern?</h2>
                 <div className="mt-4 grid gap-4 sm:grid-cols-3">
                   {[
@@ -113,7 +113,7 @@ const page = () => {
               </section>
     
               {/* Tracks */}
-              <section className="bg-white rounded-2xl p-6 border border-slate-200 shadow-md">
+              <section className="bg-white rounded-2xl px-6 py-[50px] border border-slate-200 shadow-md">
                 <h2 className="text-2xl font-extrabold">Tracks</h2>
                 <p className="text-slate-600 mt-1">
                   Pick the areas you’re most curious about—rotate later if you want.
@@ -141,7 +141,7 @@ const page = () => {
               </section>
     
               {/* How it works */}
-              <section className="bg-gradient-to-r from-blue-50 via-white to-slate-100 rounded-2xl p-6 border border-slate-200/70">
+              <section className="bg-gradient-to-r from-blue-50 via-white to-slate-100 rounded-2xl px-6 py-[50px] border border-slate-200/70">
                 <h2 className="text-2xl font-extrabold text-slate-900 text-center">
                   How it works
                 </h2>
@@ -166,7 +166,7 @@ const page = () => {
               </section>
     
               {/* FAQ teaser */}
-              <section className="bg-white rounded-2xl p-6 border border-slate-200 shadow-md">
+              <section className="bg-white rounded-2xl px-6 py-[50px] border border-slate-200 shadow-md">
                 <h2 className="text-2xl font-extrabold">Quick FAQ</h2>
                 <div className="mt-4 grid gap-4 md:grid-cols-3">
                   {[
@@ -190,207 +190,6 @@ const page = () => {
                 </div>
               </section>
             </div>
-    
-            {/* RIGHT: application (sticky on desktop) */}
-            <aside id="apply" className="lg:sticky lg:top-6 self-start">
-              <form
-                onSubmit={onSubmit}
-                noValidate
-                className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xl"
-              >
-                <div className="mb-4">
-                  <div className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1 rounded-full bg-blue-50 text-blue-800 border border-blue-200">
-                    Application
-                  </div>
-                  <h2 className="mt-3 text-xl font-extrabold">Apply as an Intern</h2>
-                  <p className="text-sm text-slate-600">
-                    We welcome all experience levels. You’ll hear back by email.
-                  </p>
-                </div>
-    
-                {submitted && (
-                  <div className="mb-4 rounded-md border border-green-200 bg-green-50 text-green-800 p-3">
-                    <div className="font-semibold">Application received!</div>
-                    <div className="text-sm">We’ll reach out with next steps soon.</div>
-                  </div>
-                )}
-    
-                {/* name */}
-                <label className="block text-sm font-medium mt-2">Full Name *</label>
-                <input
-                  type="text"
-                  className="mt-1 w-full rounded-md border-slate-300 focus:border-blue-500 focus:ring-blue-500"
-                  value={form.name}
-                  onChange={(e) => setField("name", e.target.value)}
-                  placeholder="First Last"
-                />
-                {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
-    
-                {/* email */}
-                <label className="block text-sm font-medium mt-3">Email *</label>
-                <input
-                  type="email"
-                  className="mt-1 w-full rounded-md border-slate-300 focus:border-blue-500 focus:ring-blue-500"
-                  value={form.email}
-                  onChange={(e) => setField("email", e.target.value)}
-                  placeholder="you@ucdavis.edu"
-                />
-                {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email}</p>}
-    
-                {/* year + availability */}
-                <div className="mt-3 grid gap-3 sm:grid-cols-2">
-                  <div>
-                    <label className="block text-sm font-medium">Year *</label>
-                    <select
-                      className="mt-1 w-full rounded-md border-slate-300 bg-white focus:border-blue-500 focus:ring-blue-500"
-                      value={form.year}
-                      onChange={(e) => setField("year", e.target.value)}
-                    >
-                      <option value="">Select year</option>
-                      {years.map((y) => (
-                        <option key={y} value={y}>
-                          {y}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.year && <p className="mt-1 text-sm text-red-600">{errors.year}</p>}
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium">Availability *</label>
-                    <select
-                      className="mt-1 w-full rounded-md border-slate-300 bg-white focus:border-blue-500 focus:ring-blue-500"
-                      value={form.availability}
-                      onChange={(e) => setField("availability", e.target.value)}
-                    >
-                      <option value="">Select range</option>
-                      {availability.map((a) => (
-                        <option key={a} value={a}>
-                          {a}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.availability && <p className="mt-1 text-sm text-red-600">{errors.availability}</p>}
-                  </div>
-                </div>
-    
-                {/* major */}
-                <label className="block text-sm font-medium mt-3">Major (optional)</label>
-                <input
-                  type="text"
-                  className="mt-1 w-full rounded-md border-slate-300 focus:border-blue-500 focus:ring-blue-500"
-                  value={form.major}
-                  onChange={(e) => setField("major", e.target.value)}
-                  placeholder="Computer Science, Design, etc."
-                />
-    
-                {/* interests */}
-                <div className="mt-3">
-                  <div className="text-sm font-medium">Areas of Interest *</div>
-                  <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 gap-2">
-                    {committees.map((c) => {
-                      const id = `interest-${c}`;
-                      const checked = (form.interests as string[]).includes(c);
-                      return (
-                        <label
-                          key={c}
-                          htmlFor={id}
-                          className={`flex items-center gap-2 rounded-md border p-2 cursor-pointer ${
-                            checked
-                              ? "border-orange-400 bg-orange-50"
-                              : "border-slate-300 bg-white hover:bg-slate-50"
-                          }`}
-                        >
-                          <input
-                            id={id}
-                            type="checkbox"
-                            className="accent-orange-500"
-                            checked={checked}
-                            onChange={() => toggleInterest(c)}
-                          />
-                          <span className="text-sm">{c}</span>
-                        </label>
-                      );
-                    })}
-                  </div>
-                  {errors.interests && <p className="mt-1 text-sm text-red-600">{errors.interests}</p>}
-                </div>
-    
-                {/* statement */}
-                <label className="block text-sm font-medium mt-3">
-                  Why do you want to intern with ISA? *
-                </label>
-                <textarea
-                  rows={5}
-                  className="mt-1 w-full rounded-md border-slate-300 focus:border-blue-500 focus:ring-blue-500"
-                  value={form.statement}
-                  onChange={(e) => setField("statement", e.target.value)}
-                  placeholder="A few sentences about your motivation, interests, and what you hope to learn."
-                />
-                {errors.statement && <p className="mt-1 text-sm text-red-600">{errors.statement}</p>}
-    
-                {/* links */}
-                <label className="block text-sm font-medium mt-3">
-                  Portfolio / Links (optional)
-                </label>
-                <input
-                  type="url"
-                  className="mt-1 w-full rounded-md border-slate-300 focus:border-blue-500 focus:ring-blue-500"
-                  value={form.links}
-                  onChange={(e) => setField("links", e.target.value)}
-                  placeholder="Linktree, Google Drive folder, GitHub, etc."
-                />
-    
-                {/* consent */}
-                <div className="mt-4 flex items-start gap-2">
-                  <input
-                    id="consent"
-                    type="checkbox"
-                    className="mt-1 accent-orange-500"
-                    checked={form.consent}
-                    onChange={(e) => setField("consent", e.target.checked)}
-                  />
-                  <label htmlFor="consent" className="text-sm">
-                    I confirm the information provided is accurate and agree to be contacted about ISA internships. *
-                  </label>
-                </div>
-                {errors.consent && <p className="mt-1 text-sm text-red-600">{errors.consent}</p>}
-    
-                {/* actions */}
-                <div className="mt-6 flex gap-3">
-                  <button
-                    type="submit"
-                    className="px-6 py-3 rounded-md bg-orange-400 text-slate-900 font-bold hover:bg-orange-300 shadow-md transition"
-                  >
-                    Submit Application
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setForm({
-                        name: "",
-                        email: "",
-                        year: "",
-                        major: "",
-                        interests: [],
-                        availability: "",
-                        statement: "",
-                        links: "",
-                        consent: false,
-                      });
-                      setErrors({});
-                      setSubmitted(false);
-                    }}
-                    className="px-6 py-3 rounded-md border border-slate-300 hover:bg-slate-50"
-                  >
-                    Reset
-                  </button>
-                </div>
-    
-                <p className="mt-3 text-xs text-slate-500">
-                  We review applications on a rolling basis and will email you with next steps.
-                </p>
-              </form>
-            </aside>
           </main>
     
           {/* Final CTA */}

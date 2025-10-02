@@ -107,7 +107,7 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
         <div className='flex flex-col gap-[10px] mt-[20px]'>
             <div>
                 <TextInput
-                    className='w-[900px]'
+                    className='w-[67%]'
                     placeholder="Search by name or email..."
                     value={searchInput}
                     onChange={handleFilter}
@@ -117,7 +117,7 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
             {
                 filteredTickets.length > 0 ?
                     filteredTickets.map((ticket: any) => (
-                        <div key={ticket.id} className='flex items-center justify-between p-[10px] rounded-md w-[900px] shadow'>
+                        <div key={ticket.id} className='flex items-center justify-between p-[10px] rounded-md w-[67%] shadow'>
                             <h1><b>{highlightText(ticket?.user?.displayName ?? ticket?.name ?? '—', searchInput)}</b></h1>
                             <p><b>{highlightText(ticket?.user?.email ?? ticket?.email ?? '—', searchInput)}</b></p>
                             <h1>{highlightText(ticket.name ?? '—', searchInput)}</h1>
