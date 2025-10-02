@@ -126,6 +126,7 @@ const page = () => {
                     { icon: "🎤", t: "Events", d: "Run-of-show, ops, day-of execution." },
                     { icon: "💻", t: "Tech", d: "Website updates, forms, automations." },
                     { icon: "🤝", t: "Community", d: "Volunteering, partnerships, mentorship." },
+                    { icon: "💵", t: "Finance", d: "Fundraising, management, payments." },
                   ].map((x) => (
                     <article
                       key={x.t}

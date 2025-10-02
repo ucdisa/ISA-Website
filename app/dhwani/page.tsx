@@ -41,17 +41,10 @@ const page = () => {
               <div className="mt-6 flex flex-wrap gap-3">
                 <a href="#about" className="px-5 py-2.5 rounded-md border border-white/70 hover:bg-white/10 transition">What is Dhwani</a>
                 <a href="#roles" className="px-5 py-2.5 rounded-md border border-white/70 hover:bg-white/10 transition">Roles & Applications</a>
-                <a href="#schedule" className="px-5 py-2.5 rounded-md border border-white/70 hover:bg-white/10 transition">Schedule</a>
+                {/* <a href="#schedule" className="px-5 py-2.5 rounded-md border border-white/70 hover:bg-white/10 transition">Schedule</a> */}
                 <a href="#faq" className="px-5 py-2.5 rounded-md border border-white/70 hover:bg-white/10 transition">FAQ</a>
               </div>
             </div>
-    
-            {/* Optional banner image */}
-            {banner && (
-              <div className="w-full bg-slate-900/20">
-                <Image src={banner} alt="Dhwani banner" className="w-full max-h-[40vh] object-contain mx-auto" />
-              </div>
-            )}
     
             {/* orange accent bar */}
             <div className="h-[3px] bg-orange-400" />
@@ -59,7 +52,7 @@ const page = () => {
     
           {/* About Dhwani */}
           <section id="about" className="max-w-6xl mx-auto px-6 py-12">
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-[150px] md:grid-cols-2">
               <article className="bg-white rounded-2xl p-6 border border-slate-200 shadow-md">
                 <h2 className="text-2xl font-extrabold text-slate-900">What is Dhwani?</h2>
                 <p className="mt-3">
@@ -73,8 +66,15 @@ const page = () => {
                   <li>Volunteer opportunities for students</li>
                 </ul>
               </article>
+
+              {/* Optional banner image */}
+              {banner && (
+                <div className="w-[300px]">
+                  <Image src={banner} alt="Dhwani banner" className="w-full max-h-[40vh] object-contain mx-auto" />
+                </div>
+              )}
     
-              <article className="bg-white rounded-2xl p-6 border border-slate-200 shadow-md">
+              {/* <article className="bg-white rounded-2xl p-6 border border-slate-200 shadow-md">
                 <h3 className="text-lg font-semibold">At a glance</h3>
                 <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
                   <div className="rounded-lg border border-slate-200 p-3">
@@ -95,12 +95,12 @@ const page = () => {
                   </div>
                 </div>
                 <p className="text-xs text-slate-500 mt-3">* Replace with official details once confirmed.</p>
-              </article>
+              </article> */}
             </div>
           </section>
     
           {/* Mock lineup */}
-          <section className="max-w-6xl mx-auto px-6 py-12">
+          {/* <section className="max-w-6xl mx-auto px-6 py-12">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-center">Mock Lineup</h2>
             <p className="text-center text-slate-600 max-w-2xl mx-auto mt-2">
               Placeholder teams to visualize layout. Swap with the confirmed lineup later.
@@ -119,7 +119,7 @@ const page = () => {
                 </article>
               ))}
             </div>
-          </section>
+          </section> */}
     
           {/* Roles & Applications */}
           <section id="roles" className="bg-gradient-to-r from-blue-50 via-white to-slate-100 border-y border-slate-200/60">
@@ -171,7 +171,7 @@ const page = () => {
           </section>
     
           {/* Schedule / Timeline (mock) */}
-          <section id="schedule" className="max-w-6xl mx-auto px-6 py-12">
+          {/* <section id="schedule" className="max-w-6xl mx-auto px-6 py-12">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-center">Mock Schedule</h2>
             <div className="mt-6 grid gap-6 md:grid-cols-2">
               <article className="bg-white rounded-2xl p-6 border border-slate-200 shadow-md">
@@ -196,7 +196,7 @@ const page = () => {
                 </ul>
               </article>
             </div>
-          </section>
+          </section> */}
     
           {/* FAQ */}
           <section id="faq" className="bg-white border-y border-slate-200/60">
