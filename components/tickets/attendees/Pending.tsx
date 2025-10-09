@@ -24,9 +24,11 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
     const handleApprove = async (ticket: any) => {
         setTicketLoad(ticket.id);
         setApproveLoading(true);
+        alert(ticket.receipt);
         await axios.post("/api/tickets/changeStatus", {
             ticket_id: ticket.id,
             event_id: ticket.event_id,
+            receipt: ticket.receipt,
             status: "approved"
         })
 
@@ -56,6 +58,7 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
         await axios.delete("/api/tickets/delete", {
             data: {
                 ticket_id: ticket.id,
+                event_id: ticket.event_id,
             }
         })
 
@@ -115,7 +118,7 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
         <div className='flex flex-col gap-[10px] mt-[20px]'>
             <div>
                 <TextInput
-                    className='max-w-[1100px] w-[100%]'
+                    className='max-w-[1200px] w-[100%]'
                     placeholder="Search by name or email..."
                     value={searchInput}
                     onChange={handleFilter}
@@ -125,30 +128,32 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
             {
                 filteredTickets.length > 0 ?
                     filteredTickets.map((ticket: any) => (
-                        <div key={ticket.id} className='flex items-center justify-between p-[10px] rounded-md max-w-[1100px] w-[100%] shadow'>
+                        <div key={ticket.id} className='flex items-center justify-between p-[10px] rounded-md max-w-[1200px] w-[100%] shadow'>
                             <h1><b>{highlightText(ticket?.user?.displayName ?? ticket?.name ?? '—', searchInput)}</b></h1>
                             <p><b>{highlightText(ticket?.user?.email ?? ticket?.email ?? '—', searchInput)}</b></p>
                             <h1>{highlightText(ticket.name ?? '—', searchInput)}</h1>
                             <p>{highlightText(ticket.email ?? '—', searchInput)}</p>
 
-                            <button onClick={() => {
-                                setTicketReceipt(ticket.receipt);
-                                open();
-                            }} className='hover:opacity-60 transition-all duration-200 cursor-pointer flex items-center justify-center bg-[#262626] text-white px-[12px] h-[30px] rounded-md'>
-                                <p className='text-sm'>proof of payment</p>
-                            </button>
+                            <div className='flex items-center justify-center gap-[40px]'>
+                                <button onClick={() => {
+                                    setTicketReceipt(ticket.receipt);
+                                    open();
+                                }} className='hover:opacity-60 transition-all duration-200 cursor-pointer flex items-center justify-center bg-[#646464] text-white px-[12px] h-[30px] rounded-md'>
+                                    <p className='text-sm'>payment</p>
+                                </button>
 
-                            <div className='flex items-center justify-center gap-[10px]'>
-                                <button onClick={() => handleApprove(ticket)} className='hover:opacity-60 transition-all duration-200 cursor-pointer flex items-center justify-center bg-[#262626] text-white w-[27px] h-[27px] rounded-sm'>
-                                    {
-                                        approveLoading && ticketLoad == ticket.id ? <Loading color='white' size={15} /> : <IconCheck size={20} />
-                                    }
-                                </button>
-                                <button onClick={() => handleReject(ticket)} className='hover:opacity-60 transition-all duration-200 cursor-pointer flex items-center justify-center bg-[#262626] text-white w-[27px] h-[27px] rounded-sm'>
-                                    {
-                                        rejectLoading && ticketLoad == ticket.id ? <Loading color='white' size={15} /> : <IconX size={20} />
-                                    }
-                                </button>
+                                <div className='flex items-center justify-center gap-[10px]'>
+                                    <button onClick={() => handleApprove(ticket)} className='hover:opacity-60 transition-all duration-200 cursor-pointer flex items-center justify-center bg-[#262626] text-white w-[27px] h-[27px] rounded-sm'>
+                                        {
+                                            approveLoading && ticketLoad == ticket.id ? <Loading color='white' size={15} /> : <IconCheck size={20} />
+                                        }
+                                    </button>
+                                    <button onClick={() => handleReject(ticket)} className='hover:opacity-60 transition-all duration-200 cursor-pointer flex items-center justify-center bg-[#262626] text-white w-[27px] h-[27px] rounded-sm'>
+                                        {
+                                            rejectLoading && ticketLoad == ticket.id ? <Loading color='white' size={15} /> : <IconX size={20} />
+                                        }
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ))

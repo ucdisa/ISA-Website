@@ -12,18 +12,6 @@ export async function POST(request: Request) {
       );
     }
 
-    if (status == "approved") {
-      if (receipt) {
-        const { error: removeError } = await supabaseAdmin
-          .storage
-          .from("payments")
-          .remove([receipt]);
-        if (removeError) {
-          return NextResponse.json({ error: removeError.message }, { status: 500 });
-        }
-      }
-    }
-
     // Update the ticket status in the database
     const { data, error } = await supabaseAdmin
       .from("tickets")

@@ -23,7 +23,7 @@ export async function POST(request: Request) {
         .jpeg({ quality: 80 })
         .toBuffer();
 
-    const path = `${crypto.randomUUID()}.jpg`;
+    const path = `${name}/${crypto.randomUUID()}.jpg`;
 
     const { data: uploadData, error: uploadError } = await supabaseAdmin
         .storage

@@ -30,7 +30,7 @@ const EventCard = ({ event, admin, user, reload }: EventCardProps) => {
     setDeleteLoading(true);
     try {
       await axios.delete('/api/events/delete', {
-        data: { id: event.id },
+        data: { id: event.id, name: event.name },
       });
 
       if (reload) reload();

@@ -23,7 +23,7 @@ export async function PATCH(request: Request) {
         const arrayBuffer = await new Response(file).arrayBuffer();
         const buffer = Buffer.from(arrayBuffer);
         const ext = file.type.split("/")[1];
-        const path = `${crypto.randomUUID()}.${ext}`;
+        const path = `${updates.name}/${crypto.randomUUID()}.${ext}`;
 
         const { data: uploadData, error: uploadError } = await supabaseAdmin
             .storage
