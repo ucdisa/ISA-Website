@@ -3,7 +3,7 @@
 import Back from '@/components/buttons/Back';
 import { useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react'
-import { Button, Checkbox, Group, TextInput, Modal } from '@mantine/core';
+import { Button, Checkbox, Group, TextInput, Modal, FileInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
@@ -13,6 +13,7 @@ import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import { eventType } from '@/lib/types';
 import zelle from '@/public/assets/zelle.png'
 import Image from 'next/image';
+import { IconFile } from '@tabler/icons-react';
 
 interface GetTicketProps {
     event: eventType;
@@ -40,10 +41,8 @@ const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => 
             return;
         }
 
-        setLoading(true);
         try {
             setLoading(true);
-            console.log(user.user_id, event.buyLimit, event.id);
 
             let spots = 0;
 
@@ -70,12 +69,19 @@ const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => 
                 return;
             }
 
-            await axios.post("/api/tickets/post", {
-            user_id: user!!.user_id,
-            event_id: event.id,
-            name: values.name,
-            email: values.email,
-            });
+            const formData = new FormData();
+            formData.append("user_id", user!!.user_id);
+            formData.append("event_id", event.id!!);
+            formData.append("name", values.name);
+            formData.append("email", values.email);
+            formData.append("receipt", values.receipt);
+
+            await axios.post("/api/tickets/post", formData).then(data => {
+                console.log(data);
+            }).catch(error => {
+                console.log(error);
+                return;
+            })
 
             try {
                 await axios.post("/api/sendEmail", {
@@ -112,13 +118,15 @@ const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => 
         initialValues: {
             name: '',
             email: '',
-            select: false
+            select: false,
+            receipt: null as File | null,
         },
     
         validate: {
             name: (value) => value != "" ? null : 'Attendee name is required',
             email: (value) => value != "" ? null : 'Attendee email is required',
             select: (value) => value ? null : 'Must accept this',
+            receipt: (value) => value ? null : 'Proof of payment is required',
         },
     });
     return (
@@ -154,9 +162,21 @@ const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => 
                                 className='w-[300px] shadow rounded-md p-[10px]'
                             />
                         </div>
+
+                        <FileInput 
+                            onChange={(value) => {
+                                form.setFieldValue('receipt', value)
+                            }} 
+                            className='w-[40%]' 
+                            accept="image/png,image/jpeg" 
+                            clearable 
+                            label="Proof of payment" 
+                            leftSection={<IconFile size={16} stroke={1.5} />} 
+                            placeholder="Upload..." 
+                        />
                         
                         <Checkbox
-                            className='mt-[10px]'
+                            className='mt-[20px]'
                             description="No payment? Ticket will be denied*"
                             label="I have paid for my ticket"
                             onChange={(event) => form.setFieldValue("select", event.currentTarget.checked)}

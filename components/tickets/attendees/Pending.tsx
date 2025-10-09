@@ -1,9 +1,11 @@
 import Loading from '@/components/general/Loading';
 import { formatDate, formatTime } from '@/lib/functions';
-import { TextInput } from '@mantine/core';
+import { Modal, TextInput } from '@mantine/core';
 import { IconCheck, IconSearch, IconX } from '@tabler/icons-react';
 import axios from 'axios';
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
+import Image from 'next/image';
+import { useDisclosure } from '@mantine/hooks';
 
 interface PendingProps {
     tickets: any;
@@ -16,7 +18,9 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
     const [rejectLoading, setRejectLoading] = useState(false);
     const [ticketLoad, setTicketLoad] = useState(-1);
     const [searchInput, setSearchInput] = useState('');
-
+    const [opened, { open, close }] = useDisclosure(false);
+    const [ticketReceipt, setTicketReceipt] = useState('');
+    
     const handleApprove = async (ticket: any) => {
         setTicketLoad(ticket.id);
         setApproveLoading(true);
@@ -103,11 +107,15 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
         );
     };
 
+    useEffect(() => {
+        console.log(tickets)
+    }, [tickets])
+
     return (
         <div className='flex flex-col gap-[10px] mt-[20px]'>
             <div>
                 <TextInput
-                    className='w-[67%]'
+                    className='max-w-[1100px] w-[100%]'
                     placeholder="Search by name or email..."
                     value={searchInput}
                     onChange={handleFilter}
@@ -117,11 +125,19 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
             {
                 filteredTickets.length > 0 ?
                     filteredTickets.map((ticket: any) => (
-                        <div key={ticket.id} className='flex items-center justify-between p-[10px] rounded-md w-[67%] shadow'>
+                        <div key={ticket.id} className='flex items-center justify-between p-[10px] rounded-md max-w-[1100px] w-[100%] shadow'>
                             <h1><b>{highlightText(ticket?.user?.displayName ?? ticket?.name ?? '—', searchInput)}</b></h1>
                             <p><b>{highlightText(ticket?.user?.email ?? ticket?.email ?? '—', searchInput)}</b></p>
                             <h1>{highlightText(ticket.name ?? '—', searchInput)}</h1>
                             <p>{highlightText(ticket.email ?? '—', searchInput)}</p>
+
+                            <button onClick={() => {
+                                setTicketReceipt(ticket.receipt);
+                                open();
+                            }} className='hover:opacity-60 transition-all duration-200 cursor-pointer flex items-center justify-center bg-[#262626] text-white px-[12px] h-[30px] rounded-md'>
+                                <p className='text-sm'>proof of payment</p>
+                            </button>
+
                             <div className='flex items-center justify-center gap-[10px]'>
                                 <button onClick={() => handleApprove(ticket)} className='hover:opacity-60 transition-all duration-200 cursor-pointer flex items-center justify-center bg-[#262626] text-white w-[27px] h-[27px] rounded-sm'>
                                     {
@@ -141,6 +157,14 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
                         <h1 className='text-2xl font-semibold'>No pending tickets</h1>
                     </div>
             }
+            <Modal overlayProps={{
+                    backgroundOpacity: 0.55,
+                    blur: 3,
+                }} opened={opened} size="auto" onClose={close} centered withCloseButton={false}>
+                <div className='w-[230px] flex flex-col justify-center items-center gap-[5px]'>
+                    <img src={ticketReceipt} alt="Receipt" className=' object-contain' />
+                </div>
+            </Modal>
         </div>
     )
 }

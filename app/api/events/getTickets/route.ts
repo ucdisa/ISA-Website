@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseClient";
 
-const bucketName = 'events-images';
-
 export async function POST(request: Request) {
   try {
     const { event_id, status } = await request.json();
@@ -61,9 +59,18 @@ export async function POST(request: Request) {
       };
     });
 
+    const ticketsWithImages = ticketsWithUsers.map((ticket: any) => {
+      const { data: image } = supabaseAdmin
+        .storage
+        .from("payments")
+        .getPublicUrl(ticket.receipt);
+      ticket.receipt = image.publicUrl;
+      return ticket;
+    });
+
     // 6) Return merged result
     return NextResponse.json(
-      { tickets: ticketsWithUsers },
+      { tickets: ticketsWithImages },
       { status: 200 }
     );
   } catch (err: any) {

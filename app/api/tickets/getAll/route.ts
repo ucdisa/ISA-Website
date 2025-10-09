@@ -25,8 +25,17 @@ export async function POST(request: Request) {
       );
     }
 
+    const ticketsWithImages = tickets.map((ticket: any) => {
+      const { data: image } = supabaseAdmin
+        .storage
+        .from("payments")
+        .getPublicUrl(ticket.receipt);
+      ticket.receipt = image.publicUrl;
+      return ticket;
+    });
+
     return NextResponse.json(
-      { tickets: tickets ?? [] },
+      { tickets: ticketsWithImages ?? [] },
       { status: 200 }
     );
   } catch (err: any) {

@@ -1,15 +1,36 @@
 import { NextResponse } from "next/server";
 import { supabase, supabaseAdmin } from "@/lib/supabaseClient";
+import sharp from "sharp";
 
 export async function POST(request: Request) {
   try {
-    const { user_id, event_id, name, email } = await request.json();
+    const form = await request.formData();
+    const user_id = form.get("user_id") as string;
+    const event_id = form.get("event_id") as string;
+    const name = form.get("name") as string;
+    const email = form.get("email") as string;
+    const receipt = form.get("receipt") as File;
 
-    if (!user_id || !event_id || !name || !email) {
-      return NextResponse.json(
-        { error: "Missing required fields" },
-        { status: 400 }
-      );
+    const file = receipt;
+    const buffer = Buffer.from(await file.arrayBuffer());
+
+    const compressed = await sharp(buffer)
+        .resize({ width: 1024, withoutEnlargement: true })
+        .jpeg({ quality: 80 })
+        .toBuffer();
+
+    const path = `${crypto.randomUUID()}.jpg`;
+
+    const { data: uploadData, error: uploadError } = await supabaseAdmin
+        .storage
+        .from("payments")
+        .upload(path, compressed, {
+            contentType: "image/jpeg",
+            upsert: false,
+    });
+
+    if (uploadError) {
+        throw uploadError
     }
 
     const { data, error } = await supabaseAdmin
@@ -21,6 +42,7 @@ export async function POST(request: Request) {
           name,
           email,
           status: "pending",
+          receipt: uploadData.path,
         },
       ])
       .select()

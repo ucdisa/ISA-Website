@@ -6,20 +6,21 @@ import { supabase } from "@/lib/supabaseClient";
 import React, { useEffect, useState } from "react";
 import { Session } from "@supabase/supabase-js";
 import Avatar from '@mui/material/Avatar';
-import MenuItem from '@mui/material/MenuItem';
 import axios from 'axios'
-import { MantineProvider, Menu, NavLink, Tooltip } from '@mantine/core';
+import { Menu, Modal, Tooltip } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
 import { X } from "lucide-react";
 import { Menu as MenuLucide} from 'lucide-react';
 import isaLogo from "../../public/assets/isa-logo.png";
+import { IconCheck, IconX } from '@tabler/icons-react';
 
 
 const Navbar = () => {
 
     const [mobileOpen, setMobileOpen] = useState(false);
-
+    const [opened, { open, close }] = useDisclosure(false);
     const linkBase = "block px-4 py-2 rounded-md text-base font-semibold transition-colors";
 
     const toggleMenu = () => setMobileOpen((prev) => !prev);
@@ -56,6 +57,11 @@ const Navbar = () => {
             provider: "google",
             options: {
                 redirectTo: `${window.location.origin}/`,
+                queryParams: {
+                    // Always show the account picker
+                    prompt: "select_account" 
+                    // or: prompt: "consent select_account"
+                }
             }
         })
     }
@@ -148,7 +154,7 @@ const Navbar = () => {
                                 <Menu.Item onClick={signOut}>
                                     Logout
                                 </Menu.Item>
-                                <Menu.Item onClick={deleteAccount}>
+                                <Menu.Item onClick={open}>
                                     Delete Account
                                 </Menu.Item>
                             </Menu.Dropdown>
@@ -226,7 +232,7 @@ const Navbar = () => {
                                 <Menu.Item onClick={signOut}>
                                     Logout
                                 </Menu.Item>
-                                <Menu.Item onClick={deleteAccount}>
+                                <Menu.Item onClick={open}>
                                     Delete Account
                                 </Menu.Item>
                             </Menu.Dropdown>
@@ -240,6 +246,33 @@ const Navbar = () => {
     
           {/* underline */}
           <div className="h-[4px] bg-maroon" />
+
+            <Modal overlayProps={{
+                        backgroundOpacity: 0.55,
+                        blur: 3,
+                    }} opened={opened} size="auto" onClose={close} centered withCloseButton={false}>
+                    <div className='w-[200px] flex flex-col justify-center items-center gap-[5px]'>
+                        {/* <InfoOutlineIcon className='text-red-500'/> */}
+                        <p className='text-center'>
+                            Are you sure you want to delete your account?
+                        </p>
+                        
+                        <div className='flex justify-between items-center w-full gap-[10px]'>
+                            <button onClick={close} className='bg-black w-full h-[40px] mt-[10px] text-white rounded-md hover:opacity-80 transition-all duration-200 shadow cursor-pointer'>
+                                <div className='flex items-center justify-center gap-[5px]'>
+                                    <IconX stroke={1.5} size={20} color='white' />
+                                    <p className='text-sm'>cancel</p>
+                                </div>
+                            </button>
+                            <button onClick={deleteAccount} className='bg-red-400 w-full h-[40px] mt-[10px] text-white rounded-md hover:opacity-80 transition-all duration-200 shadow cursor-pointer'>
+                                <div className='flex items-center justify-center gap-[5px]'>
+                                    <IconCheck stroke={1.5} size={20} color='white' />
+                                    <p className='text-sm'>confirm</p>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </Modal>
         </div>
       );
 }

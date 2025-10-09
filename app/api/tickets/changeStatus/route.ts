@@ -3,13 +3,25 @@ import { supabase, supabaseAdmin } from "@/lib/supabaseClient";
 
 export async function POST(request: Request) {
   try {
-    const { ticket_id, event_id, status } = await request.json();
+    const { ticket_id, event_id, status, receipt } = await request.json();
 
     if (!ticket_id || !event_id || !status) {
       return NextResponse.json(
         { error: "Missing parameters" },
         { status: 400 }
       );
+    }
+
+    if (status == "approved") {
+      if (receipt) {
+        const { error: removeError } = await supabaseAdmin
+          .storage
+          .from("payments")
+          .remove([receipt]);
+        if (removeError) {
+          return NextResponse.json({ error: removeError.message }, { status: 500 });
+        }
+      }
     }
 
     // Update the ticket status in the database
