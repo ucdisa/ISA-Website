@@ -1,7 +1,7 @@
 import Loading from '@/components/general/Loading';
 import { formatDate, formatTime } from '@/lib/functions';
 import { Modal, TextInput } from '@mantine/core';
-import { IconCheck, IconSearch, IconX } from '@tabler/icons-react';
+import { IconCheck, IconMessage, IconSearch, IconX } from '@tabler/icons-react';
 import axios from 'axios';
 import React, { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image';
@@ -19,12 +19,14 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
     const [ticketLoad, setTicketLoad] = useState(-1);
     const [searchInput, setSearchInput] = useState('');
     const [opened, { open, close }] = useDisclosure(false);
+    const [openedHello, { open: openHello, close: closeHello }] = useDisclosure(false);
+    const [openedComment, { open: openComment, close: closeComment }] = useDisclosure(false);
+    const [targetTicket, setTargetTicket] = useState();
     const [ticketReceipt, setTicketReceipt] = useState('');
     
     const handleApprove = async (ticket: any) => {
         setTicketLoad(ticket.id);
         setApproveLoading(true);
-        alert(ticket.receipt);
         await axios.post("/api/tickets/changeStatus", {
             ticket_id: ticket.id,
             event_id: ticket.event_id,
@@ -54,7 +56,6 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
         setTicketLoad(ticket.id);
         setRejectLoading(true);
 
-
         await axios.delete("/api/tickets/delete", {
             data: {
                 ticket_id: ticket.id,
@@ -73,6 +74,7 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
             text: `Hi ${ticket.name},\n\nYour ticket has been rejected for ${event.name}. Please contact us at isa.atucd@gmail.com for any questions about your ticket.\n\nThank you!`
         })
 
+        closeHello();
         setTickets(tickets.filter((t: any) => t.id !== ticket.id));
         setRejectLoading(false);
     }
@@ -132,9 +134,16 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
                             <h1><b>{highlightText(ticket?.user?.displayName ?? ticket?.name ?? '—', searchInput)}</b></h1>
                             <p><b>{highlightText(ticket?.user?.email ?? ticket?.email ?? '—', searchInput)}</b></p>
                             <h1>{highlightText(ticket.name ?? '—', searchInput)}</h1>
-                            <p>{highlightText(ticket.email ?? '—', searchInput)}</p>
+                            {/* <p>{highlightText(ticket.email ?? '—', searchInput)}</p> */}
 
                             <div className='flex items-center justify-center gap-[40px]'>
+                                <button onClick={() => {
+                                    openComment();
+                                    setTargetTicket(ticket)
+                                }}>
+                                    <IconMessage className='text-[#646464] hover:opacity-60 duration-200 transition-all cursor-pointer'/>
+                                </button>
+
                                 <button onClick={() => {
                                     setTicketReceipt(ticket.receipt);
                                     open();
@@ -148,10 +157,11 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
                                             approveLoading && ticketLoad == ticket.id ? <Loading color='white' size={15} /> : <IconCheck size={20} />
                                         }
                                     </button>
-                                    <button onClick={() => handleReject(ticket)} className='hover:opacity-60 transition-all duration-200 cursor-pointer flex items-center justify-center bg-[#262626] text-white w-[27px] h-[27px] rounded-sm'>
-                                        {
-                                            rejectLoading && ticketLoad == ticket.id ? <Loading color='white' size={15} /> : <IconX size={20} />
-                                        }
+                                    <button onClick={() => {
+                                        openHello();
+                                        setTargetTicket(ticket);
+                                    }} className='hover:opacity-60 transition-all duration-200 cursor-pointer flex items-center justify-center bg-[#262626] text-white w-[27px] h-[27px] rounded-sm'>
+                                        <IconX size={20} />
                                     </button>
                                 </div>
                             </div>
@@ -168,6 +178,47 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
                 }} opened={opened} size="auto" onClose={close} centered withCloseButton={false}>
                 <div className='w-[230px] flex flex-col justify-center items-center gap-[5px]'>
                     <img src={ticketReceipt} alt="Receipt" className=' object-contain' />
+                </div>
+            </Modal>
+            <Modal overlayProps={{
+                    backgroundOpacity: 0.55,
+                    blur: 3,
+                }} opened={openedHello} size="auto" onClose={closeHello} centered withCloseButton={false}>
+                <div className='w-[200px] flex flex-col justify-center items-center gap-[5px]'>
+                    {/* <InfoOutlineIcon className='text-red-500'/> */}
+                    <p className='text-center'>
+                        Are you sure you want to reject this ticket?
+                    </p>
+                    
+                    <div className='flex justify-between items-center w-full gap-[10px]'>
+                        <button onClick={closeHello} className='bg-black w-full h-[40px] mt-[10px] text-white rounded-md hover:opacity-80 transition-all duration-200 shadow cursor-pointer'>
+                            <div className='flex items-center justify-center gap-[5px]'>
+                                <IconX stroke={1.5} size={20} color='white' />
+                                <p className='text-sm'>cancel</p>
+                            </div>
+                        </button>
+                        <button onClick={() => handleReject(targetTicket)} className='bg-red-400 w-full h-[40px] mt-[10px] text-white rounded-md hover:opacity-80 transition-all duration-200 shadow cursor-pointer'>
+                            <div className='flex items-center justify-center gap-[5px]'>
+                                
+                                {
+                                    rejectLoading ? <Loading color='white' size={15} />
+                                    :
+                                        <>
+                                            <IconCheck stroke={1.5} size={20} color='white' />
+                                            <p className='text-sm'>confirm</p>
+                                        </>
+                                }
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </Modal>
+            <Modal overlayProps={{
+                    backgroundOpacity: 0.55,
+                    blur: 3,
+                }} opened={openedComment} size="auto" onClose={closeComment} centered withCloseButton={true}>
+                <div className='w-[200px] flex flex-col justify-center items-center gap-[5px]'>
+                    comments
                 </div>
             </Modal>
         </div>

@@ -24,6 +24,7 @@ const Approved = ({ tickets, setTickets, getPendingTickets }: ApprovedProps) => 
         await axios.delete("/api/tickets/delete", {
             data: {
                 ticket_id: ticket.id,
+                event_id: ticket.event_id,
             }
         })
 

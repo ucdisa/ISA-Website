@@ -20,7 +20,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: ticketCheckError.message }, { status: 500 });
     }
 
-    console.log(userTickets)
     if (userTickets && userTickets.length >= buyLimit) {
       return NextResponse.json({ spots: -1 }, { status: 200 });
     }
