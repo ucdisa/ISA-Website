@@ -1,11 +1,12 @@
 import Loading from '@/components/general/Loading';
 import { formatDate, formatTime } from '@/lib/functions';
-import { Modal, TextInput } from '@mantine/core';
+import { Modal, Textarea, TextInput } from '@mantine/core';
 import { IconCheck, IconMessage, IconSearch, IconX } from '@tabler/icons-react';
 import axios from 'axios';
 import React, { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image';
 import { useDisclosure } from '@mantine/hooks';
+import CommentBox from './CommentBox';
 
 interface PendingProps {
     tickets: any;
@@ -21,7 +22,7 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
     const [opened, { open, close }] = useDisclosure(false);
     const [openedHello, { open: openHello, close: closeHello }] = useDisclosure(false);
     const [openedComment, { open: openComment, close: closeComment }] = useDisclosure(false);
-    const [targetTicket, setTargetTicket] = useState();
+    const [targetTicket, setTargetTicket] = useState<any>();
     const [ticketReceipt, setTicketReceipt] = useState('');
     
     const handleApprove = async (ticket: any) => {
@@ -115,6 +116,9 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
     useEffect(() => {
         console.log(tickets)
     }, [tickets])
+
+    
+
 
     return (
         <div className='flex flex-col gap-[10px] mt-[20px]'>
@@ -213,13 +217,19 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
                     </div>
                 </div>
             </Modal>
-            <Modal overlayProps={{
+            <Modal
+                overlayProps={{
                     backgroundOpacity: 0.55,
                     blur: 3,
-                }} opened={openedComment} size="auto" onClose={closeComment} centered withCloseButton={true}>
-                <div className='w-[200px] flex flex-col justify-center items-center gap-[5px]'>
-                    comments
-                </div>
+                }}
+                opened={openedComment}
+                size="auto"
+                onClose={closeComment}
+                closeOnClickOutside={false}
+                centered
+                withCloseButton={false}
+            >
+                {targetTicket && <CommentBox ticket_id={targetTicket.id} closeComment={closeComment}/>}
             </Modal>
         </div>
     )
