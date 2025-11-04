@@ -1,7 +1,7 @@
 import Loading from '@/components/general/Loading';
 import { formatDate, formatTime } from '@/lib/functions';
 import { Modal, Textarea, TextInput } from '@mantine/core';
-import { IconCheck, IconMessage, IconSearch, IconX } from '@tabler/icons-react';
+import { IconCheck, IconFlag, IconFlagFilled, IconMessage, IconSearch, IconX } from '@tabler/icons-react';
 import axios from 'axios';
 import React, { useEffect, useMemo, useState } from 'react'
 import Image from 'next/image';
@@ -31,7 +31,6 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
         await axios.post("/api/tickets/changeStatus", {
             ticket_id: ticket.id,
             event_id: ticket.event_id,
-            receipt: ticket.receipt,
             status: "approved"
         })
 
@@ -113,11 +112,14 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
         );
     };
 
-    useEffect(() => {
-        console.log(tickets)
-    }, [tickets])
-
-    
+    const handleFlag = async (flagged: boolean, ticket: any, index: number) => {
+        setTickets(tickets.map((t: any, i: number) => i === index ? { ...t, flagged: !flagged } : t))
+        await axios.post("/api/tickets/changeFlag", {
+            ticket_id: ticket.id,
+            event_id: ticket.event_id,
+            flagged: !flagged
+        })
+    }
 
 
     return (
@@ -133,9 +135,14 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
             </div>
             {
                 filteredTickets.length > 0 ?
-                    filteredTickets.map((ticket: any) => (
-                        <div key={ticket.id} className='flex items-center justify-between p-[10px] rounded-md max-w-[1200px] w-[100%] shadow'>
-                            <h1><b>{highlightText(ticket?.user?.displayName ?? ticket?.name ?? '—', searchInput)}</b></h1>
+                    filteredTickets.map((ticket: any, index: number) => (
+                        <div key={ticket.id} className={`flex items-center justify-between p-[10px] rounded-md max-w-[1200px] w-[100%] shadow ${ticket.flagged && 'outline-[1px] outline-[#e75c5c]'}`}>
+                            <div className='flex items-center gap-[20px] '>
+                                <button onClick={() => handleFlag(ticket.flagged,ticket, index)}>
+                                    {ticket.flagged ? <IconFlagFilled className='text-[#e75c5c] hover:opacity-60 duration-200 transition-all cursor-pointer' /> : <IconFlag className='text-[#e75c5c] hover:opacity-60 duration-200 transition-all cursor-pointer' /> }
+                                </button>
+                                <h1><b>{highlightText(ticket?.user?.displayName ?? ticket?.name ?? '—', searchInput)}</b></h1>
+                            </div>
                             <p><b>{highlightText(ticket?.user?.email ?? ticket?.email ?? '—', searchInput)}</b></p>
                             <h1>{highlightText(ticket.name ?? '—', searchInput)}</h1>
                             {/* <p>{highlightText(ticket.email ?? '—', searchInput)}</p> */}

@@ -1,7 +1,7 @@
 import Loading from '@/components/general/Loading';
 import { formatDate, formatTime } from '@/lib/functions';
 import { TextInput, Tooltip } from '@mantine/core';
-import { IconCheck, IconSearch, IconX } from '@tabler/icons-react';
+import { IconCheck, IconFlag, IconFlagFilled, IconSearch, IconX } from '@tabler/icons-react';
 import axios from 'axios';
 import React, { useMemo, useState } from 'react'
 
@@ -107,6 +107,15 @@ const Approved = ({ tickets, setTickets, getPendingTickets }: ApprovedProps) => 
         setCheckLoading(false);
     }
 
+    const handleFlag = async (flagged: boolean, ticket: any, index: number) => {
+        setTickets(tickets.map((t: any, i: number) => i === index ? { ...t, flagged: !flagged } : t))
+        await axios.post("/api/tickets/changeFlag", {
+            ticket_id: ticket.id,
+            event_id: ticket.event_id,
+            flagged: !flagged
+        })
+    }
+
     return (
         <div className='flex flex-col gap-[10px] mt-[20px]'>
             <div>
@@ -120,9 +129,14 @@ const Approved = ({ tickets, setTickets, getPendingTickets }: ApprovedProps) => 
             </div>
             {
                 filteredTickets.length > 0 ?
-                    filteredTickets.map((ticket: any) => (
-                        <div key={ticket.id} className={`flex items-center justify-between p-[10px] rounded-md max-w-[1000px] w-[100%] shadow ${ticket.status == "checked in" && 'border-[1px] border-green-500'}`}>
-                           <h1><b>{highlightText(ticket?.user?.displayName ?? ticket?.name ?? '—', searchInput)}</b></h1>
+                    filteredTickets.map((ticket: any, index: number) => (
+                        <div key={ticket.id} className={`flex items-center justify-between p-[10px] rounded-md max-w-[1000px] w-[100%] shadow ${ticket.status == "checked in" ? 'border-[1px] border-green-500' : ticket.flagged && 'outline-[1px] outline-[#e75c5c]'}`}>
+                            <div className='flex items-center gap-[20px] '>
+                                <button onClick={() => handleFlag(ticket.flagged,ticket, index)}>
+                                    {ticket.flagged ? <IconFlagFilled className='text-[#e75c5c] hover:opacity-60 duration-200 transition-all cursor-pointer' /> : <IconFlag className='text-[#e75c5c] hover:opacity-60 duration-200 transition-all cursor-pointer' /> }
+                                </button>
+                                <h1><b>{highlightText(ticket?.user?.displayName ?? ticket?.name ?? '—', searchInput)}</b></h1>
+                            </div>
                             <p><b>{highlightText(ticket?.user?.email ?? ticket?.email ?? '—', searchInput)}</b></p>
                             <h1>{highlightText(ticket.name ?? '—', searchInput)}</h1>
                             <p>{highlightText(ticket.email ?? '—', searchInput)}</p>

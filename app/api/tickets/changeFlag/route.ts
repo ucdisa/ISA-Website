@@ -3,19 +3,19 @@ import { supabase, supabaseAdmin } from "@/lib/supabaseClient";
 
 export async function POST(request: Request) {
   try {
-    const { ticket_id, event_id, status } = await request.json();
+    const { ticket_id, event_id, flagged } = await request.json();
 
-    if (!ticket_id || !event_id || !status) {
+    if (!ticket_id || !event_id) {
       return NextResponse.json(
         { error: "Missing parameters" },
         { status: 400 }
       );
     }
 
-    // Update the ticket status in the database
+    // Update the ticket flagged in the database
     const { data, error } = await supabaseAdmin
       .from("tickets")
-      .update({ status: status })
+      .update({ flagged: flagged })
       .eq("id", ticket_id)
       .eq("event_id", event_id);
 
@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json(
-      { message: "Ticket status updated successfully", data },
+      { message: "Ticket flagged updated successfully", data },
       { status: 200 }
     );
   } catch (err: any) {
