@@ -44,8 +44,8 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
         
         await axios.post("/api/sendEmail", {
             to: ticket.email,
-            subject: `Ticket Approved - ${event.name}`,
-            text: `Hi ${ticket.name},\n\nYour ticket has been approved for ${event.name}.\nDate: ${formattedDate} at ${formattedTime}.\nLocation: ${event.location}.\n\nThank you!`
+            subject: `Your Ticket for ${event.name} is Confirmed!`,
+            text: `Hi ${ticket.name},\n\nAwesome news! Your ticket request for ${event.name} has been approved, and you are officially on our guest list!\nEvent Details:\n•	Date: ${formattedDate}\n•	Time: ${formattedTime}\n•	Location: ${event.location}\nPlease have your confirmation email and your UCD ID ready at check-in.\n\nWe’re excited to celebrate ${event.name} with you!\nISA at UC Davis`
         })
         getApprovedTickets();
         setTickets(tickets.filter((t: any) => t.id !== ticket.id));

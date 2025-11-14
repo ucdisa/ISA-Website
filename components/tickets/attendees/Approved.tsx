@@ -35,8 +35,8 @@ const Approved = ({ tickets, setTickets, getPendingTickets }: ApprovedProps) => 
 
         await axios.post("/api/sendEmail", {
             to: ticket.email,
-            subject: `Ticket Rejected - ${event.name}`,
-            text: `Hi ${ticket.name},\n\nYour ticket has been rejected for ${event.name}. Please contact us at isa.atucd@gmail.com for any questions about your ticket.\n\nThank you!`
+            subject: `Request for ${event.name} has been Denied`,
+            text: `Hi ${ticket.name},\n\nThank you so much for your interest in ${event.name}.\nWe were unable to approve your ticket because we did not receive your complete payment. Please double check if you’ve got the right ticket (member/ nonmember) and paid the right cost for each ticket.\nIf you believe this was a mistake or you already sent the payment, please reach out to us immediately with proof of payment, and we’ll be happy to review your request again.\n\nThank you for understanding,\nISA at UC Davis`
         })
 
         setTickets(tickets.filter((t: any) => t.id !== ticket.id));
@@ -90,13 +90,10 @@ const Approved = ({ tickets, setTickets, getPendingTickets }: ApprovedProps) => 
         });
         const event = pl.data.event;
         
-        const formattedDate = formatDate(event.date);
-        const formattedTime = formatTime(event.time);
-        
         await axios.post("/api/sendEmail", {
             to: ticket.email,
-            subject: `Checked In! - ${event.name}`,
-            text: `Hi ${ticket.name},\n\nYour You're checked in for ${event.name}!\n\nThank you!`
+            subject: `You’re Checked In — Welcome to ${event.name}!`,
+            text: `Hi ${ticket.name},\n\nYou’re all set! We’ve successfully checked you in for ${event.name}.\nWe’re thrilled to have you with us — and we hope you enjoy (event) ! Feel free to reach out to any ISA board member if you need assistance during the program.\n\nHave an amazing time!\nISA at UC Davis`
         })
 
         setTickets(

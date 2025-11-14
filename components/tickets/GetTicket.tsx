@@ -86,8 +86,8 @@ const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => 
             try {
                 await axios.post("/api/sendEmail", {
                     to: values.email,
-                    subject: `Ticket Succesfully Claimed - ${event.name}`,
-                    text: `Hi ${values.name},\n\nYour ticket has been succesfully claimed for ${event.name}. Your ticket status is now pending. It will be valid once it is approved.\n\nThank you!`
+                    subject: `We’ve Received Your Ticket Request for ${event.name}`,
+                    text: `Hi ${values.name},\n\nThank you for your interest for ${event.name} hosted by the Indian Student Association at UC Davis.\nWe’ve successfully received your tickets request, and it is now under review. You will receive a confirmation email once your payment has been reviewed and ticket has been approved.\nIf you have any questions in the meantime, feel free to reach out to us at isa.atucd@gmail.com or our instagram!\n\nLooking forward to seeing you soon!\nISA at UC Davis`
                 })
             } catch (err: any) {
                 const msg = "Failed to get ticket. Please try again.";
