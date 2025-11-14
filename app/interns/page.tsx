@@ -22,42 +22,6 @@ const page = () => {
         links: "",
         consent: false,
       });
-      const [errors, setErrors] = useState<any>({});
-      const [submitted, setSubmitted] = useState(false);
-    
-      const committees = ["Design", "Media", "Marketing", "Events", "Tech", "Community"];
-      const years = ["Freshman", "Sophomore", "Junior", "Senior", "Grad"];
-      const availability = ["1–2 hrs/week", "2–4 hrs/week", "4–6 hrs/week", "6–8 hrs/week"];
-    
-      const setField = (k: string, v: any) => setForm((f) => ({ ...f, [k]: v }));
-      const toggleInterest = (val: any) =>
-        setForm((f: any) =>
-          f.interests.includes(val)
-            ? { ...f, interests: f.interests.filter((i: any) => i !== val) }
-            : { ...f, interests: [...f.interests, val] }
-        );
-    
-      const validate = () => {
-        const e: any = {};
-        if (!form.name.trim()) e.name = "Your full name is required.";
-        if (!form.email.trim()) e.email = "Email is required.";
-        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = "Enter a valid email.";
-        if (!form.year) e.year = "Select your year.";
-        if (form.interests.length === 0) e.interests = "Pick at least one interest.";
-        if (!form.availability) e.availability = "Tell us your weekly availability.";
-        if (!form.statement.trim()) e.statement = "Write a short statement.";
-        if (!form.consent) e.consent = "Please confirm the information is accurate.";
-        return e;
-      };
-    
-      const onSubmit = (ev: any) => {
-        ev.preventDefault();
-        const e = validate();
-        setErrors(e);
-        if (Object.keys(e).length) return;
-        console.log("Intern application:", form);
-        setSubmitted(true);
-      };
     
       return (
         <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-slate-100 text-slate-900">
@@ -68,20 +32,6 @@ const page = () => {
               <p className="mt-2 text-blue-100/90 max-w-2xl">
                 Learn by doing with design, media, marketing, events, tech, and community teams.
               </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <a
-                  href="#apply"
-                  className="px-5 py-2.5 rounded-md bg-orange-400 text-slate-900 font-bold hover:bg-orange-300 shadow-md transition"
-                >
-                  Apply Now
-                </a>
-                <Link
-                  href="/membership"
-                  className="px-5 py-2.5 rounded-md border border-white/70 hover:bg-white/10 transition"
-                >
-                  Explore Committees
-                </Link>
-              </div>
             </div>
             <div className="h-[3px] bg-orange-400" />
           </header>
@@ -181,46 +131,9 @@ const page = () => {
                     </div>
                   ))}
                 </div>
-                <div className="mt-5">
-                  <Link
-                    href="/membership"
-                    className="text-blue-700 font-semibold hover:underline"
-                  >
-                    Explore committees →
-                  </Link>
-                </div>
               </section>
             </div>
           </main>
-    
-          {/* Final CTA */}
-          <section className="bg-gradient-to-r from-slate-800 to-blue-900 text-white">
-            <div className="max-w-6xl mx-auto px-6 py-12">
-              <div className="rounded-2xl p-6 border border-white/20 bg-white/5 backdrop-blur-sm shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                <div>
-                  <h3 className="text-lg font-extrabold">Questions about the internship?</h3>
-                  <p className="text-blue-100/90">
-                    Check tracks, apply above, and we’ll help you get started.
-                  </p>
-                </div>
-                <div className="flex gap-3 flex-wrap">
-                  <a
-                    href="#apply"
-                    className="px-5 py-2.5 rounded-md bg-orange-400 text-slate-900 font-bold hover:bg-orange-300 shadow-md transition"
-                  >
-                    Apply Now
-                  </a>
-                  <Link
-                    href="/membership"
-                    className="px-5 py-2.5 rounded-md border border-white/70 hover:bg-white/10 transition"
-                  >
-                    Explore Committees
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="h-[3px] bg-orange-400" />
-          </section>
         </div>
       );
 }

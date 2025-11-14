@@ -212,27 +212,6 @@ const page = () => {
               </div>
             </div>
           </section>
-    
-          {/* Contact / CTA */}
-          <section className="bg-gradient-to-r from-slate-800 to-blue-900 text-white">
-            <div className="max-w-6xl mx-auto px-6 py-12">
-              <div className="rounded-2xl p-6 border border-white/20 bg-white/5 backdrop-blur-sm shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                <div>
-                  <h3 className="text-lg font-extrabold">Questions about Dhwani?</h3>
-                  <p className="text-blue-100/90">Reach out to the Dhwani Director or submit an interest form.</p>
-                </div>
-                <div className="flex gap-3 flex-wrap">
-                  <Link href="#" className="px-5 py-2.5 rounded-md bg-orange-400 text-slate-900 font-bold hover:bg-orange-300 shadow-md transition">
-                    Contact Dhwani Team
-                  </Link>
-                  <Link href="/membership" className="px-5 py-2.5 rounded-md border border-white/70 hover:bg-white/10 transition">
-                    Get Involved
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="h-[3px] bg-orange-400" />
-          </section>
         </div>
       );
 }

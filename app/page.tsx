@@ -18,10 +18,11 @@ const letter = {
 export default function Home() {
   const highlights = [
     { t: "Dhwani 2025 announced", d: "Teams from across the West Coast are coming to UC Davis.", date: "Nov 16, 2025" },
-    { t: "Intern applications open", d: "Design, Events, Media, Tech, and more.", date: "Oct 05, 2025" },
   ];
 
-  const [events, setEvents] = useState<any>([]);
+  const [events, setEvents] = useState<any>([
+    { title: "Diwali", date: "November 22, 2025", iso: "2025-11-22", time: "12:00 PM – 3:00 PM", loc: "UC Davis Quad", blurb: "Color play, music, and food stalls. Wear white!", cta: "#" },
+  ]);
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -133,40 +134,11 @@ export default function Home() {
         </section>
 
         {/* ===== EVENTS CALENDAR ===== */}
-        <section className="bg-slate-50">
+        {/* <section className="bg-slate-50">
           <div className="max-w-6xl mx-auto px-6 py-12">
             <h2 className="text-2xl sm:text-3xl font-extrabold">Events Calendar</h2>
             <div className="mt-6">
               <EventsCalendar events={events} />
-            </div>
-          </div>
-        </section>
-
-        {/* ===== MEDIA GALLERY ===== */}
-        {/* <section className="bg-white">
-          <div className="max-w-6xl mx-auto px-6 py-12">
-            <h2 className="text-2xl sm:text-3xl font-extrabold">From Past Events</h2>
-            <div className="mt-6 grid gap-8 lg:grid-cols-2">
-              <div>
-                <h3 className="text-lg font-semibold mb-3">Gallery</h3>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  {galleryImages.map((src, idx) => (
-                    <div key={idx} className="aspect-[4/3] overflow-hidden rounded-xl border border-slate-200">
-                      <img src={src} alt={`Past event ${idx + 1}`} className="w-full h-full object-cover hover:scale-105 transition-transform" />
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold mb-3">Videos</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {galleryVideos.map((src, idx) => (
-                    <div key={idx} className="aspect-video overflow-hidden rounded-xl border border-slate-200 bg-black">
-                      <video className="w-full h-full object-cover" src={src} controls preload="metadata" />
-                    </div>
-                  ))}
-                </div>
-              </div>
             </div>
           </div>
         </section> */}

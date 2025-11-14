@@ -16,91 +16,9 @@ const ALL_RESOURCES = [
       badge: "New",
       external: true
     },
-    {
-      id: "m-002",
-      title: "Member FAQ",
-      desc: "Common questions about benefits, dues, and how to redeem discounts.",
-      kind: "link",
-      href: "#faq",
-      tags: ["Members"],
-    },
-  
-    // Officers
-    {
-      id: "o-101",
-      title: "Officer Handbook (PDF)",
-      desc: "Expectations, tools, comms norms, and semester rhythms.",
-      kind: "pdf",
-      href: "/resources/officer-handbook.pdf",
-      tags: ["Officers"],
-    },
-    {
-      id: "o-102",
-      title: "Event Budget Template (Sheet)",
-      desc: "Track estimates, quotes, reimbursements, and totals.",
-      kind: "sheet",
-      href: "/resources/event-budget-template.xlsx",
-      tags: ["Officers", "Events"],
-    },
-  
-    // Events
-    {
-      id: "e-201",
-      title: "Holi Ops Checklist",
-      desc: "Permits, safety, supplies, stations, and day-of assignments.",
-      kind: "doc",
-      href: "/resources/holi-ops-checklist.docx",
-      tags: ["Events"],
-    },
-    {
-      id: "e-202",
-      title: "Diwali Night Run of Show",
-      desc: "Stage cues, transitions, mics, and timing for the program.",
-      kind: "doc",
-      href: "/resources/diwali-ros.docx",
-      tags: ["Events"],
-    },
-  
-    // Design
-    {
-      id: "d-301",
-      title: "ISA Brand Kit",
-      desc: "Logos, colors, typography, and usage examples.",
-      kind: "zip",
-      href: "/resources/isa-brand-kit.zip",
-      tags: ["Design", "Officers"],
-      badge: "Updated",
-    },
-    {
-      id: "d-302",
-      title: "Poster Templates (Figma)",
-      desc: "Editable poster and IG sizes for quick turnarounds.",
-      kind: "figma",
-      href: "//figma.com/file/XXXX/poster-templates", // replace
-      tags: ["Design"],
-      external: true,
-    },
-  
-    // Tech
-    {
-      id: "t-401",
-      title: "Website Contribution Guide",
-      desc: "How to run, branch, commit, and open a PR for isa-website.",
-      kind: "md",
-      href: "/resources/website-contrib-guide.md",
-      tags: ["Tech"],
-    },
-    {
-      id: "t-402",
-      title: "Volunteer Signup Embed Examples",
-      desc: "Forms and embed patterns (Google Forms, Airtable).",
-      kind: "link",
-      href: "/resources/embeds-examples.html",
-      tags: ["Tech", "Events"],
-    },
   ];
   
-  const CATEGORIES = ["All", "Members", "Officers", "Events", "Design", "Tech"];
+  const CATEGORIES = ["All", "Members"];
   
   const KIND_ICON = {
     pdf: "📄",
@@ -308,33 +226,6 @@ const page = () => {
             ))}
           </div>
         </div>
-      </section>
-
-      {/* Final CTA */}
-      <section className="bg-gradient-to-r from-slate-800 to-blue-900 text-white">
-        <div className="max-w-6xl mx-auto px-6 py-12">
-          <div className="rounded-2xl p-6 border border-white/20 bg-white/5 backdrop-blur-sm shadow-md flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div>
-              <h3 className="text-lg font-extrabold">Need something that’s not here?</h3>
-              <p className="text-blue-100/90">Ping your committee lead or submit a request—we’ll add it.</p>
-            </div>
-            <div className="flex gap-3 flex-wrap">
-              <Link
-                href="/membership"
-                className="px-5 py-2.5 rounded-md border border-white/70 hover:bg-white/10 transition"
-              >
-                Explore Committees
-              </Link>
-              <Link
-                href="mailto:isa@ucdavis.edu"
-                className="px-5 py-2.5 rounded-md bg-orange-400 text-slate-900 font-bold hover:bg-orange-300 shadow-md transition"
-              >
-                Request a Resource
-              </Link>
-            </div>
-          </div>
-        </div>
-        <div className="h-[3px] bg-orange-400" />
       </section>
     </div>
   );
