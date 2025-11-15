@@ -182,7 +182,7 @@ const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => 
                             onChange={(event) => form.setFieldValue("select", event.currentTarget.checked)}
                         />
                         
-                        <button type="submit" className='bg-black w-[90px] h-[30px] mt-[10px] mb-[10px] text-white rounded-xs hover:opacity-80 cursor-pointer transition-all duration-200 shadow'>
+                        <button disabled={loading} type="submit" className='bg-black w-[90px] h-[30px] mt-[10px] mb-[10px] text-white rounded-xs hover:opacity-80 cursor-pointer transition-all duration-200 shadow'>
                             {loading ? <Loading color="white" size={18}/> : <p className='text-sm'>Confirm</p>}
                         </button>
                     </form>
