@@ -65,9 +65,11 @@ const EventCard = ({ event, admin, user, reload }: EventCardProps) => {
   };
 
   return (
+    <>
     <div
-      className="relative w-[400px] h-[400px] rounded-sm shadow-sm flex-none bg-cover bg-center overflow-hidden"
+      className={`relative w-[400px] h-[400px] rounded-sm shadow-sm flex-none bg-cover bg-center overflow-hidden ${!admin ? "hover:scale-[1.005] cursor-pointer transition-all duration-200" : ""}`}
       style={{ backgroundImage: `url(${imageUrl})` }}
+      onClick={handleTicket}
     >
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
       {/* Text content */}
@@ -137,13 +139,15 @@ const EventCard = ({ event, admin, user, reload }: EventCardProps) => {
             }
         </div>
       </div>
-      <Modal overlayProps={{
+      
+    </div>
+    <Modal overlayProps={{
           backgroundOpacity: 0.55,
           blur: 3,
         }} opened={opened} onClose={close} title={event.name} centered>
         <GetTicket closeModal={close} event={event} admin={admin} user={user} reload={reload} />
       </Modal>
-    </div>
+    </>
   )
 }
 

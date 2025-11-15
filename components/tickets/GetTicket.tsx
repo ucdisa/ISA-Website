@@ -12,6 +12,7 @@ import { useDisclosure } from '@mantine/hooks';
 import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import { eventType } from '@/lib/types';
 import zelle from '@/public/assets/zelle.png'
+import venmo from '@/public/assets/venmo.jpg'
 import Image from 'next/image';
 import { IconFile } from '@tabler/icons-react';
 
@@ -131,7 +132,6 @@ const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => 
     });
     return (
         <div className='w-[90%] m-auto'>
-
                     <form className='flex flex-col justify-center w-[100%] gap-[10px]' onSubmit={form.onSubmit((values) => handleSubmit(values))}>
                         <TextInput
                             withAsterisk
@@ -159,6 +159,11 @@ const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => 
                             <Image 
                                 src={zelle}
                                 alt='zelle'
+                                className='w-[300px] shadow rounded-md p-[10px] mb-[30px]'
+                            />
+                            <Image 
+                                src={venmo}
+                                alt='venmo'
                                 className='w-[300px] shadow rounded-md p-[10px]'
                             />
                         </div>
