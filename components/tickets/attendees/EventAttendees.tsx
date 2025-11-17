@@ -73,7 +73,7 @@ const EventAttendees = ({ user, admin, event_id }: EventAttendeesProps) => {
     }
 
     return (
-        <div className='w-[90%] mx-auto mt-[40px]'>
+        <div className='w-[90%] mx-auto mt-[40px] pb-[50px]'>
             <div className='flex items-center justify-start mb-[15px]'>
                 <Back link={{
                         pathname: '/tickets',
@@ -88,7 +88,7 @@ const EventAttendees = ({ user, admin, event_id }: EventAttendeesProps) => {
                 </h1>
             </div>
             
-            <Menu tab={tab} setTab={handleTabChange} tabs={["Approved", "Pending"]}/>
+            <Menu tab={tab} setTab={handleTabChange} tabs={["Approved", `Pending (${pendingTickets.length})`]}/>
             <div className='mt-[10px]'>
                 {
                     tab == "Approved" ?
