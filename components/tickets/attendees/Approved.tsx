@@ -137,7 +137,7 @@ const Approved = ({ tickets, setTickets, getPendingTickets }: ApprovedProps) => 
                             <p className='w-[22%]'><b>{highlightText(ticket?.user?.email ?? ticket?.email ?? '—', searchInput)}</b></p>
                             <h1 className='w-[18%]'>{highlightText(ticket.name ?? '—', searchInput)}</h1>
                             <p className='w-[22%]'>{highlightText(ticket.email ?? '—', searchInput)}</p>
-                            <div className='flex items-center justify-center gap-[20px] w-[10%]'>
+                            <div className='flex items-center justify-center gap-[20px] w-[11%]'>
                                 <div className='w-[80px] h-[30px] flex justify-center items-center'>
                                     {
                                         ticket?.status == "checked in" ?
