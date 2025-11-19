@@ -15,6 +15,8 @@ import zelle from '@/public/assets/zelle.png'
 import venmo from '@/public/assets/venmo.jpg'
 import Image from 'next/image';
 import { IconFile } from '@tabler/icons-react';
+import { Switch } from '@mantine/core';
+import { IconCheck, IconX } from '@tabler/icons-react';
 
 interface GetTicketProps {
     event: eventType;
@@ -76,6 +78,7 @@ const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => 
             formData.append("name", values.name);
             formData.append("email", values.email);
             formData.append("receipt", values.receipt);
+            formData.append("member", values.member);
 
             await axios.post("/api/tickets/post", formData).then(data => {
                 console.log(data);
@@ -121,6 +124,7 @@ const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => 
             email: '',
             select: false,
             receipt: null as File | null,
+            member: false,
         },
     
         validate: {
@@ -167,6 +171,22 @@ const GetTicket = ({event, admin, user, reload, closeModal}: GetTicketProps) => 
                                 className='w-[300px] shadow rounded-md p-[10px]'
                             />
                         </div>
+
+                        <Switch
+                            checked={form.values.member}
+                            className='mt-[20px] mb-[5px]'
+                            onChange={(event) => form.setFieldValue("member", event.currentTarget.checked)}
+                            color="teal"
+                            size="md"
+                            label="Are you a member?"
+                            thumbIcon={
+                                form.values.member ? (
+                                <IconCheck size={12} color="var(--mantine-color-teal-6)" stroke={3} />
+                                ) : (
+                                <IconX size={12} color="var(--mantine-color-red-6)" stroke={3} />
+                                )
+                            }
+                        />
 
                         <FileInput 
                             onChange={(value) => {

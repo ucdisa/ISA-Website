@@ -26,6 +26,8 @@ const EventAttendees = ({ user, admin, event_id }: EventAttendeesProps) => {
     const [pendingTickets, setPendingTickets] = useState([]);
     const [approvedTickets, setApprovedTickets] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [memberTickets, setMemberTickets] = useState(0);
+    const [nonMemberTickets, setNonMemberTickets] = useState(0);
 
     const handleTabChange = (newTab: string) => {
         sessionStorage.setItem("eventAttendeesTab", newTab);
@@ -67,6 +69,14 @@ const EventAttendees = ({ user, admin, event_id }: EventAttendeesProps) => {
         setLoading(false);
     }, []);
 
+    useEffect(() => {
+        const tickets = [...approvedTickets, ...pendingTickets];
+        if (tickets.length > 0) {
+            console.log(tickets);
+            setMemberTickets(tickets.filter((ticket: any) => ticket.member).length);
+            setNonMemberTickets(tickets.filter((ticket: any) => !ticket.member).length);
+        }
+    }, [approvedTickets, pendingTickets])
 
     if (loading) {
         return <Loading color='black' size={20} />
@@ -88,10 +98,15 @@ const EventAttendees = ({ user, admin, event_id }: EventAttendeesProps) => {
                 </h1>
             </div>
             
-            <Menu tab={tab} setTab={handleTabChange} tabs={["Approved", `Pending (${pendingTickets.length})`]}/>
+            <div className='flex items-center justify-start gap-[20px]'>
+                <Menu tab={tab} setTab={handleTabChange} tabs={[`Approved (${approvedTickets.length})`, `Pending (${pendingTickets.length})`]}/>
+                <p className='text-md text-[#4f4f4f]'>Member Tickets: <b>{memberTickets}</b></p>
+                <p className='text-md text-[#4f4f4f]'>Non-Member Tickets: <b>{nonMemberTickets}</b></p>
+            </div>
+            
             <div className='mt-[10px]'>
                 {
-                    tab == "Approved" ?
+                    tab.includes("Approved") ?
                         <Approved getPendingTickets={getPendingTickets} setTickets={setApprovedTickets} tickets={approvedTickets} />
                     :
                         <Pending setTickets={setPendingTickets} getApprovedTickets={getApprovedTickets} tickets={pendingTickets} />

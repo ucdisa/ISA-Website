@@ -137,17 +137,16 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
                 filteredTickets.length > 0 ?
                     filteredTickets.map((ticket: any, index: number) => (
                         <div key={ticket.id} className={`flex items-center justify-between p-[10px] rounded-md max-w-[1200px] w-[100%] shadow ${ticket.flagged && 'outline-[1px] outline-[#e75c5c]'}`}>
-                            <div className='flex items-center gap-[20px] '>
+                            <div className='flex items-center gap-[20px] w-[27%]'>
                                 <button onClick={() => handleFlag(ticket.flagged,ticket, index)}>
                                     {ticket.flagged ? <IconFlagFilled className='text-[#e75c5c] hover:opacity-60 duration-200 transition-all cursor-pointer' /> : <IconFlag className='text-[#e75c5c] hover:opacity-60 duration-200 transition-all cursor-pointer' /> }
                                 </button>
                                 <h1><b>{highlightText(ticket?.user?.displayName ?? ticket?.name ?? '—', searchInput)}</b></h1>
                             </div>
-                            <p><b>{highlightText(ticket?.user?.email ?? ticket?.email ?? '—', searchInput)}</b></p>
-                            <h1>{highlightText(ticket.name ?? '—', searchInput)}</h1>
-                            {/* <p>{highlightText(ticket.email ?? '—', searchInput)}</p> */}
+                            <p className='w-[27%]'><b>{highlightText(ticket?.user?.email ?? ticket?.email ?? '—', searchInput)}</b></p>
+                            <h1 className='w-[20%]'>{highlightText(ticket.name ?? '—', searchInput)}</h1>
 
-                            <div className='flex items-center justify-center gap-[40px]'>
+                            <div className='flex items-center justify-center gap-[15%] w-[24%]'>
                                 <button onClick={() => {
                                     openComment();
                                     setTargetTicket(ticket)

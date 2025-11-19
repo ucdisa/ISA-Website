@@ -41,6 +41,9 @@ const EventCard = ({ event, admin, user, reload }: EventCardProps) => {
   }
 
   const handleTicket = async () => {
+    if (admin && admin == true) {
+      return;
+    }
     open();
   }
 

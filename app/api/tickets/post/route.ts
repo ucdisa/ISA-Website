@@ -10,6 +10,7 @@ export async function POST(request: Request) {
     const name = form.get("name") as string;
     const email = form.get("email") as string;
     const receipt = form.get("receipt") as File;
+    const member = form.get("member") as unknown as boolean;
 
     const file = receipt;
     const buffer = Buffer.from(await file.arrayBuffer());
@@ -43,6 +44,7 @@ export async function POST(request: Request) {
           email,
           status: "pending",
           receipt: uploadData.path,
+          member,
         },
       ])
       .select()
