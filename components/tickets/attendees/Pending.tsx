@@ -144,7 +144,7 @@ const Pending = ({ tickets, getApprovedTickets, setTickets }: PendingProps) => {
                                 <h1><b>{highlightText(ticket?.user?.displayName ?? ticket?.name ?? '—', searchInput)}</b></h1>
                             </div>
                             <p className='w-[27%]'><b>{highlightText(ticket?.user?.email ?? ticket?.email ?? '—', searchInput)}</b></p>
-                            <h1 className='w-[20%]'>{highlightText(ticket.name ?? '—', searchInput)}</h1>
+                            <h1 className={`w-[20%] ${ticket.member && 'text-[#d1ae00] font-medium'}`}>{highlightText(ticket.name ?? '—', searchInput)}</h1>
 
                             <div className='flex items-center justify-center gap-[15%] w-[24%]'>
                                 <button onClick={() => {
