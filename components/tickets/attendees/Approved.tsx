@@ -1,7 +1,7 @@
 import Loading from '@/components/general/Loading';
 import { formatDate, formatTime } from '@/lib/functions';
 import { TextInput, Tooltip } from '@mantine/core';
-import { IconCheck, IconFlag, IconFlagFilled, IconSearch, IconX } from '@tabler/icons-react';
+import { IconCheck, IconFlag, IconFlagFilled, IconNumber50Small, IconSearch, IconX } from '@tabler/icons-react';
 import axios from 'axios';
 import React, { useMemo, useState } from 'react'
 
@@ -117,7 +117,7 @@ const Approved = ({ tickets, setTickets, getPendingTickets }: ApprovedProps) => 
         <div className='flex flex-col gap-[10px] mt-[20px]'>
             <div>
                 <TextInput
-                    className='max-w-[1200px] w-[100%]'
+                    className='max-w-[1300px] w-[100%]'
                     placeholder="Search by name or email..."
                     value={searchInput}
                     onChange={handleFilter}
@@ -127,16 +127,16 @@ const Approved = ({ tickets, setTickets, getPendingTickets }: ApprovedProps) => 
             {
                 filteredTickets.length > 0 ?
                     filteredTickets.map((ticket: any, index: number) => (
-                        <div key={ticket.id} className={`flex items-center justify-between p-[10px] rounded-md max-w-[1200px] w-[100%] shadow ${ticket.status == "checked in" ? 'border-[1px] border-green-500' : ticket.flagged && 'outline-[1px] outline-[#e75c5c]'}`}>
+                        <div key={ticket.id} className={`flex items-center justify-between p-[10px] rounded-md max-w-[1300px] w-[100%] shadow ${ticket.status == "checked in" ? 'border-[1px] border-green-500' : ticket.flagged && 'outline-[1px] outline-[#e75c5c]'}`}>
                             <div className='flex items-center gap-[20px] w-[20%]'>
                                 <button onClick={() => handleFlag(ticket.flagged,ticket, index)}>
                                     {ticket.flagged ? <IconFlagFilled className='text-[#e75c5c] hover:opacity-60 duration-200 transition-all cursor-pointer' /> : <IconFlag className='text-[#e75c5c] hover:opacity-60 duration-200 transition-all cursor-pointer' /> }
                                 </button>
-                                <h1><b>{highlightText(ticket?.user?.displayName ?? ticket?.name ?? '—', searchInput)}</b></h1>
+                                <h1 className={`${index < 50 && 'text-[#006cd1] font-medium'}`}><b>{highlightText(ticket?.user?.displayName ?? ticket?.name ?? '—', searchInput)}</b></h1>
                             </div>
                             <p className='w-[22%]'><b>{highlightText(ticket?.user?.email ?? ticket?.email ?? '—', searchInput)}</b></p>
-                            <h1 className='w-[18%]'>{highlightText(ticket.name ?? '—', searchInput)}</h1>
-                            <p className='w-[22%]'>{highlightText(ticket.email ?? '—', searchInput)}</p>
+                            <h1 className={`w-[18%] ${ticket.member && 'text-[#d1ae00] font-medium'} bg-white`}>{highlightText(ticket.name ?? '—', searchInput)}</h1>
+                            <p className={`w-[22%] ${ticket.member && 'text-[#d1ae00] font-medium'}`}>{highlightText(ticket.email ?? '—', searchInput)}</p>
                             <div className='flex items-center justify-center gap-[20px] w-[11%]'>
                                 <div className='w-[80px] h-[30px] flex justify-center items-center'>
                                     {
