@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import banner from "../../public/assets/dhwani-banner.png"
+import dhwaniCover from "../../public/assets/dhwani-cover.jpg";
 
 const page = () => {
     const teams = [
@@ -36,14 +37,14 @@ const page = () => {
               <p className="mt-2 text-blue-100/90 max-w-2xl">
                 UC Davis’s annual South Asian a cappella showcase — a night of harmonies, mashups, and electric energy.
               </p>
-    
-              {/* actions */}
-              <div className="mt-6 flex flex-wrap gap-3">
-                <a href="#about" className="px-5 py-2.5 rounded-md border border-white/70 hover:bg-white/10 transition">What is Dhwani</a>
-                <a href="#roles" className="px-5 py-2.5 rounded-md border border-white/70 hover:bg-white/10 transition">Roles & Applications</a>
-                {/* <a href="#schedule" className="px-5 py-2.5 rounded-md border border-white/70 hover:bg-white/10 transition">Schedule</a> */}
-                <a href="#faq" className="px-5 py-2.5 rounded-md border border-white/70 hover:bg-white/10 transition">FAQ</a>
-              </div>
+            </div>
+
+            <div className="w-full bg-slate-800">
+              <Image
+                src={dhwaniCover}
+                alt="ISA @ UC Davis — Board group photo"
+                className="w-full max-h-[80vh] object-contain mx-auto"
+              />
             </div>
     
             {/* orange accent bar */}
@@ -122,7 +123,7 @@ const page = () => {
           </section> */}
     
           {/* Roles & Applications */}
-          <section id="roles" className="bg-gradient-to-r from-blue-50 via-white to-slate-100 border-y border-slate-200/60">
+          {/* <section id="roles" className="bg-gradient-to-r from-blue-50 via-white to-slate-100 border-y border-slate-200/60">
             <div className="max-w-6xl mx-auto px-6 py-12">
               <h2 className="text-2xl sm:text-3xl font-extrabold text-center">Roles & Applications</h2>
               <p className="text-center text-slate-600 max-w-2xl mx-auto mt-2">
@@ -149,10 +150,10 @@ const page = () => {
                     </div>
                   </article>
                 ))}
-              </div>
+              </div> */}
     
               {/* General forms */}
-              <div className="mt-10 grid gap-4 sm:grid-cols-3">
+              {/* <div className="mt-10 grid gap-4 sm:grid-cols-3">
                 {[
                   { label: "Liaison Interest Form", href: "#" },
                   { label: "Team Participation Interest", href: "#" },
@@ -168,7 +169,7 @@ const page = () => {
                 ))}
               </div>
             </div>
-          </section>
+          </section> */}
     
           {/* Schedule / Timeline (mock) */}
           {/* <section id="schedule" className="max-w-6xl mx-auto px-6 py-12">
